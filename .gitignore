@@ -1,0 +1,8 @@
+Notes/
+imagenes/
+*.xlsx
+*.csv
+*.xls
+validacion_*.html
+__pycache__/
+.ipynb_checkpoints/
