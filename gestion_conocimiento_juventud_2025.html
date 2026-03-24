@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de Conocimiento - Casas de la Juventud 2025</title>
+    <title>Gestor de Conocimiento - Casas de Juventud 2025</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -82,8 +82,8 @@
 <body>
     <header class="header">
         <div>
-            <h1>Gestor de Conocimiento - Casas de la Juventud</h1>
-            <div class="subtitle">Subdirecci&oacute;n para la Juventud | Casas de la Juventud | Datos 2025</div>
+            <h1>Gestor de Conocimiento - Casas de Juventud</h1>
+            <div class="subtitle">Subdirecci&oacute;n para la Juventud | Casas de Juventud | Datos 2025</div>
         </div>
         <div class="home-btn" onclick="showContent('welcome')" title="Inicio">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F8F4E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -106,12 +106,12 @@
                 <div class="sidebar-items">
                     <div class="sidebar-item" onclick="showContent('resumen')">Resumen general 2025</div>
                     <div class="sidebar-item" onclick="showContent('localidades')">Localidades 2025</div>
-                    <div class="sidebar-item" onclick="showContent('diferencial')">Análisis por población 2025</div>
-                </div></div>
+                    <div class="sidebar-item" onclick="showContent('atenciones')">Atenciones</div>
+                    </div></div>
         </nav>
         <main class="main-content">
             <div class="content-section active" id="welcome"><div class="welcome-section">
-                <h2>Casas de la Juventud</h2>
+                <h2>Casas de Juventud</h2>
                 <p style="text-align:left; max-width:800px; margin:0 auto 30px; font-size:0.95rem; line-height:1.7; color:#444;">Las Casas de Juventud son espacios distritales dirigidos a jóvenes entre 14 y 28 años, concebidos como el eje territorial de la Política Pública Distrital de Juventud (PPDJ). Articulan la oferta de servicios de la administración distrital para garantizar acceso equitativo a oportunidades de desarrollo personal, social y laboral, y funcionan como la principal puerta de entrada al ecosistema de servicios del Distrito.</p>
 
                 <div class="quick-links">
@@ -292,7 +292,7 @@
                     <p style="font-weight:600; color:#3A3A3A; margin-bottom:8px;">Jerarquía de campos en SIRBE</p>
                     <p style="font-size:0.85rem; color:#666; margin-bottom:12px;">Cada registro en SIRBE tiene estos 5 niveles de desagregación:</p>
                     <div style="font-size:0.88rem; line-height:1.8;">
-                        <div><span style="font-family:monospace; background:#ede7f6; padding:2px 6px; border-radius:4px; font-weight:600; font-size:0.8rem;">SERVICIO</span> — Casas de la Juventud</div>
+                        <div><span style="font-family:monospace; background:#ede7f6; padding:2px 6px; border-radius:4px; font-weight:600; font-size:0.8rem;">SERVICIO</span> — Casas de Juventud</div>
                         <div style="margin-left:25px; border-left:2px solid #ddd; padding-left:15px; margin-top:4px;">
                             <div><span style="font-family:monospace; background:#ede7f6; padding:2px 6px; border-radius:4px; font-weight:600; font-size:0.8rem;">NOMMODALIDAD</span> — Atención Inclusiva BMT 2939 / Estrategia Móvil BMT 2938</div>
                             <div style="margin-left:25px; border-left:2px solid #ddd; padding-left:15px; margin-top:4px;">
@@ -454,7 +454,7 @@
 
                         <div class="content-section" id="ubicacion"><div class="card">
                 <h2 class="card-title">Ubicación</h2>
-                <p style="color:#666; margin-bottom:20px;">Casas de la Juventud en Bogotá.</p>
+                <p style="color:#666; margin-bottom:20px;">Casas de Juventud en Bogotá.</p>
                 <div style="text-align:center; margin-bottom:25px;">
                     <img src="imagenes/Casas%20Mapa.jpg" alt="Mapa de Casas de Juventud" style="max-width:100%; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
                 </div>
@@ -541,7 +541,7 @@
                     <button class="filter-btn" onclick="filtrarLoc('Inclusión social y productiva')">Inclusión</button>
                     <button class="filter-btn" onclick="filtrarLoc('Liderazgo y participación')">Liderazgo</button>
                 </div>
-                <div class="methodology-box" style="margin-bottom:15px;"><p><strong>at.</strong> = atenciones (total de sesiones registradas) &nbsp;|&nbsp; <strong>pers.</strong> = personas únicas atendidas</p></div>
+                <div class="methodology-box" style="margin-bottom:15px;"><p>Cada barra muestra el número de atenciones (sesiones registradas) por localidad.</p></div>
                 <div id="loc-bars"></div>
                 <div class="methodology-box">
                     <p><strong>Mayor concentracion:</strong> Usme, Bosa, Ciudad Bolívar concentran el 35% de las atenciones.</p>
@@ -559,40 +559,13 @@
                     <p style="margin-top: 8px;">En la base SIRBE los registros aparecen bajo estos nombres combinados, por lo cual Sumapaz, Santa Fe y Teusaquillo no tienen registros independientes sino que estan incluidas en su respectiva pareja.</p>
                 </div>
 
-                <div class="methodology-box" style="margin-top:20px;"><p><strong>Fuente:</strong> Sistema para el Registro de Beneficiarios — SIRBE de la Secretaría Distrital de Integración Social (Réplica Misión). Fecha de consulta: 13/01/2026.</p></div>
-            </div></div>
-
-            <div class="content-section" id="diferencial"><div class="card">
-                <h2 class="card-title">Análisis por población 2025</h2>
-                <div class="filter-btns" id="demo-filters">
-                    <button class="filter-btn active" onclick="filtrarDemo('Total')">Total</button>
-                    <button class="filter-btn" onclick="filtrarDemo('Bienestar')">Bienestar</button>
-                    <button class="filter-btn" onclick="filtrarDemo('Cultura')">Cultura</button>
-                    <button class="filter-btn" onclick="filtrarDemo('Inclusión social y productiva')">Inclusión</button>
-                    <button class="filter-btn" onclick="filtrarDemo('Liderazgo y participación')">Liderazgo</button>
-                </div>
-                <h3 class="card-subtitle">Por grupo etario</h3>
-                <div class="hbar-group" id="demo-edad"></div>
-                <h3 class="card-subtitle">Por sexo</h3>
-                <div class="hbar-group" id="demo-sexo"></div>
-                <h3 class="card-subtitle">Pertenencia étnica</h3>
-                <div class="hbar-group" id="demo-etnia"></div>
-                <h3 class="card-subtitle">Víctimas del conflicto (RUV)</h3>
-                <div class="hbar-group" id="demo-ruv"></div>
-                <div class="methodology-box" style="margin-top:5px;">
-                    <p><strong>RUV:</strong> Registro Único de Víctimas. Base de datos oficial en Colombia que identifica, registra y reconoce a las personas y comunidades víctimas de diversas formas de violencia, incluyendo desplazamiento forzado, violencia sexual, despojo de tierras, homicidios, secuestros y otras situaciones de violencia en el marco del conflicto armado a partir del 1 de enero de 1985.</p>
-                </div>
-
-                <h3 class="card-subtitle">Situación de discapacidad</h3>
-                <div class="hbar-group" id="demo-disc"></div>
-
-                <div class="methodology-box" style="margin-top:20px;"><p><strong>Fuente:</strong> Sistema para el Registro de Beneficiarios — SIRBE de la Secretaría Distrital de Integración Social (Réplica Misión). Fecha de consulta: 13/01/2026.</p></div>
+                <div class="methodology-box" style="margin-top:20px;"><p><strong>Fuente:</strong> Sistema para el Registro de Beneficiarios — SIRBE de la Secretaría Distrital de Integración Social (Réplica Misión). Fecha de consulta: 13/01/2026. Reporte de número de atenciones por localidad.</p></div>
             </div></div>
 
             <div class="content-section" id="resumen"><div class="card">
                 <h2 class="card-title">Resumen general 2025</h2>
                 <div class="methodology-box" style="margin-bottom:15px;">
-                    <p><strong>Tablero oficial:</strong> <a href="https://app.powerbi.com/view?r=eyJrIjoiMzRiNWRkMDQtNThmNC00Yzk5LThjNTItOWI4MzZkYzYwM2EzIiwidCI6ImIzZTMwODA4LWU5YTgtNGYyYS05YmMxLWE3NjBhZTkxMGNmNSIsImMiOjR9" target="_blank" style="color:#663A93;">Seguimiento técnico (Power BI)</a>. Es el tablero oficial de seguimiento de datos de la Subdirección. Las cifras pueden diferir de las presentadas aquí por tener otro corte de información.</p>
+                    <p><strong>Tablero oficial:</strong> <a href="https://app.powerbi.com/view?r=eyJrIjoiMzRiNWRkMDQtNThmNC00Yzk5LThjNTItOWI4MzZkYzYwM2EzIiwidCI6ImIzZTMwODA4LWU5YTgtNGYyYS05YmMxLWE3NjBhZTkxMGNmNSIsImMiOjR9" target="_blank" style="color:#663A93;">Seguimiento técnico (Power BI)</a>. Es el tablero oficial de seguimiento de datos de la Subdirección. Las cifras pueden diferir de las presentadas aquí por varias razones:</p><ul style="margin:8px 0 0 20px; font-size:0.88rem; color:#555; line-height:1.7;"><li><strong>Corte de información:</strong> la fecha de consulta de la base puede ser diferente.</li><li><strong>Métrica utilizada:</strong> atenciones (total de sesiones) vs. personas únicas vs. personas por localidad dan números distintos. Una persona que asistió a 3 sesiones genera 3 atenciones pero es 1 persona.</li><li><strong>Servicios:</strong> si se tomaron en cuenta duplicados de todos los servicios de SDIS, SDIS-Juventud, etc., depende del universo de comparación.</li><li><strong>Personas por localidad:</strong> si una persona fue atendida en Engativá y en Suba, al sumar personas por localidad se cuenta en ambas (doble conteo). El total real de personas es menor que la suma por localidad.</li><li><strong>Duplicados por periodo:</strong> si una misma persona fue a la Casa de Juventud en enero y en diciembre, al quitar duplicados solo queda en uno de los dos meses. Dependiendo del criterio (primera o última aparición) la asignación a mes cambia.</li></ul><p style="margin-top:8px; font-size:0.85rem; color:#888;">En este gestor usamos número de atenciones para evidenciar el volumen operativo en cada categoría de análisis.</p><p style="margin-top:8px; font-size:0.85rem; color:#555;">Al solicitar información de SIRBE se debe dejar nota de qué criterios se tomaron en cuenta en el reporte.</p>
                 </div>
                 <h3 class="card-subtitle">Modalidades</h3>
                 <div class="list-group">
@@ -607,7 +580,7 @@
                             <tr><td>Liderazgo y participación</td><td>2.284</td><td>5,8%</td><td>2.236</td></tr>
                 </tbody></table>
                 <div class="methodology-box">
-                    <p><strong>Servicio:</strong> Casas de la Juventud</p>
+                    <p><strong>Servicio:</strong> Casas de Juventud</p>
                     <p><strong>Ano:</strong> 2025 (39.387 registros)</p>
                     <p><strong>Fuente:</strong> SIRBE</p>
                     <p><strong>Generado:</strong> 2026-03-19</p>
@@ -616,13 +589,74 @@
                 <div class="methodology-box" style="margin-top:20px;"><p><strong>Fuente:</strong> Sistema para el Registro de Beneficiarios — SIRBE de la Secretaría Distrital de Integración Social (Réplica Misión). Fecha de consulta: 13/01/2026.</p></div>
             </div></div>
 
-            </main>
+                <div class="content-section" id="atenciones" style="display:none;"><div class="card">
+                <h2 class="card-title">Atenciones</h2>
+                <p style="color:#666; margin-bottom:20px;">Distribución del número de atenciones por persona. La mayoría de jóvenes (83,4%) solo asiste una vez al servicio.</p>
+
+                <div class="hbar-group">
+                    <div class="hbar-row"><div class="hbar-label">1 atención</div><div class="hbar-track"><div class="hbar-fill" style="width:83.4%;background:#663A93;"></div></div><div class="hbar-value">32.847 personas <span class="hbar-pct">(83,4%)</span></div></div>
+                    <div class="hbar-row"><div class="hbar-label">2 atenciones</div><div class="hbar-track"><div class="hbar-fill" style="width:13.5%;background:#663A93;"></div></div><div class="hbar-value">2.649 personas <span class="hbar-pct">(13,5% de registros)</span></div></div>
+                    <div class="hbar-row"><div class="hbar-label">3 atenciones</div><div class="hbar-track"><div class="hbar-fill" style="width:2.4%;background:#663A93;"></div></div><div class="hbar-value">318 personas <span class="hbar-pct">(2,4%)</span></div></div>
+                    <div class="hbar-row"><div class="hbar-label">4 atenciones</div><div class="hbar-track"><div class="hbar-fill" style="width:0.5%;background:#663A93;"></div></div><div class="hbar-value">52 personas <span class="hbar-pct">(0,5%)</span></div></div>
+                    <div class="hbar-row"><div class="hbar-label">5 atenciones</div><div class="hbar-track"><div class="hbar-fill" style="width:0.1%;background:#663A93;min-width:3px;"></div></div><div class="hbar-value">8 personas <span class="hbar-pct">(0,1%)</span></div></div>
+                    <div class="hbar-row"><div class="hbar-label">6 atenciones</div><div class="hbar-track"><div class="hbar-fill" style="width:0.05%;background:#663A93;min-width:3px;"></div></div><div class="hbar-value">3 personas</div></div>
+                    <div class="hbar-row"><div class="hbar-label">7 atenciones</div><div class="hbar-track"><div class="hbar-fill" style="width:0.04%;background:#663A93;min-width:3px;"></div></div><div class="hbar-value">2 personas</div></div>
+                    <div class="hbar-row"><div class="hbar-label">8 atenciones</div><div class="hbar-track"><div class="hbar-fill" style="width:0.02%;background:#663A93;min-width:3px;"></div></div><div class="hbar-value">1 persona</div></div>
+                </div>
+
+                <div class="stats-grid" style="margin-top:20px;">
+                    <div class="stat-card"><div class="stat-number">39.387</div><div class="stat-label">Total atenciones</div></div>
+                    <div class="stat-card alt"><div class="stat-number">35.880</div><div class="stat-label">Personas únicas</div></div>
+                    <div class="stat-card alt2"><div class="stat-number">1,1</div><div class="stat-label">Atenciones por persona</div></div>
+                </div>
+
+                <div class="methodology-box" style="margin-top:20px;">
+                    <p><strong>Lectura:</strong> de las 35.880 personas atendidas en Casas de Juventud durante 2025, el 83,4% (32.847) asistió a una sola sesión. Solo el 16,6% participó en más de una actividad.</p>
+                </div>
+
+                <h3 class="card-subtitle" style="margin-top:25px;">Recurrencia por eje</h3>
+                <p style="color:#666; font-size:0.85rem; margin-bottom:10px;">Porcentaje de personas que asistieron más de una vez dentro del mismo eje.</p>
+                <div class="hbar-group">
+                    <div class="hbar-row"><div class="hbar-label">Bienestar</div><div class="hbar-track"><div class="hbar-fill" style="width:4.9%;background:#663A93;min-width:3px;"></div></div><div class="hbar-value">4,9% (1.058 de 21.605)</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Inclusión</div><div class="hbar-track"><div class="hbar-fill" style="width:3.7%;background:#663A93;min-width:3px;"></div></div><div class="hbar-value">3,7% (318 de 8.650)</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Cultura</div><div class="hbar-track"><div class="hbar-fill" style="width:3.6%;background:#663A93;min-width:3px;"></div></div><div class="hbar-value">3,6% (179 de 5.020)</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Liderazgo</div><div class="hbar-track"><div class="hbar-fill" style="width:2.1%;background:#663A93;min-width:3px;"></div></div><div class="hbar-value">2,1% (47 de 2.236)</div></div>
+                </div>
+
+                <h3 class="card-subtitle" style="margin-top:25px;">Recurrencia por localidad</h3>
+                <p style="color:#666; font-size:0.85rem; margin-bottom:10px;">Porcentaje de personas que asistieron más de una vez, por localidad. Ordenado de mayor a menor recurrencia.</p>
+                <div class="hbar-group">
+                    <div class="hbar-row"><div class="hbar-label">Antonio Nariño</div><div class="hbar-track"><div class="hbar-fill" style="width:16.5%;background:#663A93;"></div></div><div class="hbar-value">16,5%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Candelaria</div><div class="hbar-track"><div class="hbar-fill" style="width:14.1%;background:#663A93;"></div></div><div class="hbar-value">14,1%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Usaquén</div><div class="hbar-track"><div class="hbar-fill" style="width:13.1%;background:#663A93;"></div></div><div class="hbar-value">13,1%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Engativá</div><div class="hbar-track"><div class="hbar-fill" style="width:10.3%;background:#663A93;"></div></div><div class="hbar-value">10,3%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Los Mártires</div><div class="hbar-track"><div class="hbar-fill" style="width:10.2%;background:#663A93;"></div></div><div class="hbar-value">10,2%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Suba</div><div class="hbar-track"><div class="hbar-fill" style="width:9.9%;background:#663A93;"></div></div><div class="hbar-value">9,9%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Bosa</div><div class="hbar-track"><div class="hbar-fill" style="width:9.5%;background:#663A93;"></div></div><div class="hbar-value">9,5%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Kennedy</div><div class="hbar-track"><div class="hbar-fill" style="width:8.4%;background:#663A93;"></div></div><div class="hbar-value">8,4%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Puente Aranda</div><div class="hbar-track"><div class="hbar-fill" style="width:7.9%;background:#663A93;"></div></div><div class="hbar-value">7,9%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Barrios Unidos</div><div class="hbar-track"><div class="hbar-fill" style="width:7.7%;background:#663A93;"></div></div><div class="hbar-value">7,7%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Fontibón</div><div class="hbar-track"><div class="hbar-fill" style="width:7.1%;background:#663A93;"></div></div><div class="hbar-value">7,1%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Ciudad Bolívar</div><div class="hbar-track"><div class="hbar-fill" style="width:6.9%;background:#663A93;"></div></div><div class="hbar-value">6,9%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Usme</div><div class="hbar-track"><div class="hbar-fill" style="width:6.8%;background:#663A93;"></div></div><div class="hbar-value">6,8%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">San Cristóbal</div><div class="hbar-track"><div class="hbar-fill" style="width:6.0%;background:#663A93;"></div></div><div class="hbar-value">6,0%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Chapinero</div><div class="hbar-track"><div class="hbar-fill" style="width:5.5%;background:#663A93;"></div></div><div class="hbar-value">5,5%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Tunjuelito</div><div class="hbar-track"><div class="hbar-fill" style="width:3.5%;background:#663A93;"></div></div><div class="hbar-value">3,5%</div></div>
+                    <div class="hbar-row"><div class="hbar-label">Rafael Uribe Uribe</div><div class="hbar-track"><div class="hbar-fill" style="width:2.4%;background:#663A93;"></div></div><div class="hbar-value">2,4%</div></div>
+                </div>
+
+                <div class="methodology-box" style="margin-top:10px;">
+                    <p><strong>Fuente:</strong> Sistema para el Registro de Beneficiarios — SIRBE de la Secretaría Distrital de Integración Social (Réplica Misión). Fecha de consulta: 13/01/2026.</p>
+                </div>
+            </div></div>
+
+        </main>
     </div>
     <script>
         function toggleSection(el){el.classList.toggle('active');el.nextElementSibling.classList.toggle('show');}
         function showContent(id){document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));var s=document.getElementById(id);if(s)s.classList.add('active');if(event&&event.target)event.target.closest('.sidebar-item')?.classList.add('active');}
 
-        var DL={"Total": [{"loc": "Usme", "at": 5594, "pe": 5183}, {"loc": "Bosa", "at": 4725, "pe": 4347}, {"loc": "Ciudad Bolívar", "at": 3524, "pe": 3343}, {"loc": "Kennedy", "at": 2929, "pe": 2713}, {"loc": "Puente Aranda", "at": 2875, "pe": 2703}, {"loc": "Engativá", "at": 2621, "pe": 2405}, {"loc": "Suba", "at": 2522, "pe": 2283}, {"loc": "Barrios Unidos", "at": 2270, "pe": 2151}, {"loc": "Candelaria", "at": 1544, "pe": 1366}, {"loc": "Los Mártires", "at": 1501, "pe": 1403}, {"loc": "Chapinero", "at": 1468, "pe": 1439}, {"loc": "Usaquen", "at": 1443, "pe": 1258}, {"loc": "San Cristóbal", "at": 1406, "pe": 1344}, {"loc": "Fontibón", "at": 1303, "pe": 1218}, {"loc": "Antonio Nariño", "at": 1298, "pe": 1249}, {"loc": "Rafael Uribe Uribe", "at": 1249, "pe": 1229}, {"loc": "Tunjuelito", "at": 1115, "pe": 1080}], "Bienestar": [{"loc": "Usme", "at": 3080, "pe": 2971}, {"loc": "Bosa", "at": 2724, "pe": 2605}, {"loc": "Puente Aranda", "at": 2170, "pe": 2095}, {"loc": "Ciudad Bolívar", "at": 1600, "pe": 1555}, {"loc": "Barrios Unidos", "at": 1564, "pe": 1529}, {"loc": "Kennedy", "at": 1438, "pe": 1357}, {"loc": "Suba", "at": 1195, "pe": 1126}, {"loc": "Los Mártires", "at": 1078, "pe": 1029}, {"loc": "Chapinero", "at": 1060, "pe": 1052}, {"loc": "Engativá", "at": 1044, "pe": 1035}, {"loc": "Candelaria", "at": 1012, "pe": 892}, {"loc": "Usaquen", "at": 966, "pe": 908}, {"loc": "Rafael Uribe Uribe", "at": 905, "pe": 894}, {"loc": "Tunjuelito", "at": 817, "pe": 813}, {"loc": "San Cristóbal", "at": 778, "pe": 764}, {"loc": "Antonio Nariño", "at": 679, "pe": 664}, {"loc": "Fontibón", "at": 638, "pe": 626}], "Cultura": [{"loc": "Usme", "at": 1007, "pe": 984}, {"loc": "Kennedy", "at": 794, "pe": 769}, {"loc": "Suba", "at": 656, "pe": 640}, {"loc": "Antonio Nariño", "at": 525, "pe": 508}, {"loc": "Engativá", "at": 426, "pe": 423}, {"loc": "Los Mártires", "at": 286, "pe": 279}, {"loc": "Fontibón", "at": 250, "pe": 233}, {"loc": "Bosa", "at": 247, "pe": 234}, {"loc": "Puente Aranda", "at": 226, "pe": 219}, {"loc": "Candelaria", "at": 193, "pe": 166}, {"loc": "Barrios Unidos", "at": 187, "pe": 187}, {"loc": "Chapinero", "at": 161, "pe": 160}, {"loc": "San Cristóbal", "at": 152, "pe": 148}, {"loc": "Ciudad Bolívar", "at": 62, "pe": 60}, {"loc": "Usaquen", "at": 21, "pe": 21}, {"loc": "Rafael Uribe Uribe", "at": 8, "pe": 8}], "Inclusión social y productiva": [{"loc": "Ciudad Bolívar", "at": 1676, "pe": 1631}, {"loc": "Bosa", "at": 1408, "pe": 1345}, {"loc": "Usme", "at": 1079, "pe": 1062}, {"loc": "Engativá", "at": 914, "pe": 887}, {"loc": "Suba", "at": 518, "pe": 502}, {"loc": "San Cristóbal", "at": 416, "pe": 411}, {"loc": "Fontibón", "at": 380, "pe": 369}, {"loc": "Usaquen", "at": 361, "pe": 336}, {"loc": "Barrios Unidos", "at": 354, "pe": 348}, {"loc": "Puente Aranda", "at": 337, "pe": 337}, {"loc": "Rafael Uribe Uribe", "at": 336, "pe": 332}, {"loc": "Candelaria", "at": 294, "pe": 294}, {"loc": "Tunjuelito", "at": 287, "pe": 273}, {"loc": "Kennedy", "at": 221, "pe": 218}, {"loc": "Chapinero", "at": 193, "pe": 193}, {"loc": "Los Mártires", "at": 119, "pe": 119}, {"loc": "Antonio Nariño", "at": 94, "pe": 94}], "Liderazgo y participación": [{"loc": "Kennedy", "at": 476, "pe": 473}, {"loc": "Usme", "at": 428, "pe": 413}, {"loc": "Bosa", "at": 244, "pe": 243}, {"loc": "Engativá", "at": 237, "pe": 212}, {"loc": "Ciudad Bolívar", "at": 186, "pe": 186}, {"loc": "Barrios Unidos", "at": 165, "pe": 165}, {"loc": "Suba", "at": 153, "pe": 150}, {"loc": "Puente Aranda", "at": 142, "pe": 142}, {"loc": "San Cristóbal", "at": 60, "pe": 60}, {"loc": "Chapinero", "at": 54, "pe": 54}, {"loc": "Candelaria", "at": 45, "pe": 45}, {"loc": "Usaquen", "at": 41, "pe": 41}, {"loc": "Fontibón", "at": 35, "pe": 35}, {"loc": "Los Mártires", "at": 18, "pe": 18}]};
+        var DL={"Total": [{"loc": "Usme", "at": 5594}, {"loc": "Bosa", "at": 4725}, {"loc": "Ciudad Bolívar", "at": 3524}, {"loc": "Kennedy", "at": 2929}, {"loc": "Puente Aranda", "at": 2875}, {"loc": "Engativá", "at": 2621}, {"loc": "Suba", "at": 2522}, {"loc": "Barrios Unidos", "at": 2270}, {"loc": "Candelaria", "at": 1544}, {"loc": "Los Mártires", "at": 1501}, {"loc": "Chapinero", "at": 1468}, {"loc": "Usaquen", "at": 1443}, {"loc": "San Cristóbal", "at": 1406}, {"loc": "Fontibón", "at": 1303}, {"loc": "Antonio Nariño", "at": 1298}, {"loc": "Rafael Uribe Uribe", "at": 1249}, {"loc": "Tunjuelito", "at": 1115}], "Bienestar": [{"loc": "Usme", "at": 3080}, {"loc": "Bosa", "at": 2724}, {"loc": "Puente Aranda", "at": 2170}, {"loc": "Ciudad Bolívar", "at": 1600}, {"loc": "Barrios Unidos", "at": 1564}, {"loc": "Kennedy", "at": 1438}, {"loc": "Suba", "at": 1195}, {"loc": "Los Mártires", "at": 1078}, {"loc": "Chapinero", "at": 1060}, {"loc": "Engativá", "at": 1044}, {"loc": "Candelaria", "at": 1012}, {"loc": "Usaquen", "at": 966}, {"loc": "Rafael Uribe Uribe", "at": 905}, {"loc": "Tunjuelito", "at": 817}, {"loc": "San Cristóbal", "at": 778}, {"loc": "Antonio Nariño", "at": 679}, {"loc": "Fontibón", "at": 638}], "Cultura": [{"loc": "Usme", "at": 1007}, {"loc": "Kennedy", "at": 794}, {"loc": "Suba", "at": 656}, {"loc": "Antonio Nariño", "at": 525}, {"loc": "Engativá", "at": 426}, {"loc": "Los Mártires", "at": 286}, {"loc": "Fontibón", "at": 250}, {"loc": "Bosa", "at": 247}, {"loc": "Puente Aranda", "at": 226}, {"loc": "Candelaria", "at": 193}, {"loc": "Barrios Unidos", "at": 187}, {"loc": "Chapinero", "at": 161}, {"loc": "San Cristóbal", "at": 152}, {"loc": "Ciudad Bolívar", "at": 62}, {"loc": "Usaquen", "at": 21}, {"loc": "Rafael Uribe Uribe", "at": 8}], "Inclusión social y productiva": [{"loc": "Ciudad Bolívar", "at": 1676}, {"loc": "Bosa", "at": 1408}, {"loc": "Usme", "at": 1079}, {"loc": "Engativá", "at": 914}, {"loc": "Suba", "at": 518}, {"loc": "San Cristóbal", "at": 416}, {"loc": "Fontibón", "at": 380}, {"loc": "Usaquen", "at": 361}, {"loc": "Barrios Unidos", "at": 354}, {"loc": "Puente Aranda", "at": 337}, {"loc": "Rafael Uribe Uribe", "at": 336}, {"loc": "Candelaria", "at": 294}, {"loc": "Tunjuelito", "at": 287}, {"loc": "Kennedy", "at": 221}, {"loc": "Chapinero", "at": 193}, {"loc": "Los Mártires", "at": 119}, {"loc": "Antonio Nariño", "at": 94}], "Liderazgo y participación": [{"loc": "Kennedy", "at": 476}, {"loc": "Usme", "at": 428}, {"loc": "Bosa", "at": 244}, {"loc": "Engativá", "at": 237}, {"loc": "Ciudad Bolívar", "at": 186}, {"loc": "Barrios Unidos", "at": 165}, {"loc": "Suba", "at": 153}, {"loc": "Puente Aranda", "at": 142}, {"loc": "San Cristóbal", "at": 60}, {"loc": "Chapinero", "at": 54}, {"loc": "Candelaria", "at": 45}, {"loc": "Usaquen", "at": 41}, {"loc": "Fontibón", "at": 35}, {"loc": "Los Mártires", "at": 18}]};
         var DD={"Total": {"edad": [{"cat": "13 Y 17 AÑOS", "n": 23098}, {"cat": "18 Y 26 AÑOS", "n": 14925}, {"cat": "27 Y 59 AÑOS", "n": 1342}, {"cat": "6 Y 12 AÑOS", "n": 13}, {"cat": "0 Y 5 AÑOS", "n": 9}], "sexo": [{"cat": "Mujer", "n": 21378}, {"cat": "Hombre", "n": 17987}, {"cat": "Intersexual", "n": 22}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 38731}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 368}, {"cat": "Indigena", "n": 249}, {"cat": "Raizal san andres-providencia", "n": 31}, {"cat": "Palenquero de san basilio", "n": 6}, {"cat": "Rom (gitano)", "n": 2}], "ruv": [{"cat": "No registrados", "n": 35725}, {"cat": "Registrados en RUV", "n": 3662}], "disc": [{"cat": "No", "n": 38870}, {"cat": "Si", "n": 500}, {"cat": "Sin información", "n": 17}], "total": 39387}, "Bienestar": {"edad": [{"cat": "13 Y 17 AÑOS", "n": 14777}, {"cat": "18 Y 26 AÑOS", "n": 7375}, {"cat": "27 Y 59 AÑOS", "n": 578}, {"cat": "6 Y 12 AÑOS", "n": 9}, {"cat": "0 Y 5 AÑOS", "n": 9}], "sexo": [{"cat": "Mujer", "n": 12026}, {"cat": "Hombre", "n": 10710}, {"cat": "Intersexual", "n": 12}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 22389}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 206}, {"cat": "Indigena", "n": 130}, {"cat": "Raizal san andres-providencia", "n": 19}, {"cat": "Rom (gitano)", "n": 2}, {"cat": "Palenquero de san basilio", "n": 2}], "ruv": [{"cat": "No registrados", "n": 20582}, {"cat": "Registrados en RUV", "n": 2166}], "disc": [{"cat": "No", "n": 22489}, {"cat": "Si", "n": 252}, {"cat": "Sin información", "n": 7}], "total": 22748}, "Cultura": {"edad": [{"cat": "18 Y 26 AÑOS", "n": 2497}, {"cat": "13 Y 17 AÑOS", "n": 2444}, {"cat": "27 Y 59 AÑOS", "n": 258}, {"cat": "6 Y 12 AÑOS", "n": 2}], "sexo": [{"cat": "Mujer", "n": 2879}, {"cat": "Hombre", "n": 2316}, {"cat": "Intersexual", "n": 6}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 5091}, {"cat": "Indigena", "n": 59}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 46}, {"cat": "Raizal san andres-providencia", "n": 3}, {"cat": "Palenquero de san basilio", "n": 2}], "ruv": [{"cat": "No registrados", "n": 4755}, {"cat": "Registrados en RUV", "n": 446}], "disc": [{"cat": "No", "n": 5108}, {"cat": "Si", "n": 91}, {"cat": "Sin información", "n": 2}], "total": 5201}, "Inclusión social y productiva": {"edad": [{"cat": "13 Y 17 AÑOS", "n": 4453}, {"cat": "18 Y 26 AÑOS", "n": 4107}, {"cat": "27 Y 59 AÑOS", "n": 427}], "sexo": [{"cat": "Mujer", "n": 5115}, {"cat": "Hombre", "n": 3869}, {"cat": "Intersexual", "n": 3}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 8840}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 90}, {"cat": "Indigena", "n": 50}, {"cat": "Raizal san andres-providencia", "n": 5}, {"cat": "Palenquero de san basilio", "n": 2}], "ruv": [{"cat": "No registrados", "n": 8132}, {"cat": "Registrados en RUV", "n": 855}], "disc": [{"cat": "No", "n": 8839}, {"cat": "Si", "n": 140}, {"cat": "Sin información", "n": 8}], "total": 8987}, "Liderazgo y participación": {"edad": [{"cat": "13 Y 17 AÑOS", "n": 1361}, {"cat": "18 Y 26 AÑOS", "n": 845}, {"cat": "27 Y 59 AÑOS", "n": 77}, {"cat": "6 Y 12 AÑOS", "n": 1}], "sexo": [{"cat": "Mujer", "n": 1269}, {"cat": "Hombre", "n": 1014}, {"cat": "Intersexual", "n": 1}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 2248}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 23}, {"cat": "Indigena", "n": 9}, {"cat": "Raizal san andres-providencia", "n": 4}], "ruv": [{"cat": "No registrados", "n": 2101}, {"cat": "Registrados en RUV", "n": 183}], "disc": [{"cat": "No", "n": 2268}, {"cat": "Si", "n": 16}], "total": 2284}};
 
         function fmtN(n){return n.toLocaleString('es-CO');}
@@ -631,18 +665,18 @@
 
         function filtrarLoc(eje){
             var d=DL[eje];if(!d)return;
-            var total=0,totalP=0;d.forEach(function(r){total+=r.at;totalP+=r.pe});
+            var total=0;d.forEach(function(r){total+=r.at});
             var mx=d[0].at;
             var h='';
             d.forEach(function(r){
                 var w=(r.at/mx*100).toFixed(0);
                 h+='<div class="hbar-row"><div class="hbar-label">'+r.loc+'</div>'
                   +'<div class="hbar-track"><div class="hbar-fill" style="width:'+w+'%;background:#663A93;"></div></div>'
-                  +'<div class="hbar-value">'+fmtN(r.at)+' at. / '+fmtN(r.pe)+' pers.</div></div>';
+                  +'<div class="hbar-value">'+fmtN(r.at)+' atenciones</div></div>';
             });
             h+='<div class="hbar-row" style="font-weight:700;background:#f5f0fa;border-radius:8px;margin-top:5px;">'
               +'<div class="hbar-label">Total Bogotá</div><div class="hbar-track"></div>'
-              +'<div class="hbar-value">'+fmtN(total)+' at. / '+fmtN(totalP)+' pers.</div></div>';
+              +'<div class="hbar-value">'+fmtN(total)+' atenciones</div></div>';
             document.getElementById('loc-bars').innerHTML=h;
             if(event&&event.target)setActive('loc-filters',event.target);
         }
