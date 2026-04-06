@@ -105,7 +105,6 @@
             <div class="sidebar-section"><div class="sidebar-title" onclick="toggleSection(this)"><span>Estadísticas</span><span class="arrow">&#9654;</span></div>
                 <div class="sidebar-items">
                     <div class="sidebar-item" onclick="showContent('resumen')">Resumen general 2025</div>
-                    <div class="sidebar-item" onclick="showContent('localidades')">Localidades 2025</div>
                         </div></div>
         </nav>
         <main class="main-content">
@@ -560,35 +559,6 @@
                 </div>
             </div></div>
 
-            <div class="content-section" id="localidades"><div class="card">
-                <h2 class="card-title">Cobertura por localidades 2025</h2>
-                <div class="filter-btns" id="loc-filters">
-                    <button class="filter-btn active" onclick="filtrarLoc('Total')">Total</button>
-                    <button class="filter-btn" onclick="filtrarLoc('Bienestar')">Bienestar</button>
-                    <button class="filter-btn" onclick="filtrarLoc('Cultura')">Cultura</button>
-                    <button class="filter-btn" onclick="filtrarLoc('Inclusión social y productiva')">Inclusión</button>
-                    <button class="filter-btn" onclick="filtrarLoc('Liderazgo y participación')">Liderazgo</button>
-                </div>
-                <div class="methodology-box" style="margin-bottom:15px;"><p>Cada barra muestra el número de atenciones (sesiones registradas) por localidad.</p></div>
-                <div id="loc-bars"></div>
-                <div class="methodology-box">
-                    <p><strong>Mayor concentracion:</strong> Usme, Bosa, Ciudad Bolívar concentran el 35% de las atenciones.</p>
-                    <p><strong>Oportunidades:</strong> Antonio Nariño, Rafael Uribe Uribe, Tunjuelito presentan menor número de atenciones.</p>
-                </div>
-
-                <h3 class="card-subtitle">Nota sobre cobertura territorial</h3>
-                <div class="methodology-box">
-                    <p>Las 20 localidades de Bogota se cubren a traves de 18 Casas de Juventud. Algunas casas atienden localidades agrupadas:</p>
-                    <ul style="margin-left: 20px; margin-top: 8px;">
-                        <li><strong>Usme-Sumapaz:</strong> una sola casa cubre ambas localidades</li>
-                        <li><strong>Santa Fe-Candelaria:</strong> una sola casa cubre ambas localidades</li>
-                        <li><strong>Barrios Unidos-Teusaquillo:</strong> una sola casa cubre ambas localidades</li>
-                    </ul>
-                    <p style="margin-top: 8px;">En la base SIRBE los registros aparecen bajo estos nombres combinados, por lo cual Sumapaz, Santa Fe y Teusaquillo no tienen registros independientes sino que estan incluidas en su respectiva pareja.</p>
-                </div>
-
-                <div class="methodology-box" style="margin-top:20px;"><p><strong>Fuente:</strong> Sistema para el Registro de Beneficiarios — SIRBE de la Secretaría Distrital de Integración Social (Réplica Misión). Fecha de consulta: 13/01/2026. Reporte de número de atenciones por localidad.</p></div>
-            </div></div>
 
             <div class="content-section" id="resumen"><div class="card">
                 <h2 class="card-title">Resumen general 2025</h2>
@@ -602,30 +572,11 @@
         function toggleSection(el){el.classList.toggle('active');el.nextElementSibling.classList.toggle('show');}
         function showContent(id){document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));var s=document.getElementById(id);if(s)s.classList.add('active');if(event&&event.target)event.target.closest('.sidebar-item')?.classList.add('active');}
 
-        var DL={"Total": [{"loc": "Usme", "at": 5594}, {"loc": "Bosa", "at": 4725}, {"loc": "Ciudad Bolívar", "at": 3524}, {"loc": "Kennedy", "at": 2929}, {"loc": "Puente Aranda", "at": 2875}, {"loc": "Engativá", "at": 2621}, {"loc": "Suba", "at": 2522}, {"loc": "Barrios Unidos", "at": 2270}, {"loc": "Candelaria", "at": 1544}, {"loc": "Los Mártires", "at": 1501}, {"loc": "Chapinero", "at": 1468}, {"loc": "Usaquen", "at": 1443}, {"loc": "San Cristóbal", "at": 1406}, {"loc": "Fontibón", "at": 1303}, {"loc": "Antonio Nariño", "at": 1298}, {"loc": "Rafael Uribe Uribe", "at": 1249}, {"loc": "Tunjuelito", "at": 1115}], "Bienestar": [{"loc": "Usme", "at": 3080}, {"loc": "Bosa", "at": 2724}, {"loc": "Puente Aranda", "at": 2170}, {"loc": "Ciudad Bolívar", "at": 1600}, {"loc": "Barrios Unidos", "at": 1564}, {"loc": "Kennedy", "at": 1438}, {"loc": "Suba", "at": 1195}, {"loc": "Los Mártires", "at": 1078}, {"loc": "Chapinero", "at": 1060}, {"loc": "Engativá", "at": 1044}, {"loc": "Candelaria", "at": 1012}, {"loc": "Usaquen", "at": 966}, {"loc": "Rafael Uribe Uribe", "at": 905}, {"loc": "Tunjuelito", "at": 817}, {"loc": "San Cristóbal", "at": 778}, {"loc": "Antonio Nariño", "at": 679}, {"loc": "Fontibón", "at": 638}], "Cultura": [{"loc": "Usme", "at": 1007}, {"loc": "Kennedy", "at": 794}, {"loc": "Suba", "at": 656}, {"loc": "Antonio Nariño", "at": 525}, {"loc": "Engativá", "at": 426}, {"loc": "Los Mártires", "at": 286}, {"loc": "Fontibón", "at": 250}, {"loc": "Bosa", "at": 247}, {"loc": "Puente Aranda", "at": 226}, {"loc": "Candelaria", "at": 193}, {"loc": "Barrios Unidos", "at": 187}, {"loc": "Chapinero", "at": 161}, {"loc": "San Cristóbal", "at": 152}, {"loc": "Ciudad Bolívar", "at": 62}, {"loc": "Usaquen", "at": 21}, {"loc": "Rafael Uribe Uribe", "at": 8}], "Inclusión social y productiva": [{"loc": "Ciudad Bolívar", "at": 1676}, {"loc": "Bosa", "at": 1408}, {"loc": "Usme", "at": 1079}, {"loc": "Engativá", "at": 914}, {"loc": "Suba", "at": 518}, {"loc": "San Cristóbal", "at": 416}, {"loc": "Fontibón", "at": 380}, {"loc": "Usaquen", "at": 361}, {"loc": "Barrios Unidos", "at": 354}, {"loc": "Puente Aranda", "at": 337}, {"loc": "Rafael Uribe Uribe", "at": 336}, {"loc": "Candelaria", "at": 294}, {"loc": "Tunjuelito", "at": 287}, {"loc": "Kennedy", "at": 221}, {"loc": "Chapinero", "at": 193}, {"loc": "Los Mártires", "at": 119}, {"loc": "Antonio Nariño", "at": 94}], "Liderazgo y participación": [{"loc": "Kennedy", "at": 476}, {"loc": "Usme", "at": 428}, {"loc": "Bosa", "at": 244}, {"loc": "Engativá", "at": 237}, {"loc": "Ciudad Bolívar", "at": 186}, {"loc": "Barrios Unidos", "at": 165}, {"loc": "Suba", "at": 153}, {"loc": "Puente Aranda", "at": 142}, {"loc": "San Cristóbal", "at": 60}, {"loc": "Chapinero", "at": 54}, {"loc": "Candelaria", "at": 45}, {"loc": "Usaquen", "at": 41}, {"loc": "Fontibón", "at": 35}, {"loc": "Los Mártires", "at": 18}]};
         var DD={"Total": {"edad": [{"cat": "13 Y 17 AÑOS", "n": 23098}, {"cat": "18 Y 26 AÑOS", "n": 14925}, {"cat": "27 Y 59 AÑOS", "n": 1342}, {"cat": "6 Y 12 AÑOS", "n": 13}, {"cat": "0 Y 5 AÑOS", "n": 9}], "sexo": [{"cat": "Mujer", "n": 21378}, {"cat": "Hombre", "n": 17987}, {"cat": "Intersexual", "n": 22}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 38731}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 368}, {"cat": "Indigena", "n": 249}, {"cat": "Raizal san andres-providencia", "n": 31}, {"cat": "Palenquero de san basilio", "n": 6}, {"cat": "Rom (gitano)", "n": 2}], "ruv": [{"cat": "No registrados", "n": 35725}, {"cat": "Registrados en RUV", "n": 3662}], "disc": [{"cat": "No", "n": 38870}, {"cat": "Si", "n": 500}, {"cat": "Sin información", "n": 17}], "total": 39387}, "Bienestar": {"edad": [{"cat": "13 Y 17 AÑOS", "n": 14777}, {"cat": "18 Y 26 AÑOS", "n": 7375}, {"cat": "27 Y 59 AÑOS", "n": 578}, {"cat": "6 Y 12 AÑOS", "n": 9}, {"cat": "0 Y 5 AÑOS", "n": 9}], "sexo": [{"cat": "Mujer", "n": 12026}, {"cat": "Hombre", "n": 10710}, {"cat": "Intersexual", "n": 12}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 22389}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 206}, {"cat": "Indigena", "n": 130}, {"cat": "Raizal san andres-providencia", "n": 19}, {"cat": "Rom (gitano)", "n": 2}, {"cat": "Palenquero de san basilio", "n": 2}], "ruv": [{"cat": "No registrados", "n": 20582}, {"cat": "Registrados en RUV", "n": 2166}], "disc": [{"cat": "No", "n": 22489}, {"cat": "Si", "n": 252}, {"cat": "Sin información", "n": 7}], "total": 22748}, "Cultura": {"edad": [{"cat": "18 Y 26 AÑOS", "n": 2497}, {"cat": "13 Y 17 AÑOS", "n": 2444}, {"cat": "27 Y 59 AÑOS", "n": 258}, {"cat": "6 Y 12 AÑOS", "n": 2}], "sexo": [{"cat": "Mujer", "n": 2879}, {"cat": "Hombre", "n": 2316}, {"cat": "Intersexual", "n": 6}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 5091}, {"cat": "Indigena", "n": 59}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 46}, {"cat": "Raizal san andres-providencia", "n": 3}, {"cat": "Palenquero de san basilio", "n": 2}], "ruv": [{"cat": "No registrados", "n": 4755}, {"cat": "Registrados en RUV", "n": 446}], "disc": [{"cat": "No", "n": 5108}, {"cat": "Si", "n": 91}, {"cat": "Sin información", "n": 2}], "total": 5201}, "Inclusión social y productiva": {"edad": [{"cat": "13 Y 17 AÑOS", "n": 4453}, {"cat": "18 Y 26 AÑOS", "n": 4107}, {"cat": "27 Y 59 AÑOS", "n": 427}], "sexo": [{"cat": "Mujer", "n": 5115}, {"cat": "Hombre", "n": 3869}, {"cat": "Intersexual", "n": 3}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 8840}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 90}, {"cat": "Indigena", "n": 50}, {"cat": "Raizal san andres-providencia", "n": 5}, {"cat": "Palenquero de san basilio", "n": 2}], "ruv": [{"cat": "No registrados", "n": 8132}, {"cat": "Registrados en RUV", "n": 855}], "disc": [{"cat": "No", "n": 8839}, {"cat": "Si", "n": 140}, {"cat": "Sin información", "n": 8}], "total": 8987}, "Liderazgo y participación": {"edad": [{"cat": "13 Y 17 AÑOS", "n": 1361}, {"cat": "18 Y 26 AÑOS", "n": 845}, {"cat": "27 Y 59 AÑOS", "n": 77}, {"cat": "6 Y 12 AÑOS", "n": 1}], "sexo": [{"cat": "Mujer", "n": 1269}, {"cat": "Hombre", "n": 1014}, {"cat": "Intersexual", "n": 1}], "etnia": [{"cat": "Ninguno de los anteriores", "n": 2248}, {"cat": "Negro/a mulato/a afrocolombiano/a o afro", "n": 23}, {"cat": "Indigena", "n": 9}, {"cat": "Raizal san andres-providencia", "n": 4}], "ruv": [{"cat": "No registrados", "n": 2101}, {"cat": "Registrados en RUV", "n": 183}], "disc": [{"cat": "No", "n": 2268}, {"cat": "Si", "n": 16}], "total": 2284}};
 
         function fmtN(n){return n.toLocaleString('es-CO');}
 
         function setActive(cid,btn){document.querySelectorAll('#'+cid+' .filter-btn').forEach(function(b){b.classList.remove('active')});if(btn)btn.classList.add('active');}
-
-        function filtrarLoc(eje){
-            var d=DL[eje];if(!d)return;
-            var total=0;d.forEach(function(r){total+=r.at});
-            var mx=d[0].at;
-            var h='';
-            d.forEach(function(r){
-                var w=(r.at/mx*100).toFixed(0);
-                h+='<div class="hbar-row"><div class="hbar-label">'+r.loc+'</div>'
-                  +'<div class="hbar-track"><div class="hbar-fill" style="width:'+w+'%;background:#663A93;"></div></div>'
-                  +'<div class="hbar-value">'+fmtN(r.at)+' atenciones</div></div>';
-            });
-            h+='<div class="hbar-row" style="font-weight:700;background:#f5f0fa;border-radius:8px;margin-top:5px;">'
-              +'<div class="hbar-label">Total Bogotá</div><div class="hbar-track"></div>'
-              +'<div class="hbar-value">'+fmtN(total)+' atenciones</div></div>';
-            document.getElementById('loc-bars').innerHTML=h;
-            if(event&&event.target)setActive('loc-filters',event.target);
-        }
 
         function filtrarDemo(eje){
             var d=DD[eje];if(!d)return;
@@ -645,7 +596,7 @@
             if(event&&event.target)setActive('demo-filters',event.target);
         }
 
-        document.addEventListener('DOMContentLoaded',function(){filtrarLoc('Total');filtrarDemo('Total')});
+        document.addEventListener('DOMContentLoaded',function(){filtrarDemo('Total')});
     </script>
 </body>
 </html>
