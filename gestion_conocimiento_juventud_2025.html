@@ -24,7 +24,7 @@
         .content-section { display: none; } .content-section.active { display: block; }
         .card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 20px; }
         .card-title { font-size: 1.4rem; color: #663A93; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ede7f6; }
-        .card-subtitle { font-size: 1.1rem; color: #6C6294; margin: 20px 0 10px 0; }
+        .card-subtitle { font-size: 1.15rem; color: #6B4FA0; font-weight: 500; margin: 25px 0 10px 0; }
         .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-right: 8px; margin-bottom: 8px; }
         .badge-primary { background: #ede7f6; color: #663A93; } .badge-success { background: #e6f9f0; color: #1EAE76; }
         .badge-warning { background: #FFF3E0; color: #F58B53; } .badge-info { background: #e0f4f5; color: #1E9DA3; }
@@ -66,16 +66,18 @@
         .filter-btn { padding: 8px 18px; border: 2px solid #663A93; border-radius: 25px; background: white; color: #663A93; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .filter-btn:hover { background: #f5f0fa; }
         .filter-btn.active { background: #663A93; color: white; }
+        .card-subtitle { font-size: 1.15rem; color: #6B4FA0; font-weight: 500; margin: 25px 0 10px 0; }
+        .card p { margin-bottom: 15px; }
         /* --- Estructura SIRBE tipo arbol --- */
-        .tree-level {{ margin-left: 25px; padding: 8px 0; }}
-        .tree-label {{ font-weight: 600; color: var(--accent-text); }}
-        .tree-sublabel {{ color: #666; font-size: 0.9rem; margin-left: 10px; }}
-        .tree-item {{
+        .tree-level { margin-left: 25px; padding: 8px 0; }
+        .tree-label { font-weight: 600; color: #6C6294; }
+        .tree-sublabel { color: #666; font-size: 0.9rem; margin-left: 10px; }
+        .tree-item {
             padding: 6px 15px;
-            border-left: 2px solid var(--accent-light);
+            border-left: 2px solid #ede7f6;
             margin-left: 20px;
             margin-top: 4px;
-        }}
+        }
         @media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; } .quick-link-img { width: 90px; height: 90px; } }
     </style>
 </head>
@@ -177,6 +179,9 @@
                 <div style="text-align:center; margin:20px 0 30px;">
                     <img src="imagenes/contexto1.png" alt="Evolución del modelo de servicio" style="max-width:450px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08);">
                 </div>
+
+                <h3 class="card-subtitle">Consolidación de proyectos de inversión</h3>
+                <p style="line-height:1.7;">Durante la administración 2020–2024, la atención a jóvenes operaba a través de dos proyectos de inversión independientes: el <a href="https://www.integracionsocial.gov.co/images/_docs/2024/Gestion/EBI/19072024-7740.pdf" target="_blank" style="color:#6B4FA0;">7740</a> (Generación Jóvenes con Derechos), que abarcaba la oferta general de las Casas de Juventud, y el <a href="https://www.integracionsocial.gov.co/images/_docs/2024/Gestion/EBI/22042024-7753-Prevencion-maternidad-paternidad-temprana-Bogota.pdf" target="_blank" style="color:#6B4FA0;">7753</a>, un proyecto específico de maternidades y paternidades tempranas que atendía población desde los 10 años. Con el cambio de administración, ambos proyectos se unificaron en un solo proyecto de inversión (<a href="https://www.integracionsocial.gov.co/images/_docs/2024/Gestion/EBI/14022025-7940.pdf" target="_blank" style="color:#6B4FA0;">el 7940</a>). El componente de maternidades y paternidades dejó de ser un proyecto independiente y pasó a funcionar como una línea de trabajo dentro del eje de bienestar, con atención exclusiva a jóvenes entre 14 y 28 años.</p>
 
                 <h3 class="card-subtitle">Transformación del servicio</h3>
                 <p style="line-height:1.7;">Hasta el 2024, el funcionamiento de las Casas de Juventud se pensaba casi exclusivamente para el “aprovechamiento del tiempo libre” y dependía de la gestión autónoma que lograra cada gestor. A partir de 2025, el servicio se transformó y se estructuró en cuatro ejes temáticos principales: Bienestar, Cultura, Inclusión Productiva y Participación.</p>
