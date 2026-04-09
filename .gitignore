@@ -1,7 +1,8 @@
 Notes/
 *.xlsx
-!equipo_casas_juventud.xlsx
-!directorio_casas_juventud.xlsx
+!datos/equipo_casas_juventud.xlsx
+!datos/directorio_casas_juventud.xlsx
+!datos/directorio_forjar.xlsx
 *.csv
 *.xls
 validacion_*.html

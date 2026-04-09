@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de conocimiento - Subdirecci&oacute;n para la Juventud</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Figtree', 'Segoe UI', sans-serif;
+            background-color: #ffffff;
+            color: #2F3E3C;
+            min-height: 100vh;
+        }
+
+        /* Header banner */
+        .header-banner {
+            width: 100%;
+            display: block;
+        }
+        .header-banner img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Contenido */
+        .main { max-width: 1100px; margin: 0 auto; padding: 60px 30px 60px; }
+        .intro { text-align: center; max-width: 700px; margin: 0 auto 55px; }
+        .intro h2 { font-size: 1.9rem; color: #2F3E3C; margin-bottom: 14px; font-weight: 800; }
+        .intro p { font-size: 1rem; line-height: 1.7; color: #666; }
+
+        /* Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        /* Tarjetas */
+        .service-card {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            padding: 36px 28px 30px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 2px solid rgba(0,0,0,0.04);
+            position: relative;
+        }
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+            border-color: var(--accent, #663A93);
+        }
+
+        /* Logo */
+        .service-logo {
+            height: 52px;
+            margin: 0 auto 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        .service-logo img { height: 100%; border-radius: 30px; object-fit: contain; }
+        .service-card:hover .service-logo { transform: scale(1.08); }
+
+        .service-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+        .service-desc { font-size: 0.88rem; color: #888; line-height: 1.65; }
+
+        /* Badges */
+        .badge-soon {
+            display: inline-block; margin-top: 14px; padding: 5px 16px;
+            border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+            background: #e8760a; color: #ffffff;
+        }
+        .badge-active {
+            display: inline-block; margin-top: 14px; padding: 5px 16px;
+            border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+            background: #2e7d52; color: #ffffff;
+        }
+
+        /* Bot&oacute;n de ayuda */
+        .help-btn {
+            position: fixed; bottom: 80px; right: 28px; z-index: 100;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: #2F3E3C; color: #F8F4E1; border: none;
+            font-size: 1.4rem; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .help-btn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
+
+        /* Modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 200;
+            background: rgba(0,0,0,0.45); align-items: center; justify-content: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-box {
+            background: #2F3E3C; color: #F8F4E1; border-radius: 14px;
+            max-width: 560px; width: 90%; padding: 32px 36px 28px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35); position: relative;
+        }
+        .modal-box h2 { font-size: 1.35rem; font-weight: 700; margin-bottom: 6px; }
+        .modal-box .modal-sub { font-size: 0.85rem; opacity: 0.75; margin-bottom: 18px; }
+        .modal-box p { font-size: 0.92rem; line-height: 1.7; opacity: 0.9; margin-bottom: 12px; }
+        .modal-close {
+            position: absolute; top: 14px; right: 18px;
+            background: none; border: none; color: #F8F4E1; font-size: 1.5rem;
+            cursor: pointer; opacity: 0.6; transition: opacity 0.2s;
+        }
+        .modal-close:hover { opacity: 1; }
+
+        /* Footer */
+        .footer { text-align: center; padding: 35px 30px; color: #bbb; font-size: 0.82rem; }
+
+        @media (max-width: 700px) {
+            .services-grid { grid-template-columns: 1fr; gap: 20px; }
+            .main { padding: 35px 20px 40px; }
+            .intro h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-banner">
+        <img src="imagenes/Header - gestor.jpeg" alt="Gestor de conocimiento - SDIS Juventud">
+    </div>
+    <main class="main">
+        <div class="intro">
+            <p>Documentaci&oacute;n de procesos, datos y gesti&oacute;n del conocimiento de cada servicio de la Subdirecci&oacute;n para la Juventud.</p>
+        </div>
+        <div class="services-grid">
+
+            <a class="service-card" href="gestion_conocimiento_juventud_2025.html" style="--accent:#1a237e;">
+                <div class="service-logo">
+                    <img src="imagenes/servicios/casas-de-juventud.png" alt="Casas de Juventud">
+                </div>
+                <div class="service-desc">Espacios distritales para j&oacute;venes entre 14 y 28 a&ntilde;os. Oferta integral a trav&eacute;s de 5 ejes: bienestar, cultura, inclusi&oacute;n, liderazgo y SIDICU.</div>
+                <span class="badge-active">Estado: por completar</span>
+            </a>
+
+            <a class="service-card" href="gestion_conocimiento_jco_2025.html" style="--accent:#663A93;">
+                <div class="service-logo">
+                    <img src="imagenes/servicios/jovenes-con-oportunidades.png" alt="J&oacute;venes con Oportunidades">
+                </div>
+                <div class="service-desc">Formaci&oacute;n, apoyo psicosocial, transferencias monetarias condicionadas y acompa&ntilde;amiento laboral para j&oacute;venes de 14 a 28 a&ntilde;os en condici&oacute;n de vulnerabilidad.</div>
+                <span class="badge-soon">Estado: inicial</span>
+            </a>
+
+            <a class="service-card" href="gestion_conocimiento_forjar_2025.html" style="--accent:#80cbc4;">
+                <div class="service-logo">
+                    <img src="imagenes/servicios/forjar.png" alt="Servicio Forjar Restaurativo">
+                </div>
+                <div class="service-desc">Servicio restaurativo de atenci&oacute;n integral a adolescentes y j&oacute;venes vinculados al SRPA, con enfoque en sanciones no privativas de libertad y acompa&ntilde;amiento sociofamiliar.</div>
+                <span class="badge-soon">Estado: inicial</span>
+            </a>
+
+            <a class="service-card" href="gestion_conocimiento_alertas_2025.html" style="--accent:#e57373;">
+                <div class="service-logo">
+                    <img src="imagenes/servicios/alertas.png" alt="Alertas">
+                </div>
+                <div class="service-desc">Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven.</div>
+                <span class="badge-soon">Estado: inicial</span>
+            </a>
+
+        </div>
+    </main>
+    <button class="help-btn" onclick="document.getElementById('modal-info').classList.add('show')" title="&iquest;Qu&eacute; es esto?">?</button>
+
+    <div class="modal-overlay" id="modal-info" onclick="if(event.target===this)this.classList.remove('show')">
+        <div class="modal-box">
+            <button class="modal-close" onclick="document.getElementById('modal-info').classList.remove('show')">&times;</button>
+            <h2>Gestor de conocimiento</h2>
+            <div class="modal-sub">Subdirecci&oacute;n para la Juventud | SDIS</div>
+            <p>Herramienta interna que documenta los procesos, datos, metodolog&iacute;as y aprendizajes de cada servicio de la Subdirecci&oacute;n para la Juventud.</p>
+            <p>El objetivo es que cualquier persona del equipo pueda consultar c&oacute;mo funciona cada servicio, qu&eacute; datos se gestionan y cu&aacute;les son los procedimientos vigentes.</p>
+        </div>
+    </div>
+
+    <footer style="background:#3a3a3a; padding:18px 30px; display:flex; justify-content:space-between; align-items:center;">
+        <img src="imagenes/Footer1.png" alt="Distrito Joven" style="height:40px; object-fit:contain;">
+        <img src="imagenes/Footer2.png" alt="Secretar&iacute;a de Integraci&oacute;n Social" style="height:40px; object-fit:contain;">
+    </footer>
+</body>
+</html>

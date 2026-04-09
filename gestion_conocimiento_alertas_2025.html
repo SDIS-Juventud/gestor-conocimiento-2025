@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de conocimiento - Alertas</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --accent: #663A93; --accent-bg: #f5f0fa; --accent-border: #ede7f6; }
+body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff; color: #2F3E3C; }
+.header { background: #2F3E3C; color: #F8F4E1; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+.header h1 { font-size: 1.5rem; font-weight: 700; } .header .subtitle { font-size: 0.9rem; opacity: 0.85; }
+.header-btns { display: flex; align-items: center; gap: 15px; }
+.home-btn { font-size: 1.5rem; cursor: pointer; padding: 5px 12px; border-radius: 8px; transition: background 0.2s; text-decoration: none; color: #F8F4E1; }
+.home-btn:hover { background: rgba(255,255,255,0.15); }
+.container { display: flex; min-height: calc(100vh - 80px); }
+.sidebar { width: 280px; background: #fff; border-right: 1px solid #e0e0e0; padding: 20px 0; overflow-y: auto; }
+.sidebar-section { margin-bottom: 10px; }
+.sidebar-title { padding: 12px 20px; font-weight: 600; color: var(--accent); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+.sidebar-title:hover { background: var(--accent-bg); }
+.sidebar-title .arrow { transition: transform 0.2s; }
+.sidebar-title.active .arrow { transform: rotate(90deg); }
+.sidebar-items { display: none; padding-left: 20px; }
+.sidebar-items.show { display: block; }
+.sidebar-item { padding: 10px 20px; cursor: pointer; font-size: 0.9rem; color: #3A3A3A; transition: all 0.2s; }
+.sidebar-item:hover { background: var(--accent-bg); }
+.sidebar-item.active { background: var(--accent-border); color: var(--accent); font-weight: 600; }
+.sidebar-link { display: block; padding: 12px 20px; font-weight: 600; color: var(--accent); text-decoration: none; transition: background 0.2s; }
+.sidebar-link:hover { background: var(--accent-bg); }
+.main-content { flex: 1; padding: 30px; overflow-y: auto; }
+.content-section { display: none; }
+.content-section.active { display: block; }
+.card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 20px; }
+.card-title { font-size: 1.4rem; color: var(--accent); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid var(--accent-border); }
+.card-subtitle { font-size: 1.15rem; color: var(--accent); font-weight: 500; margin: 25px 0 10px 0; opacity: 0.85; }
+.card p { margin-bottom: 15px; }
+.badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-right: 8px; margin-bottom: 8px; }
+.badge-primary { background: var(--accent-border); color: var(--accent); }
+.badge-warning { background: #FFF3E0; color: #F58B53; }
+.badge-info { background: #e0f4f5; color: #1E9DA3; }
+.welcome-section { text-align: center; padding: 60px 20px; }
+.welcome-section h2 { font-size: 2rem; color: var(--accent); margin-bottom: 20px; }
+.welcome-section p { font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto 20px; line-height: 1.7; }
+.methodology-box { background: var(--accent-bg); border-left: 4px solid var(--accent); padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+.pending-box { background: #FFF3E0; border-left: 4px solid #F58B53; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; color: #8B5E3C; }
+/* Línea de tiempo */
+.timeline { position: relative; padding-left: 30px; margin: 20px 0; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 3px; background: var(--accent-border); }
+.timeline-item { position: relative; margin-bottom: 25px; }
+.timeline-item::before { content: ''; position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 3px solid var(--accent-border); }
+.timeline-year { font-weight: 700; color: var(--accent); font-size: 1rem; }
+.timeline-text { color: #555; font-size: 0.9rem; margin-top: 4px; line-height: 1.5; }
+@media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; } }
+
+    :root { --accent: #da686d; --accent-bg: #fdf0f2; --accent-border: #f5d2d4; }</style>
+</head>
+<body>
+    <header class="header">
+        <div>
+            <h1>Gestor de conocimiento - Alertas</h1>
+            <div class="subtitle">Subdirecci&oacute;n para la Juventud | SDIS</div>
+        </div>
+        <div class="header-btns">
+            <a class="home-btn" href="index.html" title="Todos los servicios">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F8F4E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </a>
+            <div class="home-btn" onclick="showContent('welcome')" title="Inicio Alertas">
+                <img src="imagenes/servicios/alertas.png" alt="Alertas" style="height:32px; border-radius:16px; object-fit:contain; vertical-align:middle;">
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-title" onclick="showContent('welcome')" style="cursor:pointer;"><span>Inicio</span></div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title active" onclick="toggleSection(this)">
+                    <span>Contexto</span><span class="arrow">&#9654;</span>
+                </div>
+                <div class="sidebar-items show">
+                    <div class="sidebar-item" onclick="showContent('descripcion')">Descripci&oacute;n del equipo</div>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="toggleSection(this)">
+                    <span>Protocolos</span><span class="arrow">&#9654;</span>
+                </div>
+                <div class="sidebar-items">
+                    <div class="sidebar-item" onclick="showContent('protocolos')">Protocolos de atenci&oacute;n</div>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="showContent('estadisticas')" style="cursor:pointer;">
+                    <span>Estad&iacute;sticas</span>
+                </div>
+            </div>
+        </nav>
+        <main class="main-content">
+
+            <div class="content-section active" id="welcome">
+                <div class="welcome-section">
+                    <h2>Estrategia de Alertas</h2>
+                    <p>Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven. A partir del triage psicosocial, el equipo identifica situaciones de riesgo y activa los protocolos de atenci&oacute;n correspondientes.</p>
+                </div>
+            </div>
+
+            <div class="content-section" id="descripcion">
+                <div class="card">
+                    <h2 class="card-title">Descripci&oacute;n del equipo</h2>
+                    <p>El equipo de alertas identifica j&oacute;venes con situaciones de riesgo a partir del <strong>triage psicosocial</strong>. Las alertas cubren situaciones como:</p>
+                    <ul style="margin:10px 0 15px 20px; line-height:2;">
+                        <li>Consumo problem&aacute;tico de sustancias psicoactivas</li>
+                        <li>Ideaci&oacute;n suicida y conducta autolesiva</li>
+                        <li>Violencia intrafamiliar</li>
+                        <li>Explotaci&oacute;n sexual y comercial</li>
+                        <li>Reclutamiento forzado</li>
+                        <li>Otras vulneraciones de derechos</li>
+                    </ul>
+                    <p>Cuando se identifica una alerta, el equipo activa el protocolo correspondiente y realiza el seguimiento del caso hasta su cierre.</p>
+                </div>
+            </div>
+
+            <div class="content-section" id="protocolos">
+                <div class="card">
+                    <h2 class="card-title">Protocolos de atenci&oacute;n</h2>
+                    <p>La estrategia cuenta con <strong>m&aacute;s de 10 protocolos</strong> de atenci&oacute;n, cada uno con un procedimiento espec&iacute;fico. Referente: <strong>Paula</strong>.</p>
+                    <p>Para cada protocolo se incluye: t&iacute;tulo, rese&ntilde;a corta y enlace al documento completo.</p>
+                </div>
+            </div>
+
+            <div class="content-section" id="estadisticas">
+                <div class="card">
+                    <h2 class="card-title">Estad&iacute;sticas 2025</h2>
+                    <iframe title="Seguimiento t&eacute;cnico" width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMzRiNWRkMDQtNThmNC00Yzk5LThjNTItOWI4MzZkYzYwM2EzIiwidCI6ImIzZTMwODA4LWU5YTgtNGYyYS05YmMxLWE3NjBhZTkxMGNmNSIsImMiOjR9" frameborder="0" allowFullScreen="true" style="border:1px solid #e0e0e0; border-radius:8px;"></iframe>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+function toggleSection(el) {
+    el.classList.toggle('active');
+    var items = el.nextElementSibling;
+    if (items) items.classList.toggle('show');
+}
+function showContent(id) {
+    document.querySelectorAll('.content-section').forEach(function(s) { s.classList.remove('active'); });
+    document.querySelectorAll('.sidebar-item').forEach(function(s) { s.classList.remove('active'); });
+    var el = document.getElementById(id);
+    if (el) el.classList.add('active');
+    if (event && event.target && event.target.classList.contains('sidebar-item')) {
+        event.target.classList.add('active');
+    }
+}
+</script>
+</body>
+</html>
