@@ -5,10 +5,12 @@
 
 import os
 import sys
+import pandas as pd
 
 # Raíz del proyecto (un nivel arriba de scripts/)
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARCHIVO_SALIDA = os.path.join(BASE, "gestion_conocimiento_forjar_2025.html")
+DATOS = os.path.join(BASE, "datos")
 
 # CSS compartido con los demás generadores
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -196,26 +198,35 @@ SECCION_UBICACION = """\
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="background:#fff;">
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Forjar Suba</strong></td>
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">Suba</td>
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><a href="https://maps.app.goo.gl/irFkHL8C3NMfywKZ9" target="_blank" style="color:var(--accent);">Cra. 98 #136-43</a></td>
-                        </tr>
-                        <tr style="background:#f8f9fa;">
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Forjar Ciudad Bol\u00edvar</strong></td>
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">Ciudad Bol\u00edvar</td>
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><a href="https://maps.app.goo.gl/W7w7Ck5WoxRwzpYx8" target="_blank" style="color:var(--accent);">Carrera 44 # 58 C - 90 Sur</a></td>
-                        </tr>
-                        <tr style="background:#fff;">
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Forjar Rafael Uribe Uribe</strong></td>
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">Rafael Uribe Uribe</td>
-                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><a href="https://maps.app.goo.gl/oAztqaBt9KPS97cn9" target="_blank" style="color:var(--accent);">Carrera 12G # 22B-29 Sur</a></td>
-                        </tr>
+                        <!--FILAS_DIRECTORIO-->
                     </tbody>
                 </table>
             </div>
                 </div>
             </div>"""
+
+# Generar filas del directorio leyendo el Excel
+directorio_excel = os.path.join(DATOS, "directorio_forjar.xlsx")
+if os.path.exists(directorio_excel):
+    df_dir = pd.read_excel(directorio_excel)
+    filas_html = ""
+    for idx, row in df_dir.iterrows():
+        bg = '#fff' if idx % 2 == 0 else '#f8f9fa'
+        link_maps = row.get("Link Google Maps", "")
+        direccion = str(row["Dirección"])
+        if pd.notna(link_maps) and str(link_maps).strip():
+            direccion_html = f'<a href="{link_maps}" target="_blank" style="color:var(--accent);">{direccion}</a>'
+        else:
+            direccion_html = direccion
+        filas_html += f'                        <tr style="background:{bg};">\n'
+        filas_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>{row["Nombre unidad operativa"]}</strong></td>\n'
+        filas_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{row["Localidad"]}</td>\n'
+        filas_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{direccion_html}</td>\n'
+        filas_html += f'                        </tr>\n'
+    SECCION_UBICACION = SECCION_UBICACION.replace("<!--FILAS_DIRECTORIO-->", filas_html.rstrip())
+    print(f"Directorio Forjar generado desde Excel: {len(df_dir)} unidades")
+else:
+    print("Excel de directorio Forjar no encontrado")
 
 SECCION_MODALIDADES = """\
             <div class="content-section" id="modalidades">
@@ -316,6 +327,10 @@ SECCION_FLUJO_DATOS = """\
                             <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">La informaci&oacute;n depurada sirve como insumo para preparar mensualmente el <strong>Informe Cualitativo y Cuantitativo del Servicio Forjar Restaurativo</strong>, que visibiliza el volumen de atenciones, cumplimiento de metas y avance del modelo.</p>
                         </div>
                     </div>
+
+                    <h3 class="card-subtitle" style="margin-top:30px;">Diagrama de flujo del proceso</h3>
+                    <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Representaci&oacute;n visual del ciclo de recolecci&oacute;n y digitaci&oacute;n en SIRBE para el servicio Forjar Restaurativo.</p>
+                    <img src="imagenes/diagrama_flujo_forjar.png" alt="Diagrama de flujo del proceso del ciclo Forjar Restaurativo" style="width:100%; border:1px solid #e0e0e0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
                 </div>
             </div>"""
 

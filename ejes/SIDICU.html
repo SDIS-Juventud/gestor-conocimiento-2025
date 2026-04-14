@@ -78,7 +78,13 @@
             margin-left: 20px;
             margin-top: 4px;
         }}
-        @media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; } .quick-link-img { width: 90px; height: 90px; } }
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }
+            .quick-link-img { width: 90px; height: 90px; }
+            .stats-imagen-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+            .stats-imagen-card { aspect-ratio: 2.4 / 1 !important; }
+        }
     </style>
 </head>
 <body>
@@ -107,8 +113,8 @@
 
                     <p>SIDICU es el componente de Casas de Juventud dedicado a jovenes que ejercen roles de cuidado: cuidan a adultos mayores, personas con discapacidad, ninos u otros miembros de su hogar. Es un perfil de joven especifico que necesita atencion diferenciada.</p>
 
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:25px;">
-                        <div style="position:relative; aspect-ratio: 1.83 / 1;">
+                    <div class="stats-imagen-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:25px;">
+                        <div class="stats-imagen-card" style="position:relative; aspect-ratio: 1.83 / 1;">
                             <img src="../imagenes/Recuadro%201.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:fill; display:block;">
                             <div style="position:absolute; inset:0; padding:9% 8% 8% 8%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
                                 <div style="font-size:clamp(2.6rem, 5.5vw, 4.2rem); font-weight:800; line-height:1; color:#2d3a33;">10</div>
@@ -117,7 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="position:relative; aspect-ratio: 1.77 / 1;">
+                        <div class="stats-imagen-card" style="position:relative; aspect-ratio: 1.77 / 1;">
                             <img src="../imagenes/Recuadro%202.png" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:fill; display:block;">
                             <div style="position:absolute; inset:0; padding:9% 8% 8% 8%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
                                 <div style="font-size:clamp(2.6rem, 5.5vw, 4.2rem); font-weight:800; line-height:1; color:#2d3a33;">5</div>

@@ -589,10 +589,16 @@ if os.path.exists(directorio_excel):
     
     for idx, row in df_dir.iterrows():
         bg = '#fff' if idx % 2 == 0 else '#f8f9fa'
+        # Si la fila tiene link de Google Maps, envuelve la dirección en <a>
+        link_maps = row.get("Link Google Maps", "")
+        if pd.notna(link_maps) and str(link_maps).strip():
+            direccion_html = f'<a href="{link_maps}" target="_blank" style="color:#253C5C;">{row["Dirección"]}</a>'
+        else:
+            direccion_html = str(row["Dirección"])
         directorio_html += f'                        <tr style="background:{bg};">\n'
         directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>{row["Casa de Juventud"]}</strong></td>\n'
         directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{row["Localidad"]}</td>\n'
-        directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{row["Dirección"]}</td>\n'
+        directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{direccion_html}</td>\n'
         directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{row["Barrio"]}</td>\n'
         directorio_html += '                        </tr>\n'
     
@@ -1321,6 +1327,10 @@ html = f"""<!DOCTYPE html>
                     <li><strong>Gestores transversales:</strong> existe un equipo especializado de gestores culturales que rota por las localidades dictando talleres específicos de su línea artística.</li>
                     <li><strong>Eventos masivos:</strong> en actividades de gran escala pueden participar varios gestores apoyando la logística, y todos terminan registrando fichas a su nombre para el mismo espacio.</li>
                 </ul>
+
+                <h3 class="card-subtitle" style="margin-top:30px;">Diagrama de flujo del proceso</h3>
+                <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Representación visual del ciclo de recolección y digitación en SIRBE para las Casas de Juventud.</p>
+                <img src="imagenes/diagrama_flujo_casas_juventud.png" alt="Diagrama de flujo del proceso del ciclo Casas de la Juventud" style="width:100%; border:1px solid #e0e0e0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
             </div></div>
 
             <div class="content-section" id="resumen"><div class="card">

@@ -53,7 +53,11 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 .timeline-text { color: #555; font-size: 0.9rem; margin-top: 4px; line-height: 1.5; }
 /* Footer */
 .footer { text-align: center; padding: 35px 30px; color: #bbb; font-size: 0.82rem; }
-@media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; } }</style>
+@media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }
+    .rutas-formacion-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+}</style>
 </head>
 <body>
     <header class="header">
@@ -219,7 +223,7 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="background:#fff;">
+                                                <tr style="background:#fff;">
                             <td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Forjar Suba</strong></td>
                             <td style="padding:8px 10px; border-bottom:1px solid #eee;">Suba</td>
                             <td style="padding:8px 10px; border-bottom:1px solid #eee;"><a href="https://maps.app.goo.gl/irFkHL8C3NMfywKZ9" target="_blank" style="color:var(--accent);">Cra. 98 #136-43</a></td>
@@ -337,6 +341,10 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                             <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">La informaci&oacute;n depurada sirve como insumo para preparar mensualmente el <strong>Informe Cualitativo y Cuantitativo del Servicio Forjar Restaurativo</strong>, que visibiliza el volumen de atenciones, cumplimiento de metas y avance del modelo.</p>
                         </div>
                     </div>
+
+                    <h3 class="card-subtitle" style="margin-top:30px;">Diagrama de flujo del proceso</h3>
+                    <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Representaci&oacute;n visual del ciclo de recolecci&oacute;n y digitaci&oacute;n en SIRBE para el servicio Forjar Restaurativo.</p>
+                    <img src="imagenes/diagrama_flujo_forjar.png" alt="Diagrama de flujo del proceso del ciclo Forjar Restaurativo" style="width:100%; border:1px solid #e0e0e0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
                 </div>
             </div>
 

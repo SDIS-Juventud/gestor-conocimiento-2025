@@ -69,7 +69,11 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 .timeline-text { color: #555; font-size: 0.9rem; margin-top: 4px; line-height: 1.5; }
 /* Footer */
 .footer { text-align: center; padding: 35px 30px; color: #bbb; font-size: 0.82rem; }
-@media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; } }"""
+@media (max-width: 768px) {
+    .container { flex-direction: column; }
+    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }
+    .rutas-formacion-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+}"""
 
 
 # Colores por servicio. Cuando se agrega un servicio nuevo, registrarlo aquí.
