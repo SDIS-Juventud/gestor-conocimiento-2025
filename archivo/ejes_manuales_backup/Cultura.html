@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIDICU - Sistema Distrital de Cuidado | Gestion del Conocimiento SDIS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@700&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff; color: #2F3E3C; }
+        .header { background: #2F3E3C; color: #F8F4E1; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+        .header h1 { font-size: 1.5rem; font-weight: 700; } .header .subtitle { font-size: 0.9rem; opacity: 0.85; }
+        .home-btn { font-size: 1.5rem; cursor: pointer; padding: 5px 12px; border-radius: 8px; transition: background 0.2s; } .home-btn:hover { background: rgba(255,255,255,0.15); }
+        .container { display: flex; min-height: calc(100vh - 80px); }
+        .sidebar { width: 280px; background: #fff; border-right: 1px solid #e0e0e0; padding: 20px 0; overflow-y: auto; }
+        .sidebar-section { margin-bottom: 10px; }
+        .sidebar-title { padding: 12px 20px; font-weight: 600; color: #663A93; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+        .sidebar-title:hover { background: #f5f0fa; } .sidebar-title .arrow { transition: transform 0.2s; } .sidebar-title.active .arrow { transform: rotate(90deg); }
+        .sidebar-items { display: none; padding-left: 20px; } .sidebar-items.show { display: block; }
+        .sidebar-item { padding: 10px 20px; cursor: pointer; font-size: 0.9rem; color: #3A3A3A; border-left: 3px solid transparent; transition: all 0.2s; }
+        .sidebar-item:hover { background: #f5f0fa; border-left-color: #663A93; }
+        .sidebar-item.active { background: #ede7f6; border-left-color: #663A93; color: #663A93; font-weight: 600; }
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .content-section { display: none; } .content-section.active { display: block; }
+        .card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 20px; }
+        .card-title { font-size: 1.4rem; color: #663A93; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ede7f6; }
+        .card-subtitle { font-size: 1.1rem; color: #6C6294; margin: 20px 0 10px 0; }
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-right: 8px; margin-bottom: 8px; }
+        .badge-primary { background: #ede7f6; color: #663A93; } .badge-success { background: #e6f9f0; color: #1EAE76; }
+        .badge-warning { background: #FFF3E0; color: #F58B53; } .badge-info { background: #e0f4f5; color: #1E9DA3; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .stat-card { background: linear-gradient(135deg, #663A93 0%, #8179B0 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-card.alt { background: linear-gradient(135deg, #1E9DA3 0%, #1EAE76 100%); }
+        .stat-card.alt2 { background: linear-gradient(135deg, #F4676E 0%, #F58B53 100%); }
+        .stat-number { font-size: 2rem; font-weight: 700; } .stat-label { font-size: 0.9rem; opacity: 0.9; }
+        .list-group { border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
+        .list-item { padding: 15px 20px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; }
+        .list-item:last-child { border-bottom: none; } .list-item:hover { background: #faf8f2; }
+        .progress-bar { height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; width: 100px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #663A93, #F4676E); border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        th { background: #faf8f2; font-weight: 600; color: #663A93; } tr:hover { background: #faf8f2; }
+        .methodology-box { background: #f5f0fa; border-left: 4px solid #663A93; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .materials-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
+        .welcome-section { text-align: center; padding: 60px 20px; }
+        .welcome-section h2 { font-size: 2rem; color: #663A93; margin-bottom: 20px; }
+        .welcome-section p { font-size: 1.1rem; color: #666; max-width: 600px; margin: 0 auto 30px; }
+        .quick-links { display: grid; grid-template-columns: repeat(2, 190px); justify-content: center; gap: 30px; }
+        .quick-link { background: white; padding: 25px 20px; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; width: 190px; }
+        .quick-link:hover { transform: translateY(-6px); box-shadow: 0 8px 25px rgba(102,58,147,0.2); }
+        .quick-link-img { width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%; overflow: hidden; border: 3px solid #ede7f6; box-shadow: 0 4px 15px rgba(102,58,147,0.15); transition: border-color 0.3s, transform 0.3s; }
+        .quick-link:hover .quick-link-img { border-color: #663A93; transform: scale(1.05); }
+        .quick-link:hover .sidicu-img { border-color: #663A93; }
+        .quick-link-img img { width: 100%; height: 100%; object-fit: cover; }
+        .quick-link-title { font-weight: 600; color: #663A93; font-size: 0.95rem; }
+        .hbar-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+        .hbar-row:last-child { border-bottom: none; }
+        .hbar-label { width: 200px; font-size: 0.9rem; color: #3A3A3A; flex-shrink: 0; }
+        .hbar-track { flex: 1; height: 22px; background: #f0ecf5; border-radius: 11px; overflow: hidden; margin: 0 15px; }
+        .hbar-fill { height: 100%; border-radius: 11px; transition: width 0.5s ease; min-width: 2px; }
+        .hbar-value { width: 150px; font-size: 0.85rem; color: #555; text-align: right; flex-shrink: 0; }
+        .hbar-pct { color: #999; }
+        .hbar-group { background: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 15px 20px; margin: 10px 0; }
+        .filter-btns { display: flex; gap: 8px; flex-wrap: wrap; margin: 15px 0 20px; }
+        .filter-btn { padding: 8px 18px; border: 2px solid #663A93; border-radius: 25px; background: white; color: #663A93; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .filter-btn:hover { background: #f5f0fa; }
+        .filter-btn.active { background: #663A93; color: white; }
+        /* --- Estructura SIRBE tipo arbol --- */
+        .tree-level {{ margin-left: 25px; padding: 8px 0; }}
+        .tree-label {{ font-weight: 600; color: var(--accent-text); }}
+        .tree-sublabel {{ color: #666; font-size: 0.9rem; margin-left: 10px; }}
+        .tree-item {{
+            padding: 6px 15px;
+            border-left: 2px solid var(--accent-light);
+            margin-left: 20px;
+            margin-top: 4px;
+        }}
+        @media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; } .quick-link-img { width: 90px; height: 90px; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div>
+            <h1>Cultura</h1>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-item active" onclick="showContent('que_es')">Resumen del eje</div>
+            <div class="sidebar-item" onclick="showContent('ofertas_2026')">Ofertas 2026</div>
+            <div class="sidebar-item" onclick="showContent('datos_sirbe')">Datos SIRBE 2025</div>
+            <div class="sidebar-item" onclick="showContent('alianzas')">Alianzas</div>
+        </nav>
+
+        <main class="main-content">
+            <div class="content-section active" id="que_es" style="display:block;"><div class="card">
+                <h2 class="card-title">Cultura</h2>
+                <p style="line-height:1.7;">Formación artística, uso de espacios para prácticas artísticas y culturales, deportes, eventos y aprovechamiento del tiempo libre con énfasis en intereses juveniles.</p>
+                <div class="stats-grid" style="margin-top:20px;">
+                    <div class="stat-card"><div class="stat-number">42</div><div class="stat-label">Ofertas planeadas</div></div>
+                    <div class="stat-card alt"><div class="stat-number">15</div><div class="stat-label">Alianzas identificadas</div></div>
+                </div>
+            </div></div>
+
+            <div class="content-section" id="ofertas_2026" style="display:none;"><div class="card">
+                <h2 class="card-title">Ofertas 2026</h2>
+                <p style="color:#666; margin-bottom:20px;">Oferta planeada para el eje de Cultura.</p>
+
+                <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
+                    <a href="https://www.instagram.com/distritojovenbta/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; padding:8px 16px; background:#E1306C; color:#fff; border-radius:8px; text-decoration:none; font-size:0.85rem; font-weight:600;">Distrito Joven Instagram</a>
+                    <a href="https://www.facebook.com/DistritoJovenBta/" target="_blank" style="display:inline-flex; align-items:center; gap:6px; padding:8px 16px; background:#1877F2; color:#fff; border-radius:8px; text-decoration:none; font-size:0.85rem; font-weight:600;">Distrito Joven Facebook</a>
+                </div>
+
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">1. Semillero Observatorio Escénico: Actuación</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este semillero de actuación con énfasis en teatro físico y audiovisual es un espacio de exploración del cuerpo como lenguaje narrativo. A través del movimiento, la presencia escénica y la relación con la cámara, las y los participantes investigan formas de actuación que integran gesto, emoción e imagen, fortaleciendo la expresividad, la conciencia corporal y la creación de relatos escénicos y audiovisuales propios.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Dramático</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Escénico, Apoya Gestor/a Audiovisual</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años con interés en la actuación, el teatro, la danza y el movimiento corporal como proyecto de vida</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">2. Semillero de Gráfica Expandida</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este semillero de gráfica es un espacio de creación y experimentación en serigrafía, stencil, fanzine, collage y diversas técnicas de impresión y gráfica manual. A través del trabajo con tinta, plantillas, capas y repetición, las y los participantes exploran la gráfica como lenguaje visual, herramienta de expresión colectiva y medio para narrar ideas, territorios y experiencias propias. El proceso también aporta al fortalecimiento de iniciativas de emprendimiento cultural, promoviendo el desarrollo de productos gráficos, nociones básicas de producción, circulación y sostenibilidad, así como el trabajo colaborativo y la proyección de propuestas creativas en contextos comunitarios y económicos.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Plásticas, Gestor/a Territorial, Apoya Gestor/a Graffiti</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">3. Semillero Circulando el Circo</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Circulando el Circo es un semillero de formación y creación que explora las artes circenses como lenguaje escénico y herramienta de expresión corporal. A través de técnicas básicas de circo, equilibrio, payaso, acrobacia, juego y trabajo colectivo, las y los participantes fortalecen la confianza, la coordinación, la conciencia del cuerpo y la creatividad, promoviendo el bienestar, el trabajo en equipo y la construcción de experiencias escénicas desde el movimiento y la risa compartida.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Circenses</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Circo</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años con interés en la práctica circense.</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">4. Semillero Revolución Sonora</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Revolución Sonora es un semillero de producción musical orientado a la creación, exploración y experimentación con el sonido. A través del uso de herramientas digitales, composición, grabación y mezcla, las y los participantes desarrollan procesos de producción musical propios, fortaleciendo la escucha, la creatividad y el trabajo colaborativo. El semillero impulsa el sonido como forma de expresión juvenil, comunicación cultural y posibilidad de proyección artística y productiva.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Musicales</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Producción musical</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">5. Semillero Latido Reciclado: Batucada</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este semillero de batucada con elementos reciclados es un espacio de creación musical colectiva que transforma materiales reutilizados en instrumentos de percusión. A través del ritmo, el cuerpo y el trabajo en equipo, las y los participantes exploran la batucada como lenguaje sonoro y herramienta de expresión comunitaria, fortaleciendo la conciencia ambiental, la creatividad y la participación juvenil, mediante procesos de construcción de instrumentos, ensamble rítmico e intervención sonora en espacios públicos.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Musicales</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">6. Semillero Pulso Urbano: Paredes que gritan</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;"></p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Urbano</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">7. Semillero Mirar en Movimiento: Cine</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Mirar en Movimiento es un semillero de creación cinematográfica orientado a la exploración del cine como lenguaje narrativo y herramienta de expresión juvenil. A través del guion, la dirección, la cámara y el montaje, las y los participantes desarrollan procesos colectivos de creación audiovisual, fortaleciendo la mirada crítica, el trabajo en equipo y la construcción de relatos propios que dialogan con su territorio y experiencias.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Audiovisuales</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">8. Puños de Hierro, Alma de Fuego Semillero de boxeo</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">En lel semillero se trabajarán los fundamentos del boxeo con golpes básicos y combinaciones, la movilidad con golpeo en desplazamiento para controlar la distancia, y la defensa mediante esquives y bloqueos que fortalezcan seguridad y coordinación. La resistencia cardiovascular se estimulará con ejercicios de alta intensidad, y el sparring técnico permitirá aplicar lo aprendido en un entorno de respeto, empatía y superación. Con ejercicios técnicos y tácticos de progresión continua, desde lo individual hasta el combate simulado, el/la joven avanzará hacia la meta de sentirse preparado como si se entrenara para una competencia o torneo real.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Deportes</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">9. Tocar, Mirar, Mover: Exploración en Danza Contacto</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Una sesión vivencial para descubrir la danza a través del contacto físico y la improvisación en movimiento.<br><br>A través de ejercicios de escucha corporal, peso compartido y fluidez en el espacio, los participantes explorarán la conexión con otros cuerpos y el entorno, desarrollando una danza auténtica y sensible.<br><br>Un espacio para liberar tensiones, habitar el presente y moverse desde la confianza y la creatividad colectiva.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Danzario</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">10. Tu Propio Show: Tips para la presentación musical en vivo</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Un taller enfocado en la construcción de una presentación musical en vivo, abordando escenografía, repertorio, puesta en escena y conexión con el público.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Musicales</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">11. ¡Encuentra tu voz! Hablar en público</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">"Una experiencia intensiva diseñada para fortalecer la confianza y la claridad al comunicarse frente a una audiencia.<br><br>A través de dinámicas de respiración, proyección vocal, expresión corporal y manejo del espacio, los participantes aprenderán a conectar con su voz, transmitir mensajes con impacto y manejar el nerviosismo escénico.<br><br>Ideal para quienes buscan mejorar su habilidad comunicativa, desde presentaciones laborales hasta intervenciones artísticas o sociales."</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Dramático</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">12. ¡Del Barrio a la Pantalla! Actuación para medios audiovisuales</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este taller hace una introducción  del proceso actoral para la preparación de castings y la grabación de material audiovisual. Este proceso les permitirá desarrollar herramientas interpretativas, enfrentar audiciones con confianza y fortalcer un portafolio actoral que les acercará a oportunidades en la industria audiovisual.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Dramático</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">13. Movimiento Mutante: Técnicas de teatro físico, gestual y danza contemporánea</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Un laboratorio escénico que invita a explorar el cuerpo como herramienta expresiva y narrativa, integrando el lenguaje del teatro físico, el gesto y la danza contemporánea.<br>A través de dinámicas de improvisación, trabajo de ritmo, presencia escénica y exploración del espacio, los participantes experimentarán la transformación del cuerpo en movimiento, expandiendo sus posibilidades creativas y performativas.<br>Un espacio para mutar, habitar nuevas corporalidades y contar historias desde la fisicalidad.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Danzario, Arte Dramático, Artes Audiovisuales, Producción Musical</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Escénico, Gestor/a Danza, Apoya Gestor/a Audiovisual, Apoya Gestor/a Producción Musical</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años con interés en el movimiento y la danza</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">14. Poder Vocal: Herramientas para el canto nivel intermedio</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Un proceso formativo diseñado para perfeccionar la técnica vocal y expandir el rango expresivo, dirigido a quienes ya tienen experiencia en el canto y buscan llevar su voz al siguiente nivel.<br>A través de ejercicios avanzados de respiración, resonancia, control de registro y matices interpretativos, los participantes fortalecerán su proyección, mejorarán la afinación y explorarán nuevos estilos y géneros musicales.<br>Un espacio para afinar la técnica, fortalecer la presencia escénica y conectar con la emoción desde la voz.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Dramático, Artes Musicales</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Escénico, Gestor/a Musical</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años con formación previa en canto.</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">15. ¡Del Barrio a la Pantalla! Actuación para medios audiovisuales</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este ciclo guía a los participantes en el proceso actoral desde la exploración lúdica hasta la creación de su portafolio profesional. A través de seis sesiones, trabajarán en la construcción de personajes, el análisis de textos dramáticos, la preparación para castings y la grabación de material audiovisual. Este proceso les permitirá desarrollar herramientas interpretativas, enfrentar audiciones con confianza y consolidar un portafolio actoral que los acercará a oportunidades en la industria audiovisual.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Dramático, Artes Audiovisuales, Gestión Cultural</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Escénico, Apoya Gestor/a Audiovisual</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años que quieran fortalecer su portafolio actoral</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">16. Mi cuerpo, mi ritmo: Creación colectiva de Percusión corporal</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Proceso de investigación sonora y expresiva que invita a explorar el cuerpo como fuente de ritmo y vibración, a través de la percusión corporal y la creación colectiva.<br>Mediante golpes, palmas, chasquidos y pisadas, los participantes experimentarán la construcción de patrones rítmicos en conjunto, desarrollando la escucha activa, la coordinación y la sincronía grupal.<br>Un espacio para sentir el ritmo en comunidad, conectar con la musicalidad interna y crear desde el cuerpo en movimiento.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Musicales, Arte Danzario</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Musical</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">17. El Código Musical:  Lee y escribe partituras</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Introducción al lenguaje escrito de la música, explorando la partitura como un sistema de signos que permite leer, interpretar y crear sonidos. A través de ejercicios prácticos y dinámicos, se desarrollan nociones básicas de ritmo, melodía y notación musical, fortaleciendo la escucha, la lectura musical y la capacidad de escribir ideas sonoras propias.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Musicales</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Musical</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años con interés en la práctica musical.</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">18. Explosión Rítimica Batucada desde cero</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este ciclo introduce a las y los participantes en la batucada como una práctica colectiva de percusión que combina ritmo, cuerpo y energía grupal. Desde nociones básicas hasta ensambles sencillos, el proceso fortalece la coordinación, la escucha y el trabajo en equipo, reconociendo el ritmo como una forma de expresión, encuentro y celebración comunitaria.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Musicales</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">19. Guitarra para principiantes</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Un taller introductorio para aprender los fundamentos básicos de la guitarra y dar los primeros acordes en el mundo musical.<br>A través de ejercicios prácticos, exploración de acordes, ritmos y melodías, los participantes desarrollarán destrezas en la digitación, afinación y acompañamiento, mientras se conectan con la expresión sonora del instrumento.<br>Un espacio ideal para perderle el miedo a las cuerdas, disfrutar del proceso y comenzar a crear música desde cero.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Musicales</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Musical</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años con interés en la práctica musical.</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">20. Tu Propio Show: Tips para la presentación musical en vivo</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Un taller enfocado en la construcción de una presentación musical en vivo, abordando escenografía, repertorio, puesta en escena y conexión con el público.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Musicales</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Musical</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años que participen de un proyecto musical.</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">21. Musica Colombiana y Tradicional</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;"></p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">22. Revolución Sonora: Producción de Canciones</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Un recorrido general por el proceso de creación musical, desde la idea inicial hasta la producción final. Abarca composición, arreglos, grabación, mezcla y masterización, brindando a los participantes herramientas para producir sus propias canciones.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Producción Musical, Artes Musicales</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Musical</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años que participen de un proyecto musical.</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">23. Creación de Portafolio de Graffiti Comercial</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Creación de un portafolio orientado al mercado artístico y comercial, con enfoque en la presentación de proyectos, elaboración de dossiers y estrategias para promover el trabajo con marcas, empresas y espacios culturales.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Urbano, Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Graffiti</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 con experiencia inicial y media en el graffiti</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">24. Lettering y Tipografía Urbana</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Creación de letras y estilos tipográficos propios del arte urbano, explorando formas y composiciones.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Urbano, Artes Plásticas</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">25. Gráfica Expandida</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;"></p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">26. Forjando Guerreros Ciclo de boxeo</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este ciclo propone una introducción al boxeo como una práctica formativa que fortalece el cuerpo, la disciplina y la autoconfianza. A través del aprendizaje de técnicas básicas, rutinas físicas y ejercicios de coordinación, las y los participantes desarrollan resistencia, autocontrol y respeto por el otro, reconociendo el entrenamiento como un espacio de cuidado, enfoque y canalización positiva de la energía.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Deportes</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">27. El arte del control Ciclo en Jiujitsu</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este ciclo aborda el jiujitsu como una disciplina que integra técnica, estrategia y autocontrol. A través del aprendizaje de fundamentos básicos, ejercicios de coordinación y prácticas guiadas, las y los participantes fortalecen la conciencia corporal, la disciplina y la gestión de la fuerza, promoviendo el respeto, la calma y la resolución consciente de situaciones de tensión.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Deportes</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">28. Raices en juego Ciclo en juegos tradicionales</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este ciclo invita a redescubrir los juegos tradicionales como prácticas culturales vivas que fortalecen la identidad, la memoria colectiva y el encuentro comunitario. A través del juego, las y los participantes desarrollan habilidades motrices, cooperación y creatividad, reconociendo el cuerpo y la lúdica como formas de aprendizaje, cuidado y transmisión cultural entre generaciones.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Deportes</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">29. Más allá de la Cancha Ciclo en Baloncesto</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este ciclo propone el baloncesto como una práctica que trasciende el juego para convertirse en un espacio de formación integral. A través del aprendizaje de fundamentos técnicos y dinámicas colectivas, las y los participantes fortalecen el trabajo en equipo, la comunicación, la disciplina y la toma de decisiones, promoviendo valores de convivencia, respeto y liderazgo dentro y fuera de la cancha.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Deportes</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">30. Laboratorio Piel Urbana: Graffiti</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Piel Urbana es un laboratorio avanzado de creación en graffiti y gráfica urbana, enfocado en la exploración de vinilos, texturas y técnicas mixtas aplicadas al muro y a soportes no convencionales. Más que un espacio de formación, el laboratorio propone procesos de investigación y producción artística colectiva, donde las y los participantes experimentan con capas, materialidades y lenguajes visuales para desarrollar obras gráficas con identidad propia, diálogo territorial y proyección en el espacio público.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Arte Urbano</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Graffiti</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">31. Semillero Materia Viva: Animación en Stop Motion</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">es un semillero de animación en stop motion enfocado en la creación de relatos animados a partir de objetos, cuerpos y materiales cotidianos. Mediante la construcción de personajes, escenarios y la animación fotograma a fotograma, las y los participantes exploran el movimiento como acto creativo, fortaleciendo la paciencia, la imaginación y el trabajo colaborativo para dar vida a historias propias.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Audiovisuales</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">32. Danza Expandida</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;"></p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">33. Gráfica Expandida</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Este ciclo de gráfica es un proceso de creación y experimentación en serigrafía, stencil, fanzine, collage y diversas técnicas de impresión y gráfica manual, diseñado para adaptarse a las particularidades de cada territorio, población y contexto institucional. A través del trabajo con tinta, plantillas, capas y repetición, el ciclo propone la exploración de la gráfica como lenguaje visual, herramienta de expresión colectiva y medio para narrar ideas, memorias y experiencias territoriales. Su metodología es flexible y ajustable, permitiendo adecuaciones según las necesidades técnicas, logísticas y pedagógicas del abordaje territorial. Asimismo, el ciclo aporta al fortalecimiento de iniciativas de emprendimiento cultural, promoviendo el desarrollo de productos gráficos, nociones básicas de producción, circulación y sostenibilidad, así como el trabajo colaborativo y la proyección de propuestas creativas en contextos comunitarios y económicos.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">34. Serigrafía</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller de introducción y exploración de la serigrafía como técnica de impresión manual adaptable a contextos territoriales diversos. A través del trabajo con plantillas, marcos, tinta y soportes accesibles, las y los participantes experimentan la serigrafía como herramienta de expresión colectiva, comunicación comunitaria y producción gráfica situada, ajustando los procesos técnicos a las condiciones del territorio y los recursos disponibles.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">35. Fanzine: Autoedición en Mano</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller de creación de fanzines como formato de autoedición gráfica y narrativa, donde texto e imagen dialogan para contar historias, memorias y experiencias territoriales. El taller se adapta a distintos niveles de alfabetización visual y escrita, permitiendo la participación activa de diversas poblaciones mediante el uso de técnicas manuales y accesibles.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">36. Collage: Cortar y Re-significar</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller de collage enfocado en la reconfiguración de imágenes, símbolos y materiales impresos para construir nuevos sentidos visuales. A partir del recorte, la superposición y el ensamblaje, las y los participantes exploran el collage como herramienta de reflexión crítica, memoria y resignificación del territorio y la experiencia cotidiana.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">37. Stencil:</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller de stencil como técnica gráfica rápida y replicable, ideal para intervenciones territoriales de corta duración. A través del diseño de plantillas y la repetición de imágenes, el taller explora el stencil como herramienta de comunicación visual, señalización simbólica y apropiación temporal del espacio, cuidando siempre el contexto y las dinámicas comunitarias del territorio.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">38. Grabado Alterno: Sello Casero (linografía casera, sellos, impresión con objetos)</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller de exploración de técnicas de grabado alternativo y experimental que no requieren infraestructura especializada. A través de sellos, matrices caseras y objetos cotidianos, las y los participantes experimentan procesos de impresión accesibles, favoreciendo la creatividad, la experimentación material y la adaptación técnica a contextos rurales o de difícil acceso.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">39. Afiche y gráfica comunitaria</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller orientado a la creación de afiches y piezas gráficas comunitarias, pensadas para comunicar mensajes colectivos, convocatorias o narrativas territoriales. El proceso integra diseño manual, composición visual y reflexión sobre el uso ético y situado de la imagen en espacios comunitarios.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">40. Creación de stickers: Pégate a esto</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller de creación de stickers como formato gráfico portátil y de rápida circulación. A partir del dibujo, la ilustración y la repetición, las y los participantes desarrollan imágenes que condensan ideas, símbolos o mensajes territoriales, pensadas para circular de manera responsable en espacios cotidianos.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">41. Gráfica Textil Básica: Estampar el Cuerpo</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller de introducción a la gráfica textil mediante técnicas manuales de impresión sobre tela. A través del estampado básico, el taller permite explorar el textil como soporte gráfico, promoviendo la creación de piezas vestibles con sentido identitario y comunitario.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+                <div class="card" style="margin-bottom:15px;">
+                    <h3 class="card-subtitle" style="font-size:1.05rem; color:#663A93;">42. Fotografía Intervenida: La Imagen Alterada</h3>
+                    <p style="font-size:0.88rem; color:#555; line-height:1.6;">Taller de intervención manual de fotografías mediante dibujo, escritura, costura, tejido o collage. La propuesta invita a reconfigurar imágenes propias o del territorio, combinando fotografía y gráfica para generar nuevas narrativas visuales y afectivas.</p>
+                    <table style="width:100%; font-size:0.85rem; margin-top:10px;">
+                        <tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Línea</td><td style="padding:6px 10px; color:#555;">Artes Plásticas</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; width:120px; vertical-align:top;">Implementa</td><td style="padding:6px 10px; color:#555;">Gestor/a Arte Urbano y Gráfica de Estrategia Móvil</td></tr><tr><td style="padding:6px 10px; font-weight:600; color:#663A93; vertical-align:top;">Dirigido a</td><td style="padding:6px 10px; color:#555;">Jóvenes de 14 a 28 años y comunidad en general que participen de los procesos territoriales de la Estrategia Móvil</td></tr>
+                    </table>
+                </div>
+            </div></div>
+
+            <div class="content-section" id="datos_sirbe" style="display:none;"><div class="card">
+                <h2 class="card-title">Datos SIRBE 2025</h2>
+                <p style="color:#666; margin-bottom:15px;">Desglose jerárquico de los 5.211 registros (atenciones) del eje. 5.020 personas únicas.</p>
+
+                <h3 class="card-subtitle">Por modalidad (NOMMODALIDAD)</h3>
+                <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:20px;">
+                    <thead><tr style="background:#f5f0fa;">
+                        <th style="padding:10px; text-align:left; color:#663A93;">Modalidad</th>
+                        <th style="padding:10px; text-align:right; color:#663A93;">Atenciones</th>
+                        <th style="padding:10px; text-align:right; color:#663A93;">%</th>
+                    </tr></thead><tbody>
+                        <tr><td style="padding:8px 10px; border-bottom:1px solid #eee;">2632 ESTRATEGIA MÓVIL BMT 2938</td><td style="padding:8px 10px; border-bottom:1px solid #eee; text-align:right;">3.593</td><td style="padding:8px 10px; border-bottom:1px solid #eee; text-align:right;">69,0%</td></tr>
+                        <tr><td style="padding:8px 10px; border-bottom:1px solid #eee;">2631 ATENCIÓN INCLUSIVA PARA JÓVENES BMT 2939</td><td style="padding:8px 10px; border-bottom:1px solid #eee; text-align:right;">1.618</td><td style="padding:8px 10px; border-bottom:1px solid #eee; text-align:right;">31,0%</td></tr>
+                    </tbody></table>
+
+                <h3 class="card-subtitle">Por actuación (ACTUACION_INTERV_CURSO)</h3>
+                <table style="width:100%; border-collapse:collapse; font-size:0.88rem; margin-bottom:20px;">
+                    <thead><tr style="background:#f5f0fa;">
+                        <th style="padding:10px; text-align:left; color:#663A93;">Actuación</th>
+                        <th style="padding:10px; text-align:right; color:#663A93;">Atenciones</th>
+                        <th style="padding:10px; text-align:right; color:#663A93;">%</th>
+                    </tr></thead><tbody>
+                        <tr><td style="padding:8px 10px; border-bottom:1px solid #eee;">1003 MANEJO ADECUADO DE TIEMPO LIBRE</td><td style="padding:8px 10px; border-bottom:1px solid #eee; text-align:right;">5.211</td><td style="padding:8px 10px; border-bottom:1px solid #eee; text-align:right;">100,0%</td></tr>
+                    </tbody></table>
+
+                <h3 class="card-subtitle">Por actividad oficial (NOMACTIVIDAD_CURSO) con detalle de cursos (NOMBRE_CURSO)</h3>
+                <p style="color:#666; font-size:0.85rem; margin-bottom:10px;">Haz clic en cada actividad para ver los cursos registrados.</p>
+
+                <div style="margin-bottom:8px; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden;">
+                    <div onclick="var el=document.getElementById('cursos_CULT_1207_APROVECHAMIENTO'); el.style.display=el.style.display==='none'?'block':'none'; this.querySelector('.arrow-curso').textContent=el.style.display==='none'?'▶':'▼';" style="padding:12px 15px; background:#f9f7fc; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div><strong style="color:#3A3A3A;">1207 APROVECHAMIENTO DEL TIEMPO LIBRE CON ÉNFASIS EN INTERESES JUVENILES</strong></div>
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <span style="color:#663A93; font-weight:600;">2.381 (45,7%)</span>
+                            <span class="arrow-curso" style="color:#663A93;">&#9654;</span>
+                        </div>
+                    </div>
+                    <div id="cursos_CULT_1207_APROVECHAMIENTO" style="display:none; padding:0 15px 10px;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                            <thead><tr style="background:#f5f0fa;">
+                                <th style="padding:8px 10px; text-align:left; color:#663A93;">Nombre curso</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">Atenciones</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">%</th>
+                            </tr></thead><tbody>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios para desarrollo de prácticas artísticas</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1.734</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">72,8%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Clases artísticas y culturales</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">113</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">4,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Aprovechamiento del tiempo libre</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">73</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - taller de guitarra</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">73</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - política pública de juventud</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">36</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - sala de ensayo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">33</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - semana de juventud</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">28</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - Casas de Juventud</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">24</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - estudio de grabación</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">22</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,9%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - tiempo libre ping pong</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">22</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,9%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes escénicas - danza</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">21</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,9%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - concurso reinado por valores</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,8%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - concierto rock Halloween</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,8%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - cine de colores</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,8%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - ensayos musicales</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">18</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,8%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Desarrollo de prácticas artísticas - jornada de belleza</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">18</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,8%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Aprovechaminetotiempo libre con interes juvenil practica art</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">16</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Voluntariado intergeneracional</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">15</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Halloween fest</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">13</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - teatro</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">12</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - prácticas libres</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">10</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Oferta IDARTES CREA</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">8</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Taller decoración Halloween</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">8</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes plásticas - serigrafía</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">8</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Aprovechamiento del tiempo libre - curso de inglés</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">8</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - prácticas juveniles</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">8</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                <div style="margin-bottom:8px; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden;">
+                    <div onclick="var el=document.getElementById('cursos_CULT_1489_FORMACIÓN_ARTÍS'); el.style.display=el.style.display==='none'?'block':'none'; this.querySelector('.arrow-curso').textContent=el.style.display==='none'?'▶':'▼';" style="padding:12px 15px; background:#f9f7fc; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div><strong style="color:#3A3A3A;">1489 FORMACIÓN ARTÍSTICA FOCALIZADA</strong></div>
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <span style="color:#663A93; font-weight:600;">2.105 (40,4%)</span>
+                            <span class="arrow-curso" style="color:#663A93;">&#9654;</span>
+                        </div>
+                    </div>
+                    <div id="cursos_CULT_1489_FORMACIÓN_ARTÍS" style="display:none; padding:0 15px 10px;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                            <thead><tr style="background:#f5f0fa;">
+                                <th style="padding:8px 10px; text-align:left; color:#663A93;">Nombre curso</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">Atenciones</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">%</th>
+                            </tr></thead><tbody>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Gestión cultural</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">428</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Estrategia móvil - taller de artes plásticas</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">140</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">6,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">123</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">5,8%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes escénicas</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">92</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">4,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Estrategia móvil - artes plásticas - muralismo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">88</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">4,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Estrategia móvil - artes plásticas - fanzine</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">76</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">74</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes urbanas - taller de graffiti</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">66</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes plásticas</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">59</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">2,8%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - formación artística focalizada</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">55</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">2,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes circenses</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">47</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">2,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Taller de artes plásticas</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">44</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">2,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes urbanas - taller voces del barrio</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">42</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">2,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Medio ambiente</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">42</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">2,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - taller de batería</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">32</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes plásticas - muralismo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">29</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - ultimate frisbee</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">28</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - boxeo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">28</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - safari fotográfico</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">27</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes urbanas - ciclo formativo graffiti</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">25</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - taller de fotografía</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">25</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - defensa personal</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">25</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes escénicas - danza contacto</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">25</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Taller de artes musicales</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">24</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Aprovechamiento del tiempo libre</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">24</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - taller de cine con celular</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">23</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes urbanas - taller graffiti día mundial del refugiado</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - escuela de rock</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes circenses - capoeira</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes plásticas - actividad artística</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - taller hackbox</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">1,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - cine club pantalla alterna</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">18</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,9%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - ciclo creación audiovisual</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">15</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes plásticas - vitrales</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">15</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes urbanas</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">15</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes urbanas - semillero de graffiti</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">14</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes circenses - circulando el circo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">14</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Taller de deportes</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">13</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - cine de colores</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">13</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - semillero de música</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">13</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - feria nocturna de servicios</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">13</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - formación deportiva</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">12</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes escénicas - teatro</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">12</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Lab camp arte y tecnología</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">12</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - taller de piano</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">11</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">11</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Encuentro deportivo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">11</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Gestión cultural - cuidados del cuerpo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">10</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - taller de guitarra</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">10</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - festival de cine interbarrial</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">10</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - sala de ensayo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">9</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Incidencia, participación y liderazgo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">9</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes circenses - taller de malabarismo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">8</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes plásticas - taller de arcilla</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">7</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - stop motion</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">7</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes escénicas - danza</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">7</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - microfútbol</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">6</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Audio lab</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">6</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes plásticas - fanzine</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">5</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - estudio de grabación</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">5</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes musicales - taller de técnica vocal</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">0,1%</td></tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                <div style="margin-bottom:8px; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden;">
+                    <div onclick="var el=document.getElementById('cursos_CULT_1491_SEMANA_DE_LA_JU'); el.style.display=el.style.display==='none'?'block':'none'; this.querySelector('.arrow-curso').textContent=el.style.display==='none'?'▶':'▼';" style="padding:12px 15px; background:#f9f7fc; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div><strong style="color:#3A3A3A;">1491 SEMANA DE LA JUVENTUD</strong></div>
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <span style="color:#663A93; font-weight:600;">393 (7,5%)</span>
+                            <span class="arrow-curso" style="color:#663A93;">&#9654;</span>
+                        </div>
+                    </div>
+                    <div id="cursos_CULT_1491_SEMANA_DE_LA_JU" style="display:none; padding:0 15px 10px;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                            <thead><tr style="background:#f5f0fa;">
+                                <th style="padding:8px 10px; text-align:left; color:#663A93;">Nombre curso</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">Atenciones</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">%</th>
+                            </tr></thead><tbody>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Semana de juventud</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">274</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">69,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Semana de juventud - feria de empleabilidad</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">40</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">10,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Estrategia móvil - semana de juventud rural</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">29</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">7,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Semana local de juventud</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">24</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">6,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - exhibición de skate</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">14</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Deportes - actividad lúdico deportiva scout Meraki</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">12</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,1%</td></tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                <div style="margin-bottom:8px; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden;">
+                    <div onclick="var el=document.getElementById('cursos_CULT_1490_ESPACIOS_PARA_E'); el.style.display=el.style.display==='none'?'block':'none'; this.querySelector('.arrow-curso').textContent=el.style.display==='none'?'▶':'▼';" style="padding:12px 15px; background:#f9f7fc; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div><strong style="color:#3A3A3A;">1490 ESPACIOS PARA EL DESARROLLO Y FORMACIÓN DE ACTIVIDADES ARTÍSTICAS, CULTURALES Y CON SALDO PEDAG</strong></div>
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <span style="color:#663A93; font-weight:600;">322 (6,2%)</span>
+                            <span class="arrow-curso" style="color:#663A93;">&#9654;</span>
+                        </div>
+                    </div>
+                    <div id="cursos_CULT_1490_ESPACIOS_PARA_E" style="display:none; padding:0 15px 10px;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                            <thead><tr style="background:#f5f0fa;">
+                                <th style="padding:8px 10px; text-align:left; color:#663A93;">Nombre curso</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">Atenciones</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">%</th>
+                            </tr></thead><tbody>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios para desarrollo de prácticas artísticas</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">181</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">56,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Manejo adecuado del tiempo libre - oferta institucional</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">21</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">6,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Incidencia, participación y liderazgo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">20</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">6,2%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">18</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">5,6%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Clases artísticas y culturales</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">17</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">5,3%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Socialización de política pública de juventud</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">16</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">5,0%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes urbanas</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">12</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,7%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes circenses - taller de malabarismo</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">11</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,4%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Uso de espacios - prácticas libres</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">10</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">3,1%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Artes audiovisuales - cine comunitario</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">8</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">2,5%</td></tr>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Oferta cultural y recreativa</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">8</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">2,5%</td></tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                <div style="margin-bottom:8px; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden;">
+                    <div onclick="var el=document.getElementById('cursos_CULT_1488_CENTROS_DE_AUDI'); el.style.display=el.style.display==='none'?'block':'none'; this.querySelector('.arrow-curso').textContent=el.style.display==='none'?'▶':'▼';" style="padding:12px 15px; background:#f9f7fc; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+                        <div><strong style="color:#3A3A3A;">1488 CENTROS DE AUDIO Y GRABACIÓN</strong></div>
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <span style="color:#663A93; font-weight:600;">10 (0,2%)</span>
+                            <span class="arrow-curso" style="color:#663A93;">&#9654;</span>
+                        </div>
+                    </div>
+                    <div id="cursos_CULT_1488_CENTROS_DE_AUDI" style="display:none; padding:0 15px 10px;">
+                        <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                            <thead><tr style="background:#f5f0fa;">
+                                <th style="padding:8px 10px; text-align:left; color:#663A93;">Nombre curso</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">Atenciones</th>
+                                <th style="padding:8px 10px; text-align:right; color:#663A93;">%</th>
+                            </tr></thead><tbody>
+                                <tr><td style="padding:6px 10px; border-bottom:1px solid #eee;">Derechos sexuales y reproductivos</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">10</td><td style="padding:6px 10px; border-bottom:1px solid #eee; text-align:right;">100,0%</td></tr>
+                            </tbody></table>
+                    </div>
+                </div>
+                </div></div>
+
+            <div class="content-section" id="alianzas" style="display:none;"><div class="card">
+                <h2 class="card-title">Alianzas</h2>
+                <p style="color:#666; margin-bottom:20px;">Articulaciones identificadas para el eje de Cultura.</p>
+
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Academias de Belleza</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Colectivo arte urbano</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Colectivo Canaguaro</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Colectivo Nocaut con Propósito</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Colegios / IED</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">CREA (Centro de Formación Artística)</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">FUNCRECER</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Fundación SUMAS</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Grupo Scout Meraki</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">IDRD (Instituto Distrital de Recreación y Deporte)</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Organización danza folclórica</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Organización PULSO HYNTIBA</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Organización Súbate al Breakdance</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Secretaría de Seguridad y Convivencia</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:10px; padding:15px 20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#3A3A3A;">Voluntarios</strong>
+                        </div>
+                    </div>
+                </div>
+            </div></div>
+        </main>
+    </div>
+
+    <script>
+        // === NAVEGACION ===
+        function showContent(id) {
+            document.querySelectorAll('.content-section').forEach(function(s) { s.classList.remove('active'); s.style.display = 'none'; });
+            var el = document.getElementById(id);
+            if (el) { el.classList.add('active'); el.style.display = 'block'; }
+            document.querySelectorAll('.sidebar-item').forEach(function(item) {
+                item.classList.remove('active');
+                if (item.getAttribute('onclick') && item.getAttribute('onclick').indexOf("'" + id + "'") !== -1) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function toggleSection(el) {
+            el.classList.toggle('active');
+            var items = el.nextElementSibling;
+            if (items) items.classList.toggle('show');
+        }
+
+    </script>
+</body>
+</html>

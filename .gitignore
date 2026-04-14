@@ -8,3 +8,6 @@ Notes/
 validacion_*.html
 __pycache__/
 .ipynb_checkpoints/
+*.bak
+.DS_Store
+Thumbs.db
