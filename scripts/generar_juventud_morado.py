@@ -1385,8 +1385,8 @@ html = f"""<!DOCTYPE html>
 </body>
 </html>"""
 
-# Guardar
-salida = os.path.join(BASE, "gestion_conocimiento_juventud_2025.html")
+# Guardar (versión morada alternativa)
+salida = os.path.join(BASE, "gestion_conocimiento_juventud_2025_morado.html")
 with open(salida, "w", encoding="utf-8") as f:
     f.write(html)
 

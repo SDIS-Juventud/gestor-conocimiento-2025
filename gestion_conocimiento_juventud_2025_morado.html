@@ -15,7 +15,9 @@
         .sidebar { width: 280px; background: #fff; border-right: 1px solid #e0e0e0; padding: 20px 0; overflow-y: auto; }
         .sidebar-section { margin-bottom: 10px; }
         .sidebar-title { padding: 12px 20px; font-weight: 600; color: #663A93; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-        .sidebar-title:hover { background: #f5f0fa; } .sidebar-title .arrow { transition: transform 0.2s; } .sidebar-title.active .arrow { transform: rotate(90deg); }
+        .sidebar-title:hover { background: #f5f0fa; }
+        .sidebar-title .arrow { display: inline-block; width: 8px; height: 8px; border-top: 2px solid #663A93; border-right: 2px solid #663A93; transform: rotate(45deg); font-size: 0; color: transparent; transition: transform 0.25s ease; margin-right: 4px; }
+        .sidebar-title.active .arrow { transform: rotate(135deg); margin-top: -4px; }
         .sidebar-items { display: none; padding-left: 20px; } .sidebar-items.show { display: block; }
         .sidebar-item { padding: 10px 20px; cursor: pointer; font-size: 0.9rem; color: #3A3A3A; transition: all 0.2s; }
         .sidebar-item:hover { background: #f5f0fa; }
