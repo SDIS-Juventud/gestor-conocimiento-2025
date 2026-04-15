@@ -35,8 +35,8 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 .sidebar-section { margin-bottom: 10px; }
 .sidebar-title { padding: 12px 20px; font-weight: 600; color: var(--accent); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
 .sidebar-title:hover { background: var(--accent-bg); }
-.sidebar-title .arrow { transition: transform 0.2s; }
-.sidebar-title.active .arrow { transform: rotate(90deg); }
+.sidebar-title .arrow { display: inline-block; width: 8px; height: 8px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); transform: rotate(45deg); font-size: 0; color: transparent; transition: transform 0.25s ease; margin-right: 4px; }
+.sidebar-title.active .arrow { transform: rotate(135deg); margin-top: -4px; }
 .sidebar-items { display: none; padding-left: 20px; }
 .sidebar-items.show { display: block; }
 .sidebar-item { padding: 10px 20px; cursor: pointer; font-size: 0.9rem; color: #3A3A3A; transition: all 0.2s; }
