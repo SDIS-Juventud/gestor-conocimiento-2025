@@ -1,4 +1,6 @@
 Notes/
+archivo/
+scripts/
 *.xlsx
 !datos/equipo_casas_juventud.xlsx
 !datos/directorio_casas_juventud.xlsx
