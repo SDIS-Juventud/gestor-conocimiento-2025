@@ -118,53 +118,60 @@ def generar_pagina_servicio(titulo, subtitulo, sidebar_html, contenido_html, arc
 # 1. INDEX.HTML — Home de todos los servicios
 # =====================================================================
 def generar_index():
+    # Cada servicio tiene:
+    #   nombre        → texto que aparece en el recuadro urbano (Anton uppercase vía CSS)
+    #   alt           → texto alternativo del logo (para accesibilidad)
+    #   box_extra     → clase extra del recuadro (ej. "is-long" para nombres largos que no quepan centrados)
     servicios = [
         {
             "nombre": "Casas de Juventud",
+            "alt": "Casas de Juventud",
             "archivo": "gestion_conocimiento_juventud_2025.html",
             "imagen": "imagenes/servicios/casas-de-juventud.png",
             "desc": "Espacios distritales para j&oacute;venes entre 14 y 28 a&ntilde;os. Oferta integral a trav&eacute;s de 5 ejes: bienestar, cultura, inclusi&oacute;n, liderazgo y SIDICU.",
-            "badge": "active",
+            "box_extra": "",
         },
         {
-            "nombre": "J&oacute;venes con Oportunidades",
+            "nombre": "J&oacute;venes con oportunidades",
+            "alt": "J&oacute;venes con oportunidades",
             "archivo": "gestion_conocimiento_jco_2025.html",
             "imagen": "imagenes/servicios/jovenes-con-oportunidades.png",
             "desc": "Formaci&oacute;n, apoyo psicosocial, transferencias monetarias condicionadas y acompa&ntilde;amiento laboral para j&oacute;venes de 14 a 28 a&ntilde;os en condici&oacute;n de vulnerabilidad.",
-            "badge": "soon",
+            "box_extra": "is-long",
         },
         {
-            "nombre": "Servicio Forjar Restaurativo",
+            "nombre": "Forjar",
+            "alt": "Servicio Forjar Restaurativo",
             "archivo": "gestion_conocimiento_forjar_2025.html",
             "imagen": "imagenes/servicios/forjar.png",
             "desc": "Servicio restaurativo de atenci&oacute;n integral a adolescentes y j&oacute;venes vinculados al SRPA, con enfoque en sanciones no privativas de libertad y acompa&ntilde;amiento sociofamiliar.",
-            "badge": "soon",
+            "box_extra": "",
         },
         {
             "nombre": "Parche seguro",
+            "alt": "Parche seguro",
             "archivo": "gestion_conocimiento_alertas_2025.html",
             "imagen": "imagenes/servicios/alertas.png",
             "desc": "Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven.",
-            "badge": "soon",
+            "box_extra": "",
         },
     ]
 
     # Colores de acento por servicio (borde hover)
-    # Azul rey, lila, azul claro (forjar), naranja (Parche seguro)
+    # Azul rey, lila, verde-menta (forjar), naranja (Parche seguro)
     colores = ["#1a237e", "#663A93", "#80cbc4", "#e67e22"]
 
     tarjetas = ""
     for i, s in enumerate(servicios):
-        badge_class = "badge-active" if s["badge"] == "active" else "badge-soon"
-        badge_text = "Estado: por completar" if s["badge"] == "active" else "Estado: inicial"
         color = colores[i]
+        box_class = "service-name-box" + (f" {s['box_extra']}" if s['box_extra'] else "")
         tarjetas += f"""
             <a class="service-card" href="{s['archivo']}" style="--accent:{color};">
-                <div class="service-logo">
-                    <img src="{s['imagen']}" alt="{s['nombre']}">
-                </div>
+                <div class="{box_class}">{s['nombre']}</div>
                 <div class="service-desc">{s['desc']}</div>
-                <span class="{badge_class}">{badge_text}</span>
+                <div class="service-logo">
+                    <img src="{s['imagen']}" alt="{s['alt']}">
+                </div>
             </a>
 """
 
@@ -175,7 +182,7 @@ def generar_index():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de conocimiento - Subdirecci&oacute;n para la Juventud</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;500;600;700;800&display=swap');
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
         body {{
             font-family: 'Figtree', 'Segoe UI', sans-serif;
@@ -196,17 +203,15 @@ def generar_index():
 
         /* Contenido */
         .main {{ max-width: 1100px; margin: 0 auto; padding: 60px 30px 60px; }}
-        .intro {{ text-align: center; max-width: 700px; margin: 0 auto 55px; }}
-        .intro h2 {{ font-size: 1.9rem; color: #2F3E3C; margin-bottom: 14px; font-weight: 800; }}
-        .intro p {{ font-size: 1rem; line-height: 1.7; color: #666; }}
 
         /* Grid */
         .services-grid {{
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
+            gap: 72px 28px;
             max-width: 880px;
             margin: 0 auto;
+            padding: 40px 0 40px;
         }}
 
         /* Tarjetas */
@@ -216,7 +221,7 @@ def generar_index():
             -webkit-backdrop-filter: blur(12px);
             border-radius: 20px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-            padding: 36px 28px 30px;
+            padding: 32px 26px 22px;
             text-align: center;
             text-decoration: none;
             color: inherit;
@@ -230,32 +235,47 @@ def generar_index():
             border-color: var(--accent, #663A93);
         }}
 
-        /* Logo */
+        /* Recuadro de nombre del servicio — estilo urbano, sobresale por encima de la tarjeta */
+        .service-name-box {{
+            font-family: 'Anton', 'Figtree', sans-serif;
+            font-weight: 400;
+            font-size: 1.75rem;
+            line-height: 1.05;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: #2d2a28;
+            color: #f4f5de;
+            padding: 14px 20px 11px;
+            margin: -54px auto 26px;
+            display: block;
+            width: fit-content;
+            max-width: calc(100% + 40px);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }}
+        .service-card:hover .service-name-box {{
+            transform: scale(1.03);
+        }}
+        /* Variante para nombres largos: una línea aunque el recuadro sobresalga del card */
+        .service-name-box.is-long {{ white-space: nowrap; max-width: none; }}
+
+        /* Logo — sobresale por debajo del borde inferior de la tarjeta */
         .service-logo {{
             height: 52px;
-            margin: 0 auto 22px;
+            margin: 18px auto -30px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: transform 0.3s;
+            position: relative;
+            z-index: 2;
         }}
-        .service-logo img {{ height: 100%; border-radius: 30px; object-fit: contain; }}
+        .service-logo img {{ height: 100%; object-fit: contain; }}
         .service-card:hover .service-logo {{ transform: scale(1.08); }}
 
-        .service-title {{ font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }}
-        .service-desc {{ font-size: 0.88rem; color: #888; line-height: 1.65; }}
-
-        /* Badges */
-        .badge-soon {{
-            display: inline-block; margin-top: 14px; padding: 5px 16px;
-            border-radius: 20px; font-size: 0.72rem; font-weight: 600;
-            background: #e8760a; color: #ffffff;
-        }}
-        .badge-active {{
-            display: inline-block; margin-top: 14px; padding: 5px 16px;
-            border-radius: 20px; font-size: 0.72rem; font-weight: 600;
-            background: #2e7d52; color: #ffffff;
-        }}
+        .service-desc {{ font-size: 0.88rem; color: #666; line-height: 1.65; }}
 
         /* Bot&oacute;n de ayuda */
         .help-btn {{
@@ -291,9 +311,14 @@ def generar_index():
         .modal-close:hover {{ opacity: 1; }}
 
         @media (max-width: 700px) {{
-            .services-grid {{ grid-template-columns: 1fr; gap: 20px; }}
+            .services-grid {{ grid-template-columns: 1fr; gap: 64px; padding: 30px 0 30px; }}
             .main {{ padding: 35px 20px 40px; }}
-            .intro h2 {{ font-size: 1.4rem; }}
+            .service-name-box {{
+                font-size: 1.55rem;
+                padding: 12px 16px 9px;
+                margin: -44px auto 22px;
+            }}
+            .service-logo {{ height: 46px; }}
         }}
     </style>
 </head>
@@ -302,9 +327,6 @@ def generar_index():
         <img src="imagenes/Header - gestor.jpeg" alt="Gestor de conocimiento - SDIS Juventud">
     </div>
     <main class="main">
-        <div class="intro">
-            <p>Documentaci&oacute;n de procesos, datos y gesti&oacute;n del conocimiento de cada servicio de la Subdirecci&oacute;n para la Juventud.</p>
-        </div>
         <div class="services-grid">
 {tarjetas}
         </div>

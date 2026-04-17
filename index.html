@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de conocimiento - Subdirecci&oacute;n para la Juventud</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Figtree', 'Segoe UI', sans-serif;
@@ -34,9 +34,10 @@
         .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 28px;
+            gap: 72px 28px;
             max-width: 880px;
             margin: 0 auto;
+            padding: 40px 0 40px;
         }
 
         /* Tarjetas */
@@ -46,7 +47,7 @@
             -webkit-backdrop-filter: blur(12px);
             border-radius: 20px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-            padding: 36px 28px 30px;
+            padding: 32px 26px 22px;
             text-align: center;
             text-decoration: none;
             color: inherit;
@@ -60,20 +61,47 @@
             border-color: var(--accent, #663A93);
         }
 
-        /* Logo */
+        /* Recuadro de nombre — estilo urbano, desalineado a la izquierda */
+        .service-name-box {
+            font-family: 'Anton', 'Figtree', sans-serif;
+            font-weight: 400;
+            font-size: 1.75rem;
+            line-height: 1.05;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: #2d2a28;
+            color: #f4f5de;
+            padding: 14px 20px 11px;
+            margin: -54px auto 26px;
+            display: block;
+            width: fit-content;
+            max-width: calc(100% + 40px);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+        .service-card:hover .service-name-box {
+            transform: scale(1.03);
+        }
+        /* Variante para nombres largos: una sola línea sin importar el ancho del card */
+        .service-name-box.is-long { white-space: nowrap; max-width: none; }
+
+        /* Logo — sobresale del borde inferior de la tarjeta */
         .service-logo {
             height: 52px;
-            margin: 0 auto 22px;
+            margin: 18px auto -30px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: transform 0.3s;
+            position: relative;
+            z-index: 2;
         }
         .service-logo img { height: 100%; object-fit: contain; }
         .service-card:hover .service-logo { transform: scale(1.08); }
 
-        .service-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
-        .service-desc { font-size: 0.88rem; color: #888; line-height: 1.65; }
+        .service-desc { font-size: 0.88rem; color: #666; line-height: 1.65; }
 
         /* Badges */
         .badge-soon {
@@ -121,9 +149,15 @@
         .modal-close:hover { opacity: 1; }
 
         @media (max-width: 700px) {
-            .services-grid { grid-template-columns: 1fr; gap: 20px; }
+            .services-grid { grid-template-columns: 1fr; gap: 64px; padding: 30px 0 30px; }
             .main { padding: 35px 20px 40px; }
             .intro h2 { font-size: 1.4rem; }
+            .service-name-box {
+                font-size: 1.55rem;
+                padding: 12px 16px 9px;
+                margin: -44px auto 22px;
+            }
+            .service-logo { height: 46px; }
         }
     </style>
 </head>
@@ -132,41 +166,38 @@
         <img src="imagenes/Header - gestor.jpeg" alt="Gestor de conocimiento - SDIS Juventud">
     </div>
     <main class="main">
-        <div class="intro">
-            <p>Documentaci&oacute;n de procesos, datos y gesti&oacute;n del conocimiento de cada servicio de la Subdirecci&oacute;n para la Juventud.</p>
-        </div>
         <div class="services-grid">
 
             <a class="service-card" href="gestion_conocimiento_juventud_2025.html" style="--accent:#1a237e;">
+                <div class="service-name-box">Casas de Juventud</div>
+                <div class="service-desc">Espacios distritales para j&oacute;venes entre 14 y 28 a&ntilde;os. Oferta integral a trav&eacute;s de 5 ejes: bienestar, cultura, inclusi&oacute;n, liderazgo y SIDICU.</div>
                 <div class="service-logo">
                     <img src="imagenes/servicios/casas-de-juventud.png" alt="Casas de Juventud">
                 </div>
-                <div class="service-desc">Espacios distritales para j&oacute;venes entre 14 y 28 a&ntilde;os. Oferta integral a trav&eacute;s de 5 ejes: bienestar, cultura, inclusi&oacute;n, liderazgo y SIDICU.</div>
-                <span class="badge-active">Estado: por completar</span>
             </a>
 
             <a class="service-card" href="gestion_conocimiento_jco_2025.html" style="--accent:#663A93;">
-                <div class="service-logo">
-                    <img src="imagenes/servicios/jovenes-con-oportunidades.png" alt="J&oacute;venes con Oportunidades">
-                </div>
+                <div class="service-name-box is-long">J&oacute;venes con oportunidades</div>
                 <div class="service-desc">Formaci&oacute;n, apoyo psicosocial, transferencias monetarias condicionadas y acompa&ntilde;amiento laboral para j&oacute;venes de 14 a 28 a&ntilde;os en condici&oacute;n de vulnerabilidad.</div>
-                <span class="badge-soon">Estado: inicial</span>
+                <div class="service-logo">
+                    <img src="imagenes/servicios/jovenes-con-oportunidades.png" alt="J&oacute;venes con oportunidades">
+                </div>
             </a>
 
             <a class="service-card" href="gestion_conocimiento_forjar_2025.html" style="--accent:#80cbc4;">
+                <div class="service-name-box">Forjar</div>
+                <div class="service-desc">Servicio restaurativo de atenci&oacute;n integral a adolescentes y j&oacute;venes vinculados al SRPA, con enfoque en sanciones no privativas de libertad y acompa&ntilde;amiento sociofamiliar.</div>
                 <div class="service-logo">
                     <img src="imagenes/servicios/forjar.png" alt="Servicio Forjar Restaurativo">
                 </div>
-                <div class="service-desc">Servicio restaurativo de atenci&oacute;n integral a adolescentes y j&oacute;venes vinculados al SRPA, con enfoque en sanciones no privativas de libertad y acompa&ntilde;amiento sociofamiliar.</div>
-                <span class="badge-soon">Estado: inicial</span>
             </a>
 
             <a class="service-card" href="gestion_conocimiento_alertas_2025.html" style="--accent:#e67e22;">
+                <div class="service-name-box">Parche seguro</div>
+                <div class="service-desc">Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven.</div>
                 <div class="service-logo">
                     <img src="imagenes/servicios/alertas.png" alt="Parche seguro">
                 </div>
-                <div class="service-desc">Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven.</div>
-                <span class="badge-soon">Estado: inicial</span>
             </a>
 
         </div>
