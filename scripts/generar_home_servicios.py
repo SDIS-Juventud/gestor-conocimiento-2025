@@ -50,7 +50,7 @@ function showContent(id) {
 COLORES_SERVICIO = {
     "jco":     ("#8e6bbf", "#f3eef9", "#e5ddf0"),      # morado atenuado
     "forjar":  ("#5f9ea0", "#edf6f6", "#d4eaeb"),      # teal (azul-verde Forjar)
-    "alertas": ("#c2185b", "#fdf0f5", "#f5d2e0"),      # fucsia
+    "alertas": ("#e67e22", "#fdf2e9", "#f5d9b5"),      # naranja (Parche seguro)
 }
 
 def generar_pagina_servicio(titulo, subtitulo, sidebar_html, contenido_html, archivo, logo_img="", color_key=""):
@@ -141,7 +141,7 @@ def generar_index():
             "badge": "soon",
         },
         {
-            "nombre": "Alertas",
+            "nombre": "Parche seguro",
             "archivo": "gestion_conocimiento_alertas_2025.html",
             "imagen": "imagenes/servicios/alertas.png",
             "desc": "Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven.",
@@ -150,8 +150,8 @@ def generar_index():
     ]
 
     # Colores de acento por servicio (borde hover)
-    # Azul rey, lila, azul claro (forjar), rojo claro (alertas)
-    colores = ["#1a237e", "#663A93", "#80cbc4", "#e57373"]
+    # Azul rey, lila, azul claro (forjar), naranja (Parche seguro)
+    colores = ["#1a237e", "#663A93", "#80cbc4", "#e67e22"]
 
     tarjetas = ""
     for i, s in enumerate(servicios):
@@ -885,7 +885,7 @@ def generar_alertas():
     contenido = f"""
             <div class="content-section active" id="welcome">
                 <div class="welcome-section">
-                    <h2>Estrategia de Alertas</h2>
+                    <h2>Parche seguro</h2>
                     <p>Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven. A partir del triage psicosocial, el equipo identifica situaciones de riesgo y activa los protocolos de atenci&oacute;n correspondientes.</p>
                 </div>
             </div>
@@ -915,7 +915,7 @@ def generar_alertas():
             </div>"""
 
     generar_pagina_servicio(
-        titulo="Alertas",
+        titulo="Parche seguro",
         subtitulo="Subdirecci&oacute;n para la Juventud | SDIS",
         sidebar_html=sidebar,
         contenido_html=contenido,

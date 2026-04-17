@@ -16,8 +16,8 @@ from _comun.estilos import css_para
 # ─── Configuración ───────────────────────────────────────────────────────────
 
 NOMBRE_ARCHIVO = "gestion_conocimiento_alertas_2025.html"
-TITULO_PAGINA = "Gestor de conocimiento - Alertas"
-TITULO_HEADER = "Gestor de conocimiento - Alertas"
+TITULO_PAGINA = "Gestor de conocimiento - Parche seguro"
+TITULO_HEADER = "Gestor de conocimiento - Parche seguro"
 SUBTITULO_HEADER = "Subdirecci&oacute;n para la Juventud | SDIS"
 
 # ─── CSS ─────────────────────────────────────────────────────────────────────
@@ -36,8 +36,8 @@ HEADER_HTML = f"""\
             <a class="home-btn" href="index.html" title="Todos los servicios">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F8F4E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             </a>
-            <div class="home-btn" onclick="showContent('welcome')" title="Inicio Alertas">
-                <img src="imagenes/servicios/alertas.png" alt="Alertas" style="height:32px; border-radius:16px; object-fit:contain; vertical-align:middle;">
+            <div class="home-btn" onclick="showContent('welcome')" title="Inicio Parche seguro">
+                <img src="imagenes/servicios/alertas.png" alt="Parche seguro" style="height:32px; border-radius:16px; object-fit:contain; vertical-align:middle;">
             </div>
         </div>
     </header>"""
@@ -88,7 +88,7 @@ SIDEBAR_HTML = f"""\
 SECCION_WELCOME = """\
             <div class="content-section active" id="welcome">
                 <div class="welcome-section">
-                    <h2>Estrategia de Alertas</h2>
+                    <h2>Parche seguro</h2>
                     <p>Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven. A partir del triage psicosocial, el equipo identifica situaciones de riesgo y activa los protocolos de atenci&oacute;n correspondientes.</p>
                 </div>
             </div>"""

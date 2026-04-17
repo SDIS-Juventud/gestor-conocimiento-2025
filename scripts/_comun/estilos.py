@@ -10,7 +10,7 @@ Uso:
     from _comun.estilos import construir_css
 
     CSS_BASE = construir_css(accent="#8e6bbf")  # JCO
-    CSS_BASE = construir_css(accent="#da686d", accent_bg="#fdf0f2", accent_border="#f5d2d4")  # Alertas
+    CSS_BASE = construir_css(accent="#e67e22", accent_bg="#fdf2e9", accent_border="#f5d9b5")  # Parche seguro
 
 Para agregar reglas específicas de un servicio (como las barras horizontales
 de Casas de Juventud), pasar el CSS adicional en el parámetro `extras`, que
@@ -94,9 +94,9 @@ COLORES = {
         "accent_border": "#e5ddf0",
     },
     "alertas": {
-        "accent": "#da686d",
-        "accent_bg": "#fdf0f2",
-        "accent_border": "#f5d2d4",
+        "accent": "#e67e22",
+        "accent_bg": "#fdf2e9",
+        "accent_border": "#f5d9b5",
     },
     "home": {
         "accent": "#663A93",
