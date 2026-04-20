@@ -88,7 +88,7 @@ SIDEBAR_HTML = f"""\
 SECCION_WELCOME = """\
             <div class="content-section active" id="welcome">
                 <div class="welcome-section">
-                    <h2>Parche seguro</h2>
+                    <div style="font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:1.9rem; line-height:1.05; letter-spacing:1px; text-transform:uppercase; background:#2d2a28; color:#f4f5de; padding:14px 24px 11px; margin:0 auto 28px; display:block; width:fit-content; max-width:100%; text-align:center;">Parche seguro</div>
                     <p>Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven. A partir del triage psicosocial, el equipo identifica situaciones de riesgo y activa los protocolos de atenci&oacute;n correspondientes.</p>
                 </div>
             </div>"""
@@ -122,7 +122,7 @@ SECCION_PROTOCOLOS = """\
 SECCION_ESTADISTICAS = """\
             <div class="content-section" id="estadisticas">
                 <div class="card">
-                    <h2 class="card-title">Estad&iacute;sticas 2025</h2>
+                    <h2 class="card-title">Estad&iacute;sticas</h2>
                     <iframe title="Seguimiento t&eacute;cnico" width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMzRiNWRkMDQtNThmNC00Yzk5LThjNTItOWI4MzZkYzYwM2EzIiwidCI6ImIzZTMwODA4LWU5YTgtNGYyYS05YmMxLWE3NjBhZTkxMGNmNSIsImMiOjR9" frameborder="0" allowFullScreen="true" style="border:1px solid #e0e0e0; border-radius:8px;"></iframe>
                 </div>
             </div>"""

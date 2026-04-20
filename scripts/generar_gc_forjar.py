@@ -80,7 +80,7 @@ SIDEBAR = """\
 SECCION_WELCOME = """\
             <div class="content-section active" id="welcome">
                 <div class="welcome-section">
-                    <h2>Servicio Forjar Restaurativo</h2>
+                    <div style="font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:1.9rem; line-height:1.05; letter-spacing:1px; text-transform:uppercase; background:#2d2a28; color:#f4f5de; padding:14px 24px 11px; margin:0 auto 28px; display:block; width:fit-content; max-width:100%; text-align:center;">Servicio Forjar Restaurativo</div>
                     <p>Servicio de la Subdirecci&oacute;n para la Juventud dirigido a adolescentes y j&oacute;venes de 14 a 28 a&ntilde;os vinculados al Sistema de Responsabilidad Penal para Adolescentes (SRPA). Ofrece acompa&ntilde;amiento integral con enfoque restaurativo, priorizando sanciones no privativas de libertad y el acompa&ntilde;amiento en el medio sociofamiliar.</p>
                     <div style="margin:30px auto 0; max-width:450px;">
                         <img src="imagenes/Forjar.jpg" alt="Servicio Forjar Restaurativo" style="width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
@@ -133,7 +133,7 @@ SECCION_A_TENER_EN_CUENTA = """\
                     <p style="line-height:1.7;">El servicio se fundamenta en tres pilares: la responsabilizaci&oacute;n, la reparaci&oacute;n del da&ntilde;o y la inclusi&oacute;n social (reintegraci&oacute;n). Se distancia del modelo de justicia retributiva centrado en el castigo.</p>
 
                     <h3 class="card-subtitle">Atenci&oacute;n a j&oacute;venes mayores de edad</h3>
-                    <p style="line-height:1.7;">Aunque el SRPA atiende a quienes cometieron un delito siendo menores de 18 a&ntilde;os, Forjar atiende a j&oacute;venes hasta los 28 a&ntilde;os (11 meses y 29 d&iacute;as). Debido a los tiempos de los procesos judiciales, m&aacute;s de la mitad de la poblaci&oacute;n atendida actualmente es mayor de edad, lo que lleva al servicio a enfocarse en necesidades de juventud como empleabilidad y emprendimiento.</p>
+                    <p style="line-height:1.7;">El Servicio Forjar Restaurativo atiende a j&oacute;venes hasta los 28 a&ntilde;os (11 meses y 29 d&iacute;as) en dos l&iacute;neas: j&oacute;venes que cumplen sanciones por conductas punibles (SRPA, cuando el ingreso ocurri&oacute; antes de los 18 a&ntilde;os) y j&oacute;venes que requieren medidas de protecci&oacute;n y restablecimiento de derechos. Debido a los tiempos de los procesos judiciales, m&aacute;s de la mitad de la poblaci&oacute;n atendida es mayor de edad, por lo que el servicio enfoca su oferta en necesidades de juventud como empleabilidad y emprendimiento.</p>
 
                     <h3 class="card-subtitle">Cobertura distrital desde tres puntos estrat&eacute;gicos</h3>
                     <p style="line-height:1.7;">Aunque opera f&iacute;sicamente en tres unidades operativas (Suba, Ciudad Bol&iacute;var y Rafael Uribe Uribe), ubicadas en localidades con alta incidencia, Forjar atiende al 100% de la poblaci&oacute;n objetivo del Distrito Capital, recibiendo j&oacute;venes de cualquier localidad.</p>
@@ -371,7 +371,7 @@ POWERBI_SRC = "https://app.powerbi.com/view?r=eyJrIjoiMzRiNWRkMDQtNThmNC00Yzk5LT
 SECCION_ESTADISTICAS = f"""\
             <div class="content-section" id="estadisticas">
                 <div class="card">
-                    <h2 class="card-title">Estad&iacute;sticas 2025</h2>
+                    <h2 class="card-title">Estad&iacute;sticas</h2>
                     <iframe title="Seguimiento t&eacute;cnico" width="100%" height="600" src="{POWERBI_SRC}" frameborder="0" allowFullScreen="true" style="border:1px solid #e0e0e0; border-radius:8px;"></iframe>
                 </div>
             </div>"""

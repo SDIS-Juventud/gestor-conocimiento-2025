@@ -857,7 +857,7 @@ print("Secciones auxiliares generadas")
 # ========== celda 19: mbd92b0e1u ==========
 # CSS + ensamblar HTML completo + guardar archivo
 
-CSS = """        @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap');
+CSS = """        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff; color: #2F3E3C; }
         .header { background: #2F3E3C; color: #F8F4E1; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
@@ -908,7 +908,7 @@ CSS = """        @import url('https://fonts.googleapis.com/css2?family=Figtree:w
         .quick-link:hover .quick-link-img { border-color: #253C5C; transform: scale(1.05); }
         .quick-link:hover .sidicu-img { border-color: #253C5C; }
         .quick-link-img img { width: 100%; height: 100%; object-fit: cover; }
-        .quick-link-title { font-weight: 600; color: #253C5C; font-size: 0.95rem; }
+        .quick-link-title { font-family: 'Anton', 'Figtree', sans-serif; font-weight: 400; font-size: 1.05rem; line-height: 1.15; letter-spacing: 0.5px; background: #5d5e95; color: #c7eb91; padding: 9px 14px 7px; display: inline-block; text-align: center; max-width: 100%; }
         .hbar-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
         .hbar-row:last-child { border-bottom: none; }
         .hbar-label { width: 200px; font-size: 0.9rem; color: #3A3A3A; flex-shrink: 0; }
@@ -983,7 +983,7 @@ html = f"""<!DOCTYPE html>
         </nav>
         <main class="main-content">
             <div class="content-section active" id="welcome"><div class="welcome-section">
-                <h2>Casas de Juventud</h2>
+                <div style="font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:1.9rem; line-height:1.05; letter-spacing:1px; text-transform:uppercase; background:#2d2a28; color:#f4f5de; padding:14px 24px 11px; margin:0 auto 28px; display:block; width:fit-content; max-width:100%; text-align:center;">Casas de Juventud</div>
                 <p style="text-align:left; max-width:800px; margin:0 auto 30px; font-size:0.95rem; line-height:1.7; color:#444;">Las Casas de Juventud son espacios distritales dirigidos a jóvenes entre 14 y 28 años, concebidos como el eje territorial de la Política Pública Distrital de Juventud (PPDJ). Articulan la oferta de servicios de la administración distrital para garantizar acceso equitativo a oportunidades de desarrollo personal, social y laboral, y funcionan como la principal puerta de entrada al ecosistema de servicios del Distrito.</p>
                 
                 <p style="text-align:left; max-width:800px; margin:20px auto 25px; font-size:0.95rem; line-height:1.7; color:#444;">Para materializar este propósito y fortalecer los proyectos de vida de los jóvenes, el servicio de Casas de Juventud estructura su oferta integral a través de los siguientes ejes:</p>
@@ -1243,7 +1243,7 @@ html = f"""<!DOCTYPE html>
                 <h2 class="card-title">Ubicación</h2>
                 <p style="color:#666; margin-bottom:20px;">Casas de Juventud en Bogotá.</p>
                 <div style="margin-bottom:20px;">
-                    <a href="https://servicios.sdis.gov.co/index.php/casas-juventud" target="_blank" style="display:inline-block; padding:10px 20px; background:#253C5C; color:#fff; border-radius:8px; text-decoration:none; font-size:0.9rem; font-weight:600;">Link oficial para agendamiento de citas en Casas de Juventud</a>
+                    <a href="https://servicios.sdis.gov.co/index.php/casas-juventud" target="_blank" style="font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:1.05rem; line-height:1.15; letter-spacing:0.5px; background:#c7eb91; color:#5d5e95; padding:9px 14px 7px; display:inline-block; text-align:center; max-width:100%; text-decoration:none;">Link de agendamiento de actividades en Casas de Juventud</a>
                 </div>
                 <div style="text-align:center; margin-bottom:25px;">
                     <img src="imagenes/Casas%20Mapa.jpg" alt="Mapa de Casas de Juventud" style="max-width:100%; border-radius:12px;">
@@ -1336,7 +1336,7 @@ html = f"""<!DOCTYPE html>
             </div></div>
 
             <div class="content-section" id="resumen"><div class="card">
-                <h2 class="card-title">Resumen general 2025</h2>
+                <h2 class="card-title">Resumen general</h2>
                 <p style="margin-bottom:15px;"><strong>Tablero oficial:</strong> Seguimiento técnico (Power BI)</p>
                 <iframe title="Seguimiento técnico - Casas de Juventud" width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMzRiNWRkMDQtNThmNC00Yzk5LThjNTItOWI4MzZkYzYwM2EzIiwidCI6ImIzZTMwODA4LWU5YTgtNGYyYS05YmMxLWE3NjBhZTkxMGNmNSIsImMiOjR9" frameborder="0" allowFullScreen="true" style="border:1px solid #e0e0e0; border-radius:8px;"></iframe>
             </div></div>
