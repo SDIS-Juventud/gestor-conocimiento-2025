@@ -17,13 +17,13 @@
         .sidebar { width: 280px; background: #fff; border-right: 1px solid #e0e0e0; padding: 20px 0; overflow-y: auto; }
         .sidebar-section { margin-bottom: 10px; }
         .sidebar-title { padding: 12px 20px; font-weight: 600; color: #253C5C; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-        .sidebar-title:hover { background: #EAEFF5; }
+        .sidebar-title:hover { background: transparent; opacity: 0.75; }
         .sidebar-title .arrow { display: inline-block; width: 8px; height: 8px; border-top: 2px solid #253C5C; border-right: 2px solid #253C5C; transform: rotate(45deg); font-size: 0; color: transparent; transition: transform 0.25s ease; margin-right: 4px; }
         .sidebar-title.active .arrow { transform: rotate(135deg); margin-top: -4px; }
         .sidebar-items { display: none; padding-left: 20px; } .sidebar-items.show { display: block; }
         .sidebar-item { padding: 10px 20px; cursor: pointer; font-size: 0.9rem; color: #3A3A3A; transition: all 0.2s; }
-        .sidebar-item:hover { background: #EAEFF5; }
-        .sidebar-item.active { background: #DFE6F0; color: #253C5C; font-weight: 600; }
+        .sidebar-item:hover { background: transparent; color: #253C5C; }
+        .sidebar-item.active { background: transparent; color: #253C5C; font-weight: 600; }
         .main-content { flex: 1; padding: 30px; overflow-y: auto; }
         .content-section { display: none; } .content-section.active { display: block; }
         .card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 20px; }
@@ -104,7 +104,6 @@
             <div class="sidebar-item active" onclick="showContent('que_es')">Resumen del eje</div>
             <div class="sidebar-item" onclick="showContent('ofertas_2026')">Ofertas 2026</div>
             <div class="sidebar-item" onclick="showContent('datos_sirbe')">Datos SIRBE 2025</div>
-            <div class="sidebar-item" onclick="showContent('alianzas')">Aliados</div>
         </nav>
 
         <main class="main-content">
@@ -372,91 +371,6 @@
                     </div>
                 </div>
                 </div></div>
-
-                        <div class="content-section" id="alianzas" style="display:none;"><div class="card">
-                <h2 class="card-title">Aliados</h2>
-
-                <h3 class="card-subtitle" style="font-size:1.1rem; color:#253C5C; margin-top:25px; margin-bottom:15px;">Aliados estrat&eacute;gicos 2025</h3>
-                <div style="background:#fff; border-radius:10px; padding:15px; margin-bottom:25px; text-align:center;">
-                    <img src="../imagenes/Aliados/Aliados_Casas de Juventud.png" alt="Aliados estrat&eacute;gicos de Casas de Juventud" style="max-width:100%; border-radius:8px;">
-                </div>
-
-
-                <h3 class="card-subtitle" style="font-size:1.1rem; color:#253C5C; margin-top:35px; margin-bottom:15px; padding-top:20px; border-top:1px solid #e0e0e0;">Alianzas 2026</h3>
-                <div style="padding-left:0;">
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">ANDI</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Escuela Distrital de Emprendimiento &middot; M&aacute;s Empleo</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Formaci&oacute;n en emprendimiento y conexi&oacute;n con oportunidades laborales del sector empresarial.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">ATENEA</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Academia Atenea &middot; Horas por Bogot&aacute;</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Acceso a educaci&oacute;n posmedia y ciclo formativo de intervenci&oacute;n comunitaria con fortalecimiento de habilidades socioemocionales.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">C&aacute;mara de Comercio de Bogot&aacute;</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Ruta de formalizaci&oacute;n</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Orientaci&oacute;n a j&oacute;venes emprendedores en la ruta hacia la formalidad mediante 3 masterclass.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">Compensar</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Empleabilidad</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Masterclass mensuales con tips para construcci&oacute;n de hoja de vida y preparaci&oacute;n para entrevistas.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">EducaM&aacute;s</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Data Lab</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Formaci&oacute;n en competencias digitales y an&aacute;lisis de datos para la inserci&oacute;n laboral.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">Fundaci&oacute;n Gastronom&iacute;a Social</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Academia &Ntilde;AM</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Formaci&oacute;n como auxiliares de servicio gastron&oacute;mico con pr&aacute;cticas supervisadas y vinculaci&oacute;n laboral.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">GOYN</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Escuela de liderazgo Potencia Joven</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Fortalecimiento de competencias de liderazgo, gesti&oacute;n de proyectos y conocimiento del sistema de juventud.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">IDARTES</strong>
-                        <ul style="font-size:0.85rem; color:#666; margin:8px 0 0; padding-left:18px; line-height:1.8;">
-                            <li><em>Circulaci&oacute;n en Festivales al Parque</em> &mdash; plataforma de circulaci&oacute;n art&iacute;stica juvenil</li>
-                            <li><em>Formaci&oacute;n Art&iacute;stica CREA + CREA Impulso</em> &mdash; talleres, muestras de procesos y estudios de grabaci&oacute;n</li>
-                            <li><em>Libro al Viento</em> &mdash; lectura, escritura y oralidad en territorio</li>
-                            <li><em>Artes Pl&aacute;sticas y Visuales</em> &mdash; salidas a Galer&iacute;a Santa Fe, red de museos y arte urbano</li>
-                            <li><em>Circulaci&oacute;n Danza</em> &mdash; visibilizaci&oacute;n de procesos r&iacute;tmicos en Festival de la Danza</li>
-                            <li><em>Emprendimiento en gesti&oacute;n cultural</em> &mdash; microcurso y visitas a producci&oacute;n de festivales</li>
-                        </ul>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">La Guarida Art&iacute;stica</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Asistencia a teatro</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Espacios de encuentro y formaci&oacute;n a trav&eacute;s de obras teatrales para las juventudes.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">Mi Banco</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Inclusi&oacute;n financiera</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Talleres de educaci&oacute;n financiera en 6 casas de juventud.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">OIT</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>SENA TIC</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Cursos cortos de formaci&oacute;n en habilidades digitales aprovechando las salas de las Casas de Juventud.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">Poderosas</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Salud sexual y reproductiva</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Curr&iacute;culo educativo y brigadas conjuntas en territorio para promover acceso a servicios de salud.</p>
-                    </div>
-                    <div class="card" style="margin-bottom:10px; padding:15px 20px;">
-                        <strong style="color:#3A3A3A;">Sec. Distrital de Cultura</strong>
-                        <p style="font-size:0.85rem; color:#555; margin:5px 0 0;"><em>Centro Cultural Juvenil</em></p>
-                        <p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Infraestructura destinada a servicios culturales y de bienestar para j&oacute;venes.</p>
-                    </div>
-                </div>
-            </div></div>
         </main>
     </div>
 

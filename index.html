@@ -26,34 +26,37 @@
 
         /* Contenido */
         .main { max-width: 1100px; margin: 0 auto; padding: 60px 30px 60px; }
-        .intro { text-align: center; max-width: 700px; margin: 0 auto 55px; }
-        .intro h2 { font-size: 1.9rem; color: #2F3E3C; margin-bottom: 14px; font-weight: 800; }
-        .intro p { font-size: 1rem; line-height: 1.7; color: #666; }
 
         /* Grid */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 72px 28px;
-            max-width: 880px;
+            gap: 72px 36px;
+            max-width: 1080px;
             margin: 0 auto;
             padding: 40px 0 40px;
         }
 
-        /* Tarjetas */
+        /* Tarjetas - flex column, logo sobresale por abajo (mitad dentro / mitad fuera) */
         .service-card {
             background: rgba(255,255,255,0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 20px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-            padding: 32px 26px 22px;
+            padding: 24px 24px 14px;
             text-align: center;
             text-decoration: none;
             color: inherit;
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             border: 2px solid rgba(0,0,0,0.04);
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 150px;
+            overflow: visible;
         }
         .service-card:hover {
             transform: translateY(-8px);
@@ -61,36 +64,20 @@
             border-color: var(--accent, #663A93);
         }
 
-        /* Recuadro de nombre — estilo urbano, desalineado a la izquierda */
-        .service-name-box {
-            font-family: 'Anton', 'Figtree', sans-serif;
-            font-weight: 400;
-            font-size: 1.75rem;
-            line-height: 1.05;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            background: #2d2a28;
-            color: #f4f5de;
-            padding: 14px 20px 11px;
-            margin: -54px auto 26px;
-            display: block;
-            width: fit-content;
-            max-width: calc(100% + 40px);
+        /* Descripci&oacute;n del servicio */
+        .service-desc {
+            font-size: 0.88rem;
+            color: #555;
+            line-height: 1.5;
             text-align: center;
-            position: relative;
-            z-index: 2;
-            transition: transform 0.3s ease;
+            margin: 0 auto;
+            max-width: 340px;
         }
-        .service-card:hover .service-name-box {
-            transform: scale(1.03);
-        }
-        /* Variante para nombres largos: una sola línea sin importar el ancho del card */
-        .service-name-box.is-long { white-space: nowrap; max-width: none; }
 
-        /* Logo — sobresale del borde inferior de la tarjeta */
+        /* Logo — sobresale por el borde inferior (mitad dentro, mitad fuera) */
         .service-logo {
-            height: 52px;
-            margin: 18px auto -30px;
+            height: 56px;
+            margin: 14px auto -28px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -100,20 +87,6 @@
         }
         .service-logo img { height: 100%; object-fit: contain; }
         .service-card:hover .service-logo { transform: scale(1.08); }
-
-        .service-desc { font-size: 0.88rem; color: #666; line-height: 1.65; }
-
-        /* Badges */
-        .badge-soon {
-            display: inline-block; margin-top: 14px; padding: 5px 16px;
-            border-radius: 20px; font-size: 0.72rem; font-weight: 600;
-            background: #e8760a; color: #ffffff;
-        }
-        .badge-active {
-            display: inline-block; margin-top: 14px; padding: 5px 16px;
-            border-radius: 20px; font-size: 0.72rem; font-weight: 600;
-            background: #2e7d52; color: #ffffff;
-        }
 
         /* Bot&oacute;n de ayuda */
         .help-btn {
@@ -149,14 +122,9 @@
         .modal-close:hover { opacity: 1; }
 
         @media (max-width: 700px) {
-            .services-grid { grid-template-columns: 1fr; gap: 64px; padding: 30px 0 30px; }
+            .services-grid { grid-template-columns: 1fr; gap: 40px; padding: 30px 0 30px; }
             .main { padding: 35px 20px 40px; }
-            .intro h2 { font-size: 1.4rem; }
-            .service-name-box {
-                font-size: 1.55rem;
-                padding: 12px 16px 9px;
-                margin: -44px auto 22px;
-            }
+            .service-desc { font-size: 0.9rem; }
             .service-logo { height: 46px; }
         }
     </style>

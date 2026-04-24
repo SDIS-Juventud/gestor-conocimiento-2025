@@ -10,9 +10,10 @@ para facilitar la edición de contenido sin tocar HTML crudo.
 import os
 import sys
 
-# CSS compartido con los demás generadores
+# CSS y datos compartidos con los demás generadores
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _comun.estilos import css_para
+from _comun.aliados import seccion_jco as seccion_aliados_jco
 # ============================================================
 # 1. CSS — estilos del gestor
 # ============================================================
@@ -57,7 +58,6 @@ SIDEBAR = """\
                     <div class="sidebar-item" onclick="showContent('equipo')">Equipo</div>
                     <div class="sidebar-item" onclick="showContent('pilares')">Pilares del programa</div>
                     <div class="sidebar-item" onclick="showContent('modulos_proyecto_vida')">M&oacute;dulos de Proyecto de Vida</div>
-                    <div class="sidebar-item" onclick="showContent('triage_psicosocial')">Triage psicosocial</div>
                 </div>
             </div>
             <div class="sidebar-section">
@@ -66,6 +66,11 @@ SIDEBAR = """\
                 </div>
                 <div class="sidebar-items">
                     <div class="sidebar-item" onclick="showContent('flujo_datos')">Flujo de gesti&oacute;n de la informaci&oacute;n</div>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="showContent('aliados')" style="cursor:pointer;">
+                    <span>Aliados</span>
                 </div>
             </div>
             <div class="sidebar-section">
@@ -102,18 +107,19 @@ SECCION_A_TENER_EN_CUENTA = """\
 
                     <h3 class="card-subtitle">Los montos var&iacute;an seg&uacute;n la ruta de formaci&oacute;n</h3>
                     <p style="line-height:1.7;">Parceros entregaba una cuota fija de <strong>$500.000 mensuales durante 6 meses</strong>. En J&oacute;venes con Oportunidades el apoyo econ&oacute;mico depende de la ruta elegida: hasta <strong>$1.200.000 en cursos cortos</strong>, hasta <strong>$3.200.000</strong> en la ruta de educaci&oacute;n flexible para terminar el bachillerato (j&oacute;venes y adultos), y topes m&aacute;ximos que van desde <strong>$2.700.000</strong> (para nivel t&eacute;cnico y tecn&oacute;logo) hasta <strong>$4.300.000</strong> en educaci&oacute;n universitaria de ciclo largo.</p>
+                    <p style="line-height:1.7;">En la ruta de <strong>EFT</strong> en particular, los recursos que pone la SDIS pueden llegar hasta <strong>3 salarios m&iacute;nimos</strong>, m&aacute;s <strong>3 pagos de $400.000</strong> y <strong>$300.000 por intermediaci&oacute;n</strong>.</p>
 
                     <h3 class="card-subtitle">Focalizaci&oacute;n y requisitos de ingreso</h3>
                     <p style="line-height:1.7;">Los criterios de selecci&oacute;n var&iacute;an entre ambos modelos. Parceros por Bogot&aacute; se enfocaba en j&oacute;venes &ldquo;Ninis&rdquo; (que ni estudian ni trabajan) de <strong>18 a 28 a&ntilde;os</strong>, identificados directamente en barrios vulnerables mediante una encuesta de 23 preguntas que calculaba su &Iacute;ndice de Vulnerabilidad Juvenil. Por su parte, el nuevo programa J&oacute;venes con Oportunidades atiende a j&oacute;venes de <strong>14 a 28 a&ntilde;os</strong> en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad por inseguridad alimentaria. Su focalizaci&oacute;n es distinta, ya que exige que los beneficiarios residan en Bogot&aacute; y est&eacute;n registrados oficialmente en el Sisb&eacute;n dentro de las categor&iacute;as <strong>A, B o hasta C09</strong>.</p>
 
                     <h3 class="card-subtitle">Financiaci&oacute;n de los programas</h3>
-                    <p style="line-height:1.7;">Una caracter&iacute;stica clave de Parceros por Bogot&aacute; es que se sustentaba, en gran parte, gracias a la uni&oacute;n institucional con los <strong>Fondos de Desarrollo Local (FDL)</strong>. Esto permiti&oacute; una inversi&oacute;n territorializada, donde los alcaldes locales y ediles destinaban recursos para apoyar directamente a los j&oacute;venes de sus respectivas localidades. Por su parte, la nueva estrategia J&oacute;venes con Oportunidades cuenta con una inversi&oacute;n distrital proyectada de <strong>$324.053 millones</strong>, uniendo los esfuerzos sectoriales de las Secretar&iacute;as de Integraci&oacute;n Social, Educaci&oacute;n, Desarrollo Econ&oacute;mico y la Agencia Atenea.</p>
+                    <p style="line-height:1.7;">Una caracter&iacute;stica clave de Parceros por Bogot&aacute; fue que se sustent&oacute;, en gran parte, gracias a la uni&oacute;n institucional con los <strong>Fondos de Desarrollo Local (FDL)</strong>. Esto permiti&oacute; una inversi&oacute;n territorializada, donde los alcaldes locales y ediles destinaban recursos para apoyar directamente a los j&oacute;venes de sus respectivas localidades. En J&oacute;venes con Oportunidades, los FDL tambi&eacute;n han venido aportando recursos: con un rol inicial <strong>desde 2025</strong> y una <strong>presencia muy fuerte en 2026</strong>. A estos aportes se suma la inversi&oacute;n distrital proyectada de <strong>$324.053 millones</strong>, que une los esfuerzos sectoriales de las Secretar&iacute;as de Integraci&oacute;n Social, Educaci&oacute;n, Desarrollo Econ&oacute;mico y la Agencia Atenea.</p>
 
                     <h3 class="card-subtitle">El cambio de paradigma en la condicionalidad</h3>
-                    <p style="line-height:1.7;">En Parceros por Bogot&aacute;, la transferencia monetaria estaba condicionada a la participaci&oacute;n en actividades pedag&oacute;gicas y labores pr&aacute;cticas de servicio a la ciudad, tales como proyectos de embellecimiento, limpieza, huertas urbanas y &ldquo;Nuestras Zonas Seguras&rdquo;. Adem&aacute;s, los participantes se formaban y certificaban como Agentes Comunitarios de Prevenci&oacute;n en temas de salud mental, violencias y consumo de sustancias. Con J&oacute;venes con Oportunidades, la condicionalidad depende directamente del cumplimiento de actividades en tres componentes clave: el acompa&ntilde;amiento psicosocial transversal, el avance en la ruta de formaci&oacute;n elegida, y el proceso de orientaci&oacute;n e intermediaci&oacute;n laboral.</p>
+                    <p style="line-height:1.7;">En Parceros por Bogot&aacute;, la transferencia monetaria estaba condicionada a la participaci&oacute;n en actividades pedag&oacute;gicas y labores pr&aacute;cticas de servicio a la ciudad, tales como proyectos de embellecimiento, limpieza, huertas urbanas y &ldquo;Nuestras Zonas Seguras&rdquo;. Adem&aacute;s, los participantes se formaban y certificaban como Agentes Comunitarios de Prevenci&oacute;n en temas de salud mental, violencias y consumo de sustancias. Con J&oacute;venes con Oportunidades, la condicionalidad depende directamente del cumplimiento de actividades en tres componentes clave: el acompa&ntilde;amiento psicosocial transversal, el avance en la ruta de formaci&oacute;n elegida, y el proceso de intermediaci&oacute;n laboral.</p>
 
                     <h3 class="card-subtitle">Intermediaci&oacute;n laboral y conexi&oacute;n con el empleo</h3>
-                    <p style="line-height:1.7;">En Parceros por Bogot&aacute;, la conexi&oacute;n con el mercado laboral se daba principalmente al culminar el programa, mediante ferias de empleo organizadas exclusivamente para los egresados y la gesti&oacute;n de alianzas con empresas del sector privado. En el nuevo modelo de J&oacute;venes con Oportunidades, la intermediaci&oacute;n se consolida como un tercer componente de la ruta, una etapa formal y estructural. El objetivo es garantizar la integralidad y que el joven &ldquo;salga por el &uacute;ltimo eslab&oacute;n&rdquo; con el resultado esperado. Por ello, al finalizar su formaci&oacute;n, la Secretar&iacute;a Distrital de Desarrollo Econ&oacute;mico asume el liderazgo directo para garantizar la orientaci&oacute;n y el registro en el Servicio P&uacute;blico de Empleo o en las plataformas de la estrategia &ldquo;Talento Capital&rdquo;.</p>
+                    <p style="line-height:1.7;">En Parceros por Bogot&aacute; exist&iacute;a un componente de <strong>formaci&oacute;n educativa e inclusi&oacute;n laboral</strong> que se establec&iacute;a <strong>desde el inicio de la atenci&oacute;n</strong>, ofertando oportunidades a los participantes y permitiendo el cumplimiento de actividades condicionadas. En el nuevo modelo de J&oacute;venes con Oportunidades, la intermediaci&oacute;n se consolida como un <strong>tercer componente de la ruta</strong>, una etapa formal y estructural. El objetivo es garantizar la integralidad y que el joven &ldquo;salga por el &uacute;ltimo eslab&oacute;n&rdquo; con el resultado esperado. Por ello, al finalizar su formaci&oacute;n, la Secretar&iacute;a Distrital de Desarrollo Econ&oacute;mico asume el liderazgo directo de la intermediaci&oacute;n laboral, gestionando el registro en el Servicio P&uacute;blico de Empleo y en las plataformas de la estrategia &ldquo;Talento Capital&rdquo;.</p>
                 </div>
             </div>"""
 
@@ -133,8 +139,8 @@ SECCION_LINEA_TIEMPO = """\
                             <div class="timeline-text"><strong>Lanzamiento de Parceros por Bogot&aacute;.</strong> El programa nace como respuesta a las demandas escuchadas en las mesas de di&aacute;logo y concertaci&oacute;n durante el estallido social y el Paro Nacional. Como parte de la Estrategia RETO, entrega a j&oacute;venes vulnerables transferencias de <strong>$500.000 mensuales durante seis meses</strong>. Este apoyo econ&oacute;mico est&aacute; condicionado a su participaci&oacute;n en actividades pedag&oacute;gicas, labores de servicio a la ciudad y acompa&ntilde;amiento psicosocial para apoyar su proyecto de vida.</div>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-year">2023 (diciembre)</div>
-                            <div class="timeline-text"><strong>Cierre del ciclo Parceros por Bogot&aacute;.</strong> Al finalizar el programa se reportan <strong>m&aacute;s de 28.000 j&oacute;venes atendidos</strong> y m&aacute;s de <strong>64 alianzas</strong> con sector p&uacute;blico y privado. <strong>4 de cada 10 egresados</strong> obtuvieron empleo formal, apoyo para emprendimiento o acceso a educaci&oacute;n superior.</div>
+                            <div class="timeline-year">2023 (septiembre)</div>
+                            <div class="timeline-text"><strong>Cierre del ciclo Parceros por Bogot&aacute;.</strong> Al finalizar el programa se reportan <strong>m&aacute;s de 28.000 j&oacute;venes atendidos</strong>. <strong>4 de cada 10 egresados</strong> obtuvieron empleo formal, apoyo para emprendimiento o acceso a educaci&oacute;n superior.</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2024</div>
@@ -153,17 +159,13 @@ SECCION_EQUIPO = """\
             <div class="content-section" id="equipo">
                 <div class="card">
                     <h2 class="card-title">Equipo y gesti&oacute;n de J&oacute;venes con Oportunidades</h2>
-                    <p style="line-height:1.7;">El servicio J&oacute;venes con Oportunidades es un esfuerzo articulado entre la <strong>Secretar&iacute;a Distrital de Integraci&oacute;n Social (SDIS)</strong>, la <strong>Secretar&iacute;a de Educaci&oacute;n</strong>, la <strong>Secretar&iacute;a de Desarrollo Econ&oacute;mico</strong> y la <strong>Agencia Atenea</strong>. Su seguimiento y articulaci&oacute;n intersectorial se lidera a trav&eacute;s de tres instancias: el <strong>Comit&eacute; T&eacute;cnico</strong>, el <strong>Comit&eacute; Estrat&eacute;gico</strong> y el <strong>Comit&eacute; Directivo</strong>.</p>
+                    <p style="line-height:1.7;">El servicio J&oacute;venes con Oportunidades es un esfuerzo articulado entre la <strong>Secretar&iacute;a Distrital de Integraci&oacute;n Social (SDIS)</strong>, la <strong>Secretar&iacute;a de Educaci&oacute;n</strong>, la <strong>Secretar&iacute;a de Desarrollo Econ&oacute;mico</strong> y la <strong>Agencia Atenea</strong>.</p>
                     <p style="line-height:1.7;">La gesti&oacute;n operativa recae principalmente en la Subdirecci&oacute;n para la Juventud de la SDIS, cuyo equipo se organiza bajo roles espec&iacute;ficos para garantizar la atenci&oacute;n integral:</p>
 
-                    <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:22px; margin-bottom:32px;">
+                    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; margin-bottom:32px;">
                         <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #b8a9d4; color:#fff;">
                             <h4 style="font-size:0.95rem; color:#d4c6f0; margin:0 0 12px; font-weight:700;">Equipo Psicosocial</h4>
-                            <p style="font-size:0.85rem; color:rgba(255,255,255,0.8); margin:0; line-height:1.6;">Acompa&ntilde;amiento directo a los j&oacute;venes, guiar la aplicaci&oacute;n del Triage psicosocial y liderar la Formaci&oacute;n en Proyecto de Vida.</p>
-                        </div>
-                        <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #b8a9d4; color:#fff;">
-                            <h4 style="font-size:0.95rem; color:#d4c6f0; margin:0 0 12px; font-weight:700;">Equipo de Alertas</h4>
-                            <p style="font-size:0.85rem; color:rgba(255,255,255,0.8); margin:0; line-height:1.6;">Sistematizar el Triage, gestionar las alertas de vulneraci&oacute;n de derechos inmediatas (alto riesgo) y referenciar a los j&oacute;venes a la oferta interinstitucional.</p>
+                            <p style="font-size:0.85rem; color:rgba(255,255,255,0.8); margin:0; line-height:1.6;">Acompa&ntilde;amiento directo a los j&oacute;venes y liderar la Formaci&oacute;n en Proyecto de Vida.</p>
                         </div>
                         <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #b8a9d4; color:#fff;">
                             <h4 style="font-size:0.95rem; color:#d4c6f0; margin:0 0 12px; font-weight:700;">Equipo Territorial</h4>
@@ -173,6 +175,12 @@ SECCION_EQUIPO = """\
                             <h4 style="font-size:0.95rem; color:#d4c6f0; margin:0 0 12px; font-weight:700;">Equipos Transversales</h4>
                             <p style="font-size:0.85rem; color:rgba(255,255,255,0.8); margin:0; line-height:1.6;">Anal&iacute;tica, gesti&oacute;n documental, administrativo y financiero: validan requisitos de ingreso, administran bases de datos y consolidan el cumplimiento de actividades para gestionar las transferencias monetarias.</p>
                         </div>
+                    </div>
+
+                    <h3 class="card-subtitle">Organigrama del equipo</h3>
+                    <p style="line-height:1.7;">El equipo completo del servicio, con nombres y roles, se organiza seg&uacute;n el siguiente organigrama:</p>
+                    <div style="margin:18px 0 10px; text-align:center;">
+                        <img src="imagenes/Organigrama JcO.jpeg" alt="Organigrama del equipo de J&oacute;venes con Oportunidades" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
                     </div>
                 </div>
             </div>"""
@@ -184,7 +192,7 @@ SECCION_PILARES = """\
                     <h2 class="card-title">Pilares del programa J&oacute;venes con Oportunidades</h2>
 
                     <h3 class="card-subtitle">1. Acompa&ntilde;amiento psicosocial</h3>
-                    <p style="line-height:1.7;">Orientaci&oacute;n y seguimiento transversal a cargo de la Secretar&iacute;a Distrital de Integraci&oacute;n Social, para ayudar a los j&oacute;venes en la construcci&oacute;n de su proyecto de vida y gestionar alertas de vulneraci&oacute;n de derechos.</p>
+                    <p style="line-height:1.7;">Orientaci&oacute;n y seguimiento transversal a cargo de la Secretar&iacute;a Distrital de Integraci&oacute;n Social, para ayudar a los j&oacute;venes en la construcci&oacute;n de su proyecto de vida.</p>
 
                     <h3 class="card-subtitle">2. Rutas de formaci&oacute;n</h3>
                     <p style="line-height:1.7;">Los participantes eligen entre tres opciones:</p>
@@ -212,8 +220,8 @@ SECCION_PILARES = """\
                         </div>
                     </div>
 
-                    <h3 class="card-subtitle">3. Acompa&ntilde;amiento y orientaci&oacute;n laboral</h3>
-                    <p style="line-height:1.7;">Una vez finalizada la formaci&oacute;n, la Secretar&iacute;a de Desarrollo Econ&oacute;mico lidera el acceso a servicios de registro de empleo, orientaci&oacute;n e intermediaci&oacute;n laboral a trav&eacute;s de plataformas como Talento Capital.</p>
+                    <h3 class="card-subtitle">3. Intermediaci&oacute;n laboral</h3>
+                    <p style="line-height:1.7;">Una vez finalizada la formaci&oacute;n, la Secretar&iacute;a de Desarrollo Econ&oacute;mico lidera la intermediaci&oacute;n laboral, con acceso a servicios de registro de empleo a trav&eacute;s de plataformas como Talento Capital.</p>
 
                     <h3 class="card-subtitle">4. Transferencias monetarias condicionadas</h3>
                     <p style="line-height:1.7;">Apoyos econ&oacute;micos que dependen del cumplimiento de las actividades de cada ruta. Los topes m&aacute;ximos son: hasta <strong>$1.200.000</strong> para cursos cortos, hasta <strong>$3.200.000</strong> para educaci&oacute;n flexible, y montos desde <strong>$2.700.000</strong> hasta <strong>$4.300.000</strong> en educaci&oacute;n posmedia y universitaria.</p>
@@ -245,14 +253,14 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
                         <div style="background:#7b6b99; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">3</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Manejo del estr&eacute;s y ansiedad.</strong> Identificaci&oacute;n de s&iacute;ntomas emocionales y aprendizaje de t&eacute;cnicas para regular el bienestar mental. <em style="opacity:0.85;">Din&aacute;micas de relajaci&oacute;n y reconocimiento emocional.</em>
+                            <strong style="font-size:0.98rem;">Manejo del estr&eacute;s y la ansiedad.</strong> Identificaci&oacute;n de s&iacute;ntomas emocionales y aprendizaje de t&eacute;cnicas para regular el bienestar mental. <em style="opacity:0.85;">Din&aacute;micas de relajaci&oacute;n y reconocimiento emocional.</em>
                         </div>
                     </div>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
                         <div style="background:#d4a84b; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">4</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Acoso y resoluci&oacute;n de conflictos.</strong> Herramientas para detectar el <em>bullying</em> y estrategias de di&aacute;logo para la convivencia pac&iacute;fica. <em style="opacity:0.85;">Juegos de rol y simulaci&oacute;n de casos de conflicto.</em>
+                            <strong style="font-size:0.98rem;">Acoso en el &aacute;mbito educativo, mobbing y resoluci&oacute;n de conflictos.</strong> Herramientas para detectar el <em>bullying</em> y estrategias de di&aacute;logo para la convivencia pac&iacute;fica. <em style="opacity:0.85;">Juegos de rol y simulaci&oacute;n de casos de conflicto.</em>
                         </div>
                     </div>
 
@@ -266,7 +274,7 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
                         <div style="background:#c86464; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">6</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Promoci&oacute;n de derechos y habilidades.</strong> Reconocimiento del joven como sujeto de derechos y fortalecimiento de habilidades socioemocionales. <em style="opacity:0.85;">Debates y an&aacute;lisis de derechos ciudadanos.</em>
+                            <strong style="font-size:0.98rem;">Promoci&oacute;n de derechos y habilidades para la vida.</strong> Reconocimiento del joven como sujeto de derechos y fortalecimiento de habilidades socioemocionales. <em style="opacity:0.85;">Debates y an&aacute;lisis de derechos ciudadanos.</em>
                         </div>
                     </div>
 
@@ -276,39 +284,6 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
                             <strong style="font-size:0.98rem;">Activa tu potencial.</strong> Conexi&oacute;n de las capacidades individuales con las rutas de inclusi&oacute;n social y productiva. <em style="opacity:0.85;">Mapeo de habilidades y perfiles de oportunidad.</em>
                         </div>
                     </div>
-                </div>
-            </div>"""
-
-# --- Triage psicosocial ---
-SECCION_TRIAGE_PSICOSOCIAL = """\
-            <div class="content-section" id="triage_psicosocial">
-                <div class="card">
-                    <h2 class="card-title">Componente psicosocial y el instrumento de Triage</h2>
-                    <p style="line-height:1.7;">El <strong>acompa&ntilde;amiento psicosocial</strong> es un componente transversal durante toda la permanencia del joven en el servicio. Posterior a la formalizaci&oacute;n del ingreso, el equipo profesional acompa&ntilde;a la aplicaci&oacute;n del <strong>Triage psicosocial</strong>, un instrumento de auto-reporte que permite caracterizar social, econ&oacute;mica y territorialmente a las y los participantes.</p>
-
-                    <h3 class="card-subtitle">&iquest;Para qu&eacute; sirve el Triage?</h3>
-
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px; margin-top:15px;">
-                        <div style="background:#5f9ea0; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Identificar y clasificar alertas</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Detecta situaciones de vulneraci&oacute;n de derechos y las clasifica. Identifica alertas inmediatas con alto riesgo (como <strong>prevenci&oacute;n del suicidio</strong> y <strong>violencia intrafamiliar</strong>) y alertas mediatas (como <strong>salud mental</strong> o <strong>prevenci&oacute;n del consumo de sustancias psicoactivas</strong>).</div>
-                    </div>
-
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#e07850; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Definir el nivel de acompa&ntilde;amiento</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Los resultados no definen la ruta acad&eacute;mica, sino que canalizan al joven hacia la atenci&oacute;n psicosocial adecuada: <strong>Salas de Escucha Especializadas</strong> (para riesgos inmediatos), <strong>Salas de Escucha Psicosocial</strong> (para riesgos mediatos) o <strong>Actividades Colectivas de Prevenci&oacute;n y Promoci&oacute;n</strong> (para j&oacute;venes sin alertas).</div>
-                    </div>
-
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#7b6b99; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Referenciaci&oacute;n institucional</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Facilita la conexi&oacute;n y referenciaci&oacute;n del joven hacia otros servicios que brindan la Secretar&iacute;a Distrital de Integraci&oacute;n Social y el Distrito Capital.</div>
-                    </div>
-
-                    <h3 class="card-subtitle">Tipos de alertas</h3>
-                    <p style="line-height:1.7;"><strong>Alertas inmediatas:</strong> Corresponden a situaciones con un alto riesgo de vulneraci&oacute;n de derechos. Los j&oacute;venes identificados con este tipo de alertas son canalizados a las <strong>Salas de Escucha Especializadas</strong>, las cuales son desarrolladas directamente por el equipo de alertas del servicio e intervienen tem&aacute;ticas urgentes como la prevenci&oacute;n del suicidio y la prevenci&oacute;n de la violencia intrafamiliar.</p>
-                    <p style="line-height:1.7;"><strong>Alertas mediatas:</strong> Son aquellas situaciones de riesgo que requieren intervenci&oacute;n, pero no representan una emergencia inminente. Los participantes con estas alertas son dirigidos a las <strong>Salas de Escucha Psicosocial</strong>, desarrolladas por el equipo psicosocial, para abordar temas como la salud mental, la crianza, el amor rom&aacute;ntico y la prevenci&oacute;n del consumo de sustancias psicoactivas.</p>
-                    <p style="line-height:1.7;">Adicionalmente, el manual contempla una tercera categor&iacute;a:</p>
-                    <p style="line-height:1.7;"><strong>Sin alertas:</strong> Si el joven no presenta alertas de vulneraci&oacute;n de derechos, es dirigido a <strong>Actividades Colectivas de Prevenci&oacute;n y Promoci&oacute;n</strong>. Estas acciones tienen un car&aacute;cter netamente preventivo.</p>
-
                 </div>
             </div>"""
 
@@ -412,8 +387,8 @@ def generar_html():
         SECCION_EQUIPO,
         SECCION_PILARES,
         SECCION_MODULOS_PROYECTO_VIDA,
-        SECCION_TRIAGE_PSICOSOCIAL,
         SECCION_GESTION_DATOS,
+        seccion_aliados_jco(),
         SECCION_ESTADISTICAS,
     ])
 

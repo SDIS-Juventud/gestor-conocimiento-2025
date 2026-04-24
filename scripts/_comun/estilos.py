@@ -34,21 +34,21 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 .sidebar { width: 280px; background: #fff; border-right: 1px solid #e0e0e0; padding: 20px 0; overflow-y: auto; }
 .sidebar-section { margin-bottom: 10px; }
 .sidebar-title { padding: 12px 20px; font-weight: 600; color: var(--accent); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-.sidebar-title:hover { background: var(--accent-bg); }
+.sidebar-title:hover { background: transparent; opacity: 0.75; }
 .sidebar-title .arrow { display: inline-block; width: 8px; height: 8px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); transform: rotate(45deg); font-size: 0; color: transparent; transition: transform 0.25s ease; margin-right: 4px; }
 .sidebar-title.active .arrow { transform: rotate(135deg); margin-top: -4px; }
 .sidebar-items { display: none; padding-left: 20px; }
 .sidebar-items.show { display: block; }
 .sidebar-item { padding: 10px 20px; cursor: pointer; font-size: 0.9rem; color: #3A3A3A; transition: all 0.2s; }
-.sidebar-item:hover { background: var(--accent-bg); }
-.sidebar-item.active { background: var(--accent-border); color: var(--accent); font-weight: 600; }
+.sidebar-item:hover { background: transparent; color: var(--accent); }
+.sidebar-item.active { background: transparent; color: var(--accent); font-weight: 600; }
 .sidebar-link { display: block; padding: 12px 20px; font-weight: 600; color: var(--accent); text-decoration: none; transition: background 0.2s; }
-.sidebar-link:hover { background: var(--accent-bg); }
+.sidebar-link:hover { background: transparent; opacity: 0.75; }
 .main-content { flex: 1; padding: 30px; overflow-y: auto; }
 .content-section { display: none; }
 .content-section.active { display: block; }
 .card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 20px; }
-.card-title { font-size: 1.4rem; color: var(--accent); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid var(--accent-border); }
+.card-title { font-size: 1.4rem; color: var(--accent); margin-bottom: 15px; }
 .card-subtitle { font-size: 1.15rem; color: var(--accent); font-weight: 500; margin: 25px 0 10px 0; opacity: 0.85; }
 .card p { margin-bottom: 15px; }
 .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-right: 8px; margin-bottom: 8px; }

@@ -13,8 +13,12 @@ Para correrlo: python scripts/generar_juventud.py
 # ========== celda 1: pqodiu9c96j ==========
 # Carga de datos
 import pandas as pd
-import os, re, unicodedata
+import os, re, sys, unicodedata
 from datetime import datetime
+
+# Modulo compartido para la seccion de aliados
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _comun.aliados import seccion_casas as seccion_aliados_casas
 
 # Raíz del proyecto (un nivel arriba de scripts/)
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -867,13 +871,13 @@ CSS = """        @import url('https://fonts.googleapis.com/css2?family=Anton&fam
         .sidebar { width: 280px; background: #fff; border-right: 1px solid #e0e0e0; padding: 20px 0; overflow-y: auto; }
         .sidebar-section { margin-bottom: 10px; }
         .sidebar-title { padding: 12px 20px; font-weight: 600; color: #253C5C; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-        .sidebar-title:hover { background: #EAEFF5; }
+        .sidebar-title:hover { background: transparent; opacity: 0.75; }
         .sidebar-title .arrow { display: inline-block; width: 8px; height: 8px; border-top: 2px solid #253C5C; border-right: 2px solid #253C5C; transform: rotate(45deg); font-size: 0; color: transparent; transition: transform 0.25s ease; margin-right: 4px; }
         .sidebar-title.active .arrow { transform: rotate(135deg); margin-top: -4px; }
         .sidebar-items { display: none; padding-left: 20px; } .sidebar-items.show { display: block; }
         .sidebar-item { padding: 10px 20px; cursor: pointer; font-size: 0.9rem; color: #3A3A3A; transition: all 0.2s; }
-        .sidebar-item:hover { background: #EAEFF5; }
-        .sidebar-item.active { background: #DFE6F0; color: #253C5C; font-weight: 600; }
+        .sidebar-item:hover { background: transparent; color: #253C5C; }
+        .sidebar-item.active { background: transparent; color: #253C5C; font-weight: 600; }
         .main-content { flex: 1; padding: 30px; overflow-y: auto; }
         .content-section { display: none; } .content-section.active { display: block; }
         .card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 20px; }
@@ -978,6 +982,8 @@ html = f"""<!DOCTYPE html>
                 </div></div>
 
 
+
+            <div class="sidebar-section"><div class="sidebar-title" onclick="showContent('aliados')" style="cursor:pointer;"><span>Aliados</span></div></div>
 
             <div class="sidebar-section"><div class="sidebar-title" onclick="showContent('resumen')" style="cursor:pointer;"><span>Estadísticas</span></div></div>
         </nav>
@@ -1334,6 +1340,8 @@ html = f"""<!DOCTYPE html>
                 <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Representación visual del ciclo de recolección y digitación en SIRBE para las Casas de Juventud.</p>
                 <img src="imagenes/diagrama_flujo_casas_juventud.png" alt="Diagrama de flujo del proceso del ciclo Casas de la Juventud" style="width:100%; border:1px solid #e0e0e0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
             </div></div>
+
+{seccion_aliados_casas()}
 
             <div class="content-section" id="resumen"><div class="card">
                 <h2 class="card-title">Resumen general</h2>
