@@ -1,6 +1,7 @@
 Notes/
 archivo/
 scripts/
+alianzas/
 *.xlsx
 !datos/equipo_casas_juventud.xlsx
 !datos/directorio_casas_juventud.xlsx

@@ -51,9 +51,9 @@ SIDEBAR_CONTEXTO = """\
                     <span>Contexto</span><span class="arrow">&#9654;</span>
                 </div>
                 <div class="sidebar-items show">
-                    <div class="sidebar-item" onclick="showContent('descripcion')">Descripci&oacute;n del equipo</div>
-                    <div class="sidebar-item" onclick="showContent('triage')">Triage psicosocial</div>
-                    <div class="sidebar-item" onclick="showContent('protocolos')">Protocolos de atenci&oacute;n</div>
+                    <div class="sidebar-item" onclick="showContent('descripcion')">Objetivos</div>
+                    <div class="sidebar-item" onclick="showContent('triage')">Detecci&oacute;n de alertas</div>
+                    <div class="sidebar-item" onclick="showContent('protocolos')">C&oacute;mo opera</div>
                     <div class="sidebar-item" onclick="showContent('estadisticas')">Estad&iacute;sticas</div>
                 </div>
             </div>"""
@@ -83,8 +83,7 @@ SECCION_WELCOME = """\
 SECCION_DESCRIPCION = """\
             <div class="content-section" id="descripcion">
                 <div class="card">
-                    <h2 class="card-title">Descripci&oacute;n del equipo</h2>
-                    <p style="line-height:1.7;">El equipo de alertas identifica j&oacute;venes con situaciones de riesgo a partir del <strong>triage psicosocial</strong> y activa las rutas de atenci&oacute;n correspondientes en coordinaci&oacute;n con los equipos territoriales y el equipo de anal&iacute;tica de la Subdirecci&oacute;n para la Juventud.</p>
+                    <h2 class="card-title">Objetivos</h2>
 
                     <h3 class="card-subtitle">Objetivo general</h3>
                     <p style="line-height:1.7;">Implementar una estrategia integral de prevenci&oacute;n, atenci&oacute;n y fortalecimiento de capacidades que permita mejorar las condiciones de vida de los y las j&oacute;venes vinculadas a los servicios de la Subdirecci&oacute;n para la Juventud, mediante el establecimiento de rutas de atenci&oacute;n a alertas, articulaciones interinstitucionales y acompa&ntilde;amiento t&eacute;cnico a los equipos territoriales.</p>
@@ -124,8 +123,8 @@ SECCION_DESCRIPCION = """\
 SECCION_TRIAGE = """\
             <div class="content-section" id="triage">
                 <div class="card">
-                    <h2 class="card-title">El Triage psicosocial</h2>
-                    <p style="line-height:1.7;">El <strong>Triage psicosocial</strong> es el instrumento principal del equipo de Parche seguro. Es un auto-reporte que se aplica a los j&oacute;venes atendidos por la Subdirecci&oacute;n para la Juventud y permite caracterizarlos social, econ&oacute;mica y territorialmente. Sus resultados detectan situaciones de riesgo y canalizan a cada joven hacia la atenci&oacute;n psicosocial adecuada.</p>
+                    <h2 class="card-title">Detecci&oacute;n de alertas</h2>
+                    <p style="line-height:1.7;">La detecci&oacute;n de alertas es la primera etapa del trabajo de Parche seguro. Un gestor o profesional psicosocial identifica si el joven presenta alguna situaci&oacute;n de riesgo: problemas de salud, consumo de sustancias, riesgos de salud mental u otras vulnerabilidades. Posteriormente se clasifica la urgencia y se activa la ruta de atenci&oacute;n correspondiente.</p>
 
                     <h3 class="card-subtitle">&iquest;Para qu&eacute; sirve?</h3>
 
@@ -167,7 +166,7 @@ SECCION_TRIAGE = """\
 SECCION_PROTOCOLOS = """\
             <div class="content-section" id="protocolos">
                 <div class="card">
-                    <h2 class="card-title">Protocolos de atenci&oacute;n</h2>
+                    <h2 class="card-title">C&oacute;mo opera</h2>
                     <p style="line-height:1.7;">El equipo de Parche seguro opera a partir de una <strong>ruta metodol&oacute;gica</strong> que va desde la detecci&oacute;n de la alerta hasta el cierre del caso. A continuaci&oacute;n se describe la tipolog&iacute;a completa de alertas, los instrumentos que usa el equipo, el flujo de atenci&oacute;n y los estados de seguimiento.</p>
 
                     <h3 class="card-subtitle">Diagrama de alertas</h3>
@@ -257,19 +256,13 @@ SECCION_PROTOCOLOS = """\
                         </table>
                     </div>
 
-                    <h3 class="card-subtitle">Instrumentos del equipo</h3>
-                    <p style="line-height:1.7;">El equipo captura y hace seguimiento de las alertas con dos instrumentos articulados:</p>
+                    <h3 class="card-subtitle">Formulario de alertas</h3>
+                    <p style="line-height:1.7;">El primer paso para gestionar cualquier alerta es la captaci&oacute;n de la informaci&oacute;n y el registro de los casos. Una vez el profesional psicosocial identifica una alerta, diligencia un formulario de Outlook que recolecta la informaci&oacute;n necesaria para cada tipo de alerta, con &iacute;tems adaptados a lo que las entidades receptoras requieren al momento de hacer la canalizaci&oacute;n.</p>
 
-                    <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:22px; margin:20px 0 30px;">
-                        <div style="background:#2B2F3A; border-radius:12px; padding:22px; box-shadow:7px 7px 0 #f5c08e; color:#fff;">
-                            <h4 style="font-size:1rem; color:#f5c08e; margin:0 0 10px; font-weight:700;">Formulario de alertas</h4>
-                            <p style="font-size:0.85rem; color:rgba(255,255,255,0.85); margin:0; line-height:1.6;">Formulario de <strong>Outlook</strong> que diligencia el profesional psicosocial cuando identifica una alerta. Tiene preguntas ramificadas adaptadas a cada tipo de alerta, de modo que al momento del enrutamiento ya contiene toda la informaci&oacute;n que requiere la entidad receptora. Es de uso exclusivo de los equipos psicosocial y de alertas.</p>
-                        </div>
-                        <div style="background:#2B2F3A; border-radius:12px; padding:22px; box-shadow:7px 7px 0 #f5c08e; color:#fff;">
-                            <h4 style="font-size:1rem; color:#f5c08e; margin:0 0 10px; font-weight:700;">Base de datos de alertas</h4>
-                            <p style="font-size:0.85rem; color:rgba(255,255,255,0.85); margin:0; line-height:1.6;">Archivo de <strong>Excel centralizado</strong> que descarga y organiza el <strong>equipo de anal&iacute;tica semanalmente</strong>. Permite filtrar por tipolog&iacute;a, revisar el estado y los seguimientos de cada caso, e identificar los casos m&aacute;s complejos para ajustar rutas de enrutamiento.</p>
-                        </div>
-                    </div>
+                    <p style="line-height:1.7;">El formulario tiene preguntas ramificadas, de modo que el enrutamiento posterior no requiere volver a preguntarle al profesional o al joven. En el caso de las alertas inmediatas o de atenci&oacute;n urgente, cada equipo de alertas define los medios de comunicaci&oacute;n con los equipos territoriales que reportan la situaci&oacute;n.</p>
+
+                    <h3 class="card-subtitle">Base de datos de alertas</h3>
+                    <p style="line-height:1.7;">Cuando la informaci&oacute;n est&aacute; cargada, el equipo de anal&iacute;tica la descarga semanalmente y la organiza en un Excel centralizado con todas las alertas de la Subdirecci&oacute;n. En esta base se puede filtrar por tipolog&iacute;a y consultar el estado y los seguimientos de cada caso, para tener un panorama actualizado de su evoluci&oacute;n y detectar los casos m&aacute;s complejos que requieren ajustes en la ruta de enrutamiento.</p>
 
                     <h3 class="card-subtitle">Ruta de atenci&oacute;n en 4 pasos</h3>
                     <p style="line-height:1.7;">El flujo de atenci&oacute;n de cada alerta pasa por cuatro momentos:</p>

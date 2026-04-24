@@ -1,3 +1,22 @@
+# ==========================================================================
+# DEPRECADO - NO EJECUTAR
+# ==========================================================================
+# Este script ya no es la fuente de verdad de la seccion de Aliados.
+# La logica y el contenido se movieron a scripts/_comun/aliados.py,
+# y los gestores (generar_gc_jco.py y generar_gc_forjar.py) ya la
+# integran directamente al regenerar el HTML.
+#
+# Ejecutarlo hoy no pisa nada (el regex ya no encuentra la seccion
+# porque los gestores se autoensamblan), pero queda como referencia
+# historica. Si se borra, actualizar tambien las notas de Notes/.
+#
+# Para cambiar los aliados: editar scripts/_comun/aliados.py y volver
+# a correr generar_gc_jco.py o generar_gc_forjar.py.
+# ==========================================================================
+import sys
+print("AVISO: update_aliados.py esta deprecado. Ver cabecera del archivo.")
+sys.exit(0)
+
 import re
 
 # === HTML GENERATORS ===

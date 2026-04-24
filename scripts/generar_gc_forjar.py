@@ -15,6 +15,7 @@ DATOS = os.path.join(BASE, "datos")
 # CSS compartido con los demás generadores
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _comun.estilos import css_para
+from _comun.aliados import seccion_forjar as seccion_aliados_forjar
 
 # CSS del servicio (base compartido + color propio de Forjar)
 CSS = css_para("forjar")
@@ -64,6 +65,11 @@ SIDEBAR = """\
                 <div class="sidebar-items">
                     <div class="sidebar-item" onclick="showContent('flujo_datos')">Flujo de gesti&oacute;n de la informaci&oacute;n</div>
                     <div class="sidebar-item" onclick="showContent('datos_sirbe')">Datos SIRBE</div>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="showContent('aliados')" style="cursor:pointer;">
+                    <span>Aliados</span>
                 </div>
             </div>
             <div class="sidebar-section">
@@ -411,6 +417,7 @@ def ensamblar_html():
         SECCION_MODALIDADES,
         SECCION_FLUJO_DATOS,
         SECCION_DATOS_SIRBE,
+        seccion_aliados_forjar(),
         SECCION_ESTADISTICAS,
     ])
 

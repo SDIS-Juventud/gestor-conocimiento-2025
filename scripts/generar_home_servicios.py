@@ -119,41 +119,34 @@ def generar_pagina_servicio(titulo, subtitulo, sidebar_html, contenido_html, arc
 # =====================================================================
 def generar_index():
     # Cada servicio tiene:
-    #   nombre        → texto que aparece en el recuadro urbano (Anton uppercase vía CSS)
-    #   alt           → texto alternativo del logo (para accesibilidad)
-    #   box_extra     → clase extra del recuadro (ej. "is-long" para nombres largos que no quepan centrados)
+    #   alt     → texto alternativo del logo (para accesibilidad)
+    #   archivo → HTML destino del gestor
+    #   imagen  → logo del servicio
+    #   desc    → descripcion que aparece sobre el logo
     servicios = [
         {
-            "nombre": "Casas de Juventud",
             "alt": "Casas de Juventud",
             "archivo": "gestion_conocimiento_juventud_2025.html",
             "imagen": "imagenes/servicios/casas-de-juventud.png",
             "desc": "Espacios distritales para j&oacute;venes entre 14 y 28 a&ntilde;os. Oferta integral a trav&eacute;s de 5 ejes: bienestar, cultura, inclusi&oacute;n, liderazgo y SIDICU.",
-            "box_extra": "",
         },
         {
-            "nombre": "J&oacute;venes con oportunidades",
             "alt": "J&oacute;venes con oportunidades",
             "archivo": "gestion_conocimiento_jco_2025.html",
             "imagen": "imagenes/servicios/jovenes-con-oportunidades.png",
             "desc": "Formaci&oacute;n, apoyo psicosocial, transferencias monetarias condicionadas y acompa&ntilde;amiento laboral para j&oacute;venes de 14 a 28 a&ntilde;os en condici&oacute;n de vulnerabilidad.",
-            "box_extra": "is-long",
         },
         {
-            "nombre": "Forjar",
             "alt": "Servicio Forjar Restaurativo",
             "archivo": "gestion_conocimiento_forjar_2025.html",
             "imagen": "imagenes/servicios/forjar.png",
             "desc": "Servicio restaurativo de atenci&oacute;n integral a adolescentes y j&oacute;venes vinculados al SRPA, con enfoque en sanciones no privativas de libertad y acompa&ntilde;amiento sociofamiliar.",
-            "box_extra": "",
         },
         {
-            "nombre": "Parche seguro",
             "alt": "Parche seguro",
             "archivo": "gestion_conocimiento_alertas_2025.html",
             "imagen": "imagenes/servicios/alertas.png",
             "desc": "Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven.",
-            "box_extra": "",
         },
     ]
 
@@ -164,10 +157,8 @@ def generar_index():
     tarjetas = ""
     for i, s in enumerate(servicios):
         color = colores[i]
-        box_class = "service-name-box" + (f" {s['box_extra']}" if s['box_extra'] else "")
         tarjetas += f"""
             <a class="service-card" href="{s['archivo']}" style="--accent:{color};">
-                <div class="{box_class}">{s['nombre']}</div>
                 <div class="service-desc">{s['desc']}</div>
                 <div class="service-logo">
                     <img src="{s['imagen']}" alt="{s['alt']}">
@@ -208,26 +199,32 @@ def generar_index():
         .services-grid {{
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 72px 28px;
-            max-width: 880px;
+            gap: 72px 36px;
+            max-width: 1080px;
             margin: 0 auto;
             padding: 40px 0 40px;
         }}
 
-        /* Tarjetas */
+        /* Tarjetas - flex column, logo sobresale por abajo (mitad dentro / mitad fuera) */
         .service-card {{
             background: rgba(255,255,255,0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 20px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.04);
-            padding: 32px 26px 22px;
+            padding: 24px 24px 14px;
             text-align: center;
             text-decoration: none;
             color: inherit;
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             border: 2px solid rgba(0,0,0,0.04);
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 150px;
+            overflow: visible;
         }}
         .service-card:hover {{
             transform: translateY(-8px);
@@ -235,36 +232,20 @@ def generar_index():
             border-color: var(--accent, #663A93);
         }}
 
-        /* Recuadro de nombre del servicio — estilo urbano, sobresale por encima de la tarjeta */
-        .service-name-box {{
-            font-family: 'Anton', 'Figtree', sans-serif;
-            font-weight: 400;
-            font-size: 1.75rem;
-            line-height: 1.05;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            background: #2d2a28;
-            color: #f4f5de;
-            padding: 14px 20px 11px;
-            margin: -54px auto 26px;
-            display: block;
-            width: fit-content;
-            max-width: calc(100% + 40px);
+        /* Descripci&oacute;n del servicio */
+        .service-desc {{
+            font-size: 0.88rem;
+            color: #555;
+            line-height: 1.5;
             text-align: center;
-            position: relative;
-            z-index: 2;
-            transition: transform 0.3s ease;
+            margin: 0 auto;
+            max-width: 340px;
         }}
-        .service-card:hover .service-name-box {{
-            transform: scale(1.03);
-        }}
-        /* Variante para nombres largos: una línea aunque el recuadro sobresalga del card */
-        .service-name-box.is-long {{ white-space: nowrap; max-width: none; }}
 
-        /* Logo — sobresale por debajo del borde inferior de la tarjeta */
+        /* Logo — sobresale por el borde inferior (mitad dentro, mitad fuera) */
         .service-logo {{
-            height: 52px;
-            margin: 18px auto -30px;
+            height: 56px;
+            margin: 14px auto -28px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -274,8 +255,6 @@ def generar_index():
         }}
         .service-logo img {{ height: 100%; object-fit: contain; }}
         .service-card:hover .service-logo {{ transform: scale(1.08); }}
-
-        .service-desc {{ font-size: 0.88rem; color: #666; line-height: 1.65; }}
 
         /* Bot&oacute;n de ayuda */
         .help-btn {{
@@ -311,13 +290,9 @@ def generar_index():
         .modal-close:hover {{ opacity: 1; }}
 
         @media (max-width: 700px) {{
-            .services-grid {{ grid-template-columns: 1fr; gap: 64px; padding: 30px 0 30px; }}
+            .services-grid {{ grid-template-columns: 1fr; gap: 40px; padding: 30px 0 30px; }}
             .main {{ padding: 35px 20px 40px; }}
-            .service-name-box {{
-                font-size: 1.55rem;
-                padding: 12px 16px 9px;
-                margin: -44px auto 22px;
-            }}
+            .service-desc {{ font-size: 0.9rem; }}
             .service-logo {{ height: 46px; }}
         }}
     </style>
@@ -951,9 +926,13 @@ def generar_alertas():
 # Ejecutar todo
 # =====================================================================
 if __name__ == "__main__":
-    print("Generando páginas del gestor de conocimiento...\n")
+    # IMPORTANTE: este script solo genera el index (home).
+    # Los gestores de JCO, Forjar y Alertas se generan SOLO desde sus
+    # scripts individuales (generar_gc_jco.py, generar_gc_forjar.py,
+    # generar_gc_alertas.py), porque esos tienen el contenido real
+    # y actualizado. Las funciones generar_jco/forjar/alertas de este
+    # archivo contienen placeholders viejos y quedan aqui solo como
+    # referencia historica. NO las llames: pisan el contenido real.
+    print("Generando pagina home del gestor de conocimiento...\n")
     generar_index()
-    generar_jco()
-    generar_forjar()
-    generar_alertas()
-    print("\nListo. Todos los archivos generados.")
+    print("\nListo. Index generado.")

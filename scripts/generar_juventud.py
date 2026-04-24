@@ -881,7 +881,7 @@ CSS = """        @import url('https://fonts.googleapis.com/css2?family=Anton&fam
         .main-content { flex: 1; padding: 30px; overflow-y: auto; }
         .content-section { display: none; } .content-section.active { display: block; }
         .card { background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 20px; }
-        .card-title { font-size: 1.4rem; color: #253C5C; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #DFE6F0; }
+        .card-title { font-size: 1.4rem; color: #253C5C; margin-bottom: 15px; }
         .card-subtitle { font-size: 1.15rem; color: #3A5275; font-weight: 500; margin: 25px 0 10px 0; }
         .card p { margin-bottom: 15px; }
         .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-right: 8px; margin-bottom: 8px; }
