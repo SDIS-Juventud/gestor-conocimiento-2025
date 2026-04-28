@@ -209,7 +209,7 @@ SECCION_EQUIPO = """\
 <!--CAJAS_EQUIPO-->
                             <div class="equipo-centro">
                                 <div class="equipo-centro-circulo">
-                                    <img src="imagenes/servicios/forjar.png" alt="Servicio Forjar Restaurativo">
+                                    <img src="imagenes/servicios/forjar_circulo.png" alt="Servicio Forjar Restaurativo">
                                 </div>
                                 <div class="equipo-centro-label">Equipo de atenci&oacute;n integral</div>
                             </div>
