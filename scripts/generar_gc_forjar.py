@@ -87,7 +87,7 @@ SECCION_WELCOME = """\
             <div class="content-section active" id="welcome">
                 <div class="welcome-section">
                     <div style="font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:1.9rem; line-height:1.05; letter-spacing:1px; text-transform:uppercase; background:#2d2a28; color:#f4f5de; padding:14px 24px 11px; margin:0 auto 28px; display:block; width:fit-content; max-width:100%; text-align:center;">Servicio Forjar Restaurativo</div>
-                    <p>Servicio de la Subdirecci&oacute;n para la Juventud dirigido a adolescentes y j&oacute;venes de 14 a 28 a&ntilde;os vinculados al Sistema de Responsabilidad Penal para Adolescentes (SRPA). Ofrece acompa&ntilde;amiento integral con enfoque restaurativo, priorizando sanciones no privativas de libertad y el acompa&ntilde;amiento en el medio sociofamiliar.</p>
+                    <p>Servicio de atenci&oacute;n integral, especializada y diferencial dirigido a adolescentes y j&oacute;venes de 14 a 28 a&ntilde;os vinculados al Sistema de Responsabilidad Penal para Adolescentes (SRPA) y a sus redes familiares, en el marco de modalidades de atenci&oacute;n no privativas de la libertad, desde un enfoque pedag&oacute;gico y restaurativo.</p>
                     <div style="margin:30px auto 0; max-width:450px;">
                         <img src="imagenes/Forjar.jpg" alt="Servicio Forjar Restaurativo" style="width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
                     </div>
@@ -100,8 +100,8 @@ SECCION_LINEA_TIEMPO = """\
                     <h2 class="card-title">L&iacute;nea de tiempo</h2>
                     <div class="timeline">
                         <div class="timeline-item">
-                            <div class="timeline-year">2010</div>
-                            <div class="timeline-text"><strong>Creaci&oacute;n como proyecto de inversi&oacute;n.</strong> El servicio nace en la localidad de Ciudad Bol&iacute;var como respuesta a la &ldquo;delincuencia juvenil&rdquo; identificada en las zonas de calor. Funcion&oacute; a trav&eacute;s de un convenio de la Alcald&iacute;a local y cooperaci&oacute;n internacional (una ONG y Artesan&iacute;as de Colombia), con enfoque en formaci&oacute;n en artes y oficios.</div>
+                            <div class="timeline-year">2009</div>
+                            <div class="timeline-text"><strong>Creaci&oacute;n como Convenio.</strong> El servicio nace en la localidad de Ciudad Bol&iacute;var como respuesta a la &ldquo;delincuencia juvenil&rdquo; identificada en las zonas de calor a nivel distrital. Este convenio se desarroll&oacute; entre la Alcald&iacute;a Local, Artesan&iacute;as de Colombia, CIRCO Ciudad, USAID y la OIM, con enfoque en formaci&oacute;n en artes y oficios, como alternativa al delito.</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2012 &ndash; 2013</div>
@@ -113,7 +113,7 @@ SECCION_LINEA_TIEMPO = """\
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2021</div>
-                            <div class="timeline-text"><strong>Creaci&oacute;n de nuevas rutas de atenci&oacute;n.</strong> Se dise&ntilde;a la <strong>Ruta de Oportunidades Juveniles</strong> para ampliar opciones en educaci&oacute;n, inclusi&oacute;n productiva, cultura y recreaci&oacute;n. Tambi&eacute;n surge la <strong>Ruta Integral de Atenci&oacute;n para J&oacute;venes (RIAJ)</strong>, estrategia propia de la SDIS para orientar a quienes est&aacute;n vinculados al SRPA y esperan la resoluci&oacute;n de su situaci&oacute;n socio-jur&iacute;dica.</div>
+                            <div class="timeline-text"><strong>Creaci&oacute;n de nuevas rutas de atenci&oacute;n.</strong> Se dise&ntilde;a la <strong>Ruta de Oportunidades Juveniles</strong> para ampliar opciones en educaci&oacute;n, inclusi&oacute;n productiva, cultura y recreaci&oacute;n. Tambi&eacute;n surge la <strong>Ruta Integral de Atenci&oacute;n para J&oacute;venes (RIAJ)</strong>, estrategia propia de la SDIS para orientar a quienes est&aacute;n vinculados al Sistema de Responsabilidad Penal para Adolescentes (SRPA) y esperan la resoluci&oacute;n de su situaci&oacute;n socio-jur&iacute;dica.</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2023</div>
@@ -121,7 +121,11 @@ SECCION_LINEA_TIEMPO = """\
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2025</div>
-                            <div class="timeline-text"><strong>Fortalecimiento del acompa&ntilde;amiento al pos-egreso.</strong> Se ampl&iacute;a la Estrategia de Acompa&ntilde;amiento al Egreso para brindar continuidad voluntaria por 6 meses a 1 a&ntilde;o tras cumplir la sanci&oacute;n, consolidando la inclusi&oacute;n social y productiva a trav&eacute;s de la Ruta de Oportunidades Juveniles.</div>
+                            <div class="timeline-text"><strong>Fortalecimiento del acompa&ntilde;amiento en el egreso.</strong> Se ampl&iacute;a la estrategia de acompa&ntilde;amiento en el egreso para brindar continuidad voluntaria por 6 meses a 1 a&ntilde;o tras cumplir la sanci&oacute;n, consolidando la inclusi&oacute;n social y productiva a trav&eacute;s de la Ruta de Oportunidades Juveniles.</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2026</div>
+                            <div class="timeline-text"><strong>Creaci&oacute;n del Manual Operativo del servicio.</strong> Reemplaza el Modelo de Atenci&oacute;n Integral del servicio, actualizando los referentes conceptuales y metodol&oacute;gicos para la prestaci&oacute;n y articul&aacute;ndolos con las condiciones espec&iacute;ficas de calidad del servicio.</div>
                         </div>
                     </div>
                 </div>
@@ -139,16 +143,16 @@ SECCION_A_TENER_EN_CUENTA = """\
                     <p style="line-height:1.7;">El servicio se fundamenta en tres pilares: la responsabilizaci&oacute;n, la reparaci&oacute;n del da&ntilde;o y la inclusi&oacute;n social (reintegraci&oacute;n). Se distancia del modelo de justicia retributiva centrado en el castigo.</p>
 
                     <h3 class="card-subtitle">Atenci&oacute;n a j&oacute;venes mayores de edad</h3>
-                    <p style="line-height:1.7;">El Servicio Forjar Restaurativo atiende a j&oacute;venes hasta los 28 a&ntilde;os (11 meses y 29 d&iacute;as) en dos l&iacute;neas: j&oacute;venes que cumplen sanciones por conductas punibles (SRPA, cuando el ingreso ocurri&oacute; antes de los 18 a&ntilde;os) y j&oacute;venes que requieren medidas de protecci&oacute;n y restablecimiento de derechos. Debido a los tiempos de los procesos judiciales, m&aacute;s de la mitad de la poblaci&oacute;n atendida es mayor de edad, por lo que el servicio enfoca su oferta en necesidades de juventud como empleabilidad y emprendimiento.</p>
+                    <p style="line-height:1.7;">El Servicio Forjar Restaurativo atiende a j&oacute;venes hasta los 28 a&ntilde;os (11 meses y 29 d&iacute;as) en dos l&iacute;neas: j&oacute;venes que cumplen sanciones por conductas punibles (Sistema de Responsabilidad Penal para Adolescentes &mdash; SRPA, cuando el ingreso ocurri&oacute; antes de los 18 a&ntilde;os) y j&oacute;venes que requieren medidas de protecci&oacute;n y restablecimiento de derechos. Debido a los tiempos de los procesos judiciales, m&aacute;s de la mitad de la poblaci&oacute;n atendida es mayor de edad, por lo que el servicio enfoca su oferta en favorecer procesos de inclusi&oacute;n social y productiva.</p>
 
                     <h3 class="card-subtitle">Cobertura distrital desde tres puntos estrat&eacute;gicos</h3>
                     <p style="line-height:1.7;">Aunque opera f&iacute;sicamente en tres unidades operativas (Suba, Ciudad Bol&iacute;var y Rafael Uribe Uribe), ubicadas en localidades con alta incidencia, Forjar atiende al 100% de la poblaci&oacute;n objetivo del Distrito Capital, recibiendo j&oacute;venes de cualquier localidad.</p>
 
                     <h3 class="card-subtitle">Continuidad voluntaria despu&eacute;s de la sanci&oacute;n</h3>
-                    <p style="line-height:1.7;">El acompa&ntilde;amiento no termina cuando se cumple la orden del juez. La estrategia de acompa&ntilde;amiento al pos-egreso permite a los j&oacute;venes continuar de manera 100% voluntaria por 6 meses a 1 a&ntilde;o, buscando consolidar su proyecto de vida y evitar el retorno a entornos vulnerables sin apoyo institucional.</p>
+                    <p style="line-height:1.7;">El acompa&ntilde;amiento no termina cuando se cumple la orden del juez. La estrategia de acompa&ntilde;amiento al egreso permite a los j&oacute;venes continuar de manera 100% voluntaria por 6 meses a 1 a&ntilde;o, buscando consolidar su proyecto de vida y evitar el retorno a entornos vulnerables sin apoyo institucional o la reincidencia en conductas al margen de la ley.</p>
 
                     <h3 class="card-subtitle">Cumplimiento de mandatos judiciales</h3>
-                    <p style="line-height:1.7;">A diferencia de otros servicios de la Subdirecci&oacute;n, Forjar no es voluntario: da cumplimiento a sanciones y medidas impuestas por autoridades judiciales. Esto significa que la atenci&oacute;n no puede interrumpirse ni postergarse, ya que cualquier falla en la prestaci&oacute;n del servicio puede generar consecuencias legales y disciplinarias para la entidad, adem&aacute;s de afectar directamente el proceso de los j&oacute;venes.</p>
+                    <p style="line-height:1.7;">A diferencia de otros servicios de la Subdirecci&oacute;n, el cumplimiento de modalidades no privativas de la libertad que contempla el SRPA, en el servicio Forjar, no es voluntario, sino que responde a imposiciones de las autoridades administrativas y judiciales del SRPA, y por tanto la prestaci&oacute;n del servicio no puede interrumpirse ni postergarse, ya que cualquier incumplimiento a la atenci&oacute;n puede generar consecuencias legales y disciplinarias para la entidad, adem&aacute;s de afectar directamente el proceso de los j&oacute;venes.</p>
                 </div>
             </div>"""
 
@@ -158,29 +162,103 @@ SECCION_EQUIPO = """\
                     <h2 class="card-title">Equipo</h2>
 
                     <h3 class="card-subtitle">Liderazgo</h3>
-                    <p style="line-height:1.7;"><strong>Aura Vanessa Le&oacute;n</strong> &mdash; L&iacute;der del Servicio Forjar Restaurativo, Subdirecci&oacute;n para la Juventud, SDIS.</p>
+                    <p style="line-height:1.7;"><strong>Aura Vanessa Le&oacute;n</strong> - L&iacute;der del Servicio Forjar Restaurativo, Subdirecci&oacute;n para la Juventud, SDIS.</p>
                     <p style="line-height:1.7;">Coordina la atenci&oacute;n especializada, formaci&oacute;n para el trabajo y oportunidades juveniles. El servicio hace parte de la estructura territorial de la SDIS, reportando al Subdirector para la Juventud.</p>
 
-                    <h3 class="card-subtitle">Componentes profesionales</h3>
+                    <h3 class="card-subtitle">Componentes del equipo de atenci&oacute;n integral</h3>
+                    <p style="line-height:1.7; margin-bottom:18px;">El equipo se organiza en ocho componentes que articulan los roles profesionales de la atenci&oacute;n integral. La agrupaci&oacute;n por color identifica el tipo de aporte: <span style="color:#5f9ea0; font-weight:600;">atenci&oacute;n directa al joven</span>, <span style="color:#e07850; font-weight:600;">apoyo especializado</span> y <span style="color:#7b6b99; font-weight:600;">soporte t&eacute;cnico y administrativo</span>.</p>
 
-                    <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
-                        <thead>
-                            <tr style="background:#f8f9fa;">
-                                <th style="padding:10px; border-bottom:2px solid var(--accent); text-align:left;">Componente</th>
-                                <th style="padding:10px; border-bottom:2px solid var(--accent); text-align:left;">Profesionales</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="background:#fff;"><td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Psicosocial</strong></td><td style="padding:8px 10px; border-bottom:1px solid #eee;">Trabajo social y psicolog&iacute;a</td></tr>
-                            <tr style="background:#f8f9fa;"><td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Pedag&oacute;gico</strong></td><td style="padding:8px 10px; border-bottom:1px solid #eee;">Pedagog&iacute;a y terapia ocupacional</td></tr>
-                            <tr style="background:#fff;"><td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Estilos de vida saludable</strong></td><td style="padding:8px 10px; border-bottom:1px solid #eee;">Nutrici&oacute;n y enfermer&iacute;a</td></tr>
-                            <tr style="background:#f8f9fa;"><td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Ruta de oportunidades juveniles</strong></td><td style="padding:8px 10px; border-bottom:1px solid #eee;">Enlace social</td></tr>
-                            <tr style="background:#fff;"><td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Socio-jur&iacute;dico</strong></td><td style="padding:8px 10px; border-bottom:1px solid #eee;">Abogados</td></tr>
-                            <tr style="background:#f8f9fa;"><td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>Administrativo y t&eacute;cnico</strong></td><td style="padding:8px 10px; border-bottom:1px solid #eee;">Administrativo, coordinaci&oacute;n y enlace CESPA (Centro de Servicios Judiciales para Adolescentes)</td></tr>
-                        </tbody>
-                    </table>
+                    <style>
+                        .equipo-diagrama-wrapper { position: relative; max-width: 980px; margin: 18px auto 28px; padding: 8px 0; }
+                        .equipo-anillo { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+                        .equipo-diagrama { position: relative; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; grid-template-rows: repeat(4, auto); gap: 14px 18px; align-items: center; z-index: 1; }
+                        .equipo-caja { border: 2px solid; border-radius: 14px; padding: 12px 14px; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.04); transition: transform 0.18s ease, box-shadow 0.18s ease; position: relative; z-index: 1; }
+                        .equipo-caja:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+                        .equipo-caja .titulo { font-family: 'Anton','Figtree',sans-serif; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; font-size: 0.92rem; line-height: 1.1; margin-bottom: 4px; }
+                        .equipo-caja .roles { font-size: 0.82rem; color: #4a4a4a; line-height: 1.45; }
+                        .equipo-caja.izq { text-align: right; }
+                        .equipo-caja.der { text-align: left; }
+                        .equipo-color-1 { border-color: #5f9ea0; } .equipo-color-1 .titulo { color: #5f9ea0; }
+                        .equipo-color-2 { border-color: #e07850; } .equipo-color-2 .titulo { color: #e07850; }
+                        .equipo-color-3 { border-color: #7b6b99; } .equipo-color-3 .titulo { color: #7b6b99; }
+                        .equipo-centro { grid-column: 2 / span 2; grid-row: 2 / span 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; z-index: 2; position: relative; }
+                        .equipo-centro-circulo { width: 170px; height: 170px; border-radius: 50%; background: #90c8c6; border: 4px solid #5f9ea0; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(0,0,0,0.14); }
+                        .equipo-centro-circulo img { width: 140px; height: auto; }
+                        .equipo-centro-label { font-family: 'Anton','Figtree',sans-serif; font-weight: 400; letter-spacing: 0.6px; text-transform: uppercase; font-size: 0.85rem; color: #2F3E3C; text-align: center; max-width: 180px; line-height: 1.15; }
+                        @media (max-width: 960px) {
+                            .equipo-anillo { display: none; }
+                            .equipo-diagrama { grid-template-columns: 1fr 1fr; grid-template-rows: auto; gap: 10px; align-items: start; }
+                            .equipo-caja { grid-column: auto !important; grid-row: auto !important; }
+                            .equipo-caja.izq, .equipo-caja.der { text-align: center; }
+                            .equipo-centro { grid-column: 1 / -1 !important; grid-row: auto !important; order: -1; margin-bottom: 14px; }
+                            .equipo-centro-circulo { width: 140px; height: 140px; }
+                            .equipo-centro-circulo img { width: 105px; }
+                        }
+                        @media (max-width: 460px) {
+                            .equipo-caja { padding: 9px 10px; }
+                            .equipo-caja .titulo { font-size: 0.78rem; letter-spacing: 0.3px; }
+                            .equipo-caja .roles { font-size: 0.75rem; line-height: 1.4; }
+                        }
+                    </style>
+
+                    <div class="equipo-diagrama-wrapper">
+                        <svg class="equipo-anillo" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                            <ellipse cx="50" cy="50" rx="46" ry="44" fill="none" stroke="#5f9ea0" stroke-width="0.45" stroke-dasharray="1.2 1.2" opacity="0.6"/>
+                        </svg>
+                        <div class="equipo-diagrama">
+<!--CAJAS_EQUIPO-->
+                            <div class="equipo-centro">
+                                <div class="equipo-centro-circulo">
+                                    <img src="imagenes/servicios/forjar.png" alt="Servicio Forjar Restaurativo">
+                                </div>
+                                <div class="equipo-centro-label">Equipo de atenci&oacute;n integral</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>"""
+
+# Generar cajas del equipo desde Excel
+equipo_excel = os.path.join(DATOS, "equipo_forjar.xlsx")
+if os.path.exists(equipo_excel):
+    df_equipo = pd.read_excel(equipo_excel)
+    # Posicion -> (grid-column, grid-row, alineacion). Layout octogonal:
+    # filas 1 y 4 ocupan columnas centrales (2,3); filas 2 y 3 ocupan columnas
+    # exteriores (1,4); el logo central abarca filas 2-3 y columnas 2-3.
+    POSICION_GRID = {
+        1: (2, 1, "izq"),  # top-izq al centro
+        2: (3, 1, "der"),  # top-der al centro
+        3: (1, 2, "izq"),  # mid-alta-izq
+        4: (4, 2, "der"),  # mid-alta-der
+        5: (1, 3, "izq"),  # mid-baja-izq
+        6: (4, 3, "der"),  # mid-baja-der
+        7: (2, 4, "izq"),  # bot-izq al centro
+        8: (3, 4, "der"),  # bot-der al centro
+    }
+    COLOR_GRUPO = {
+        "atencion_directa": "equipo-color-1",
+        "apoyo_especializado": "equipo-color-2",
+        "soporte": "equipo-color-3",
+    }
+    cajas_html = ""
+    for pos in sorted(df_equipo["Posicion"].unique()):
+        sub = df_equipo[df_equipo["Posicion"] == pos]
+        componente = str(sub.iloc[0]["Componente"]).strip()
+        grupo = str(sub.iloc[0]["Grupo"]).strip()
+        # Concatenar roles con guion corto rodeado de espacios
+        roles = " - ".join(str(r).strip() for r in sub["Rol"].tolist() if pd.notna(r))
+        col, row, align = POSICION_GRID.get(int(pos), (1, 1, "izq"))
+        color_class = COLOR_GRUPO.get(grupo, "equipo-color-1")
+        cajas_html += f'                            <div class="equipo-caja {align} {color_class}" style="grid-column:{col}; grid-row:{row};">\n'
+        cajas_html += f'                                <div class="titulo">{componente}</div>\n'
+        cajas_html += f'                                <div class="roles">{roles}</div>\n'
+        cajas_html += f'                            </div>\n'
+    SECCION_EQUIPO = SECCION_EQUIPO.replace("<!--CAJAS_EQUIPO-->", cajas_html.rstrip())
+    print(f"Equipo Forjar generado desde Excel: {len(df_equipo)} roles en {df_equipo['Posicion'].nunique()} componentes")
+else:
+    SECCION_EQUIPO = SECCION_EQUIPO.replace("<!--CAJAS_EQUIPO-->", "")
+    print("Excel de equipo Forjar no encontrado en datos/equipo_forjar.xlsx")
 
 SECCION_UBICACION = """\
             <div class="content-section" id="ubicacion">
@@ -280,8 +358,8 @@ SECCION_MODALIDADES = """\
                     </div>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:10px; border-radius:8px;">
-                        <div style="background:#7b6b99; color:#fff; min-width:160px; padding:14px 20px 14px 16px; display:flex; align-items:center; font-weight:700; font-size:0.88rem; position:relative; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2; position:relative;">Pos-egreso</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 18px 14px 28px; font-size:0.85rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Dirigida a quienes culminaron el cumplimiento de diversas modalidades del SRPA y deciden dar continuidad voluntaria a su proceso. <strong>Acompa&ntilde;amiento por 6 meses a 1 a&ntilde;o</strong> para consolidar la inclusi&oacute;n social y productiva mediante la Ruta de Oportunidades Juveniles.</div>
+                        <div style="background:#7b6b99; color:#fff; min-width:160px; padding:14px 20px 14px 16px; display:flex; align-items:center; font-weight:700; font-size:0.88rem; position:relative; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2; position:relative;">Estrategia de acompa&ntilde;amiento al egreso</div>
+                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 18px 14px 28px; font-size:0.85rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Dirigida a quienes culminaron el cumplimiento de diversas modalidades del Sistema de Responsabilidad Penal para Adolescentes (SRPA) y deciden dar continuidad voluntaria a su proceso. <strong>Acompa&ntilde;amiento por 6 meses a 1 a&ntilde;o</strong> para consolidar la inclusi&oacute;n social y productiva mediante la Ruta de Oportunidades Juveniles.</div>
                     </div>
 
                 </div>
@@ -366,7 +444,7 @@ SECCION_DATOS_SIRBE = """\
                     <ul style="margin:10px 0 15px 20px; line-height:2;">
                         <li><span class="badge badge-primary">En atenci&oacute;n</span> El joven se encuentra cumpliendo su sanci&oacute;n o medida activamente</li>
                         <li><span class="badge badge-primary">Egresado</span> El joven ha finalizado el cumplimiento de su sanci&oacute;n</li>
-                        <li><span class="badge badge-primary">En incumplimiento</span> Funciona en la pr&aacute;ctica como un estado &ldquo;suspendido&rdquo;, pero se cre&oacute; con este nombre espec&iacute;fico para no generar confusiones con la terminolog&iacute;a oficial del SRPA</li>
+                        <li><span class="badge badge-primary">En incumplimiento</span> Funciona en la pr&aacute;ctica como un estado &ldquo;suspendido&rdquo;, pero se cre&oacute; con este nombre espec&iacute;fico para no generar confusiones con la terminolog&iacute;a oficial del Sistema de Responsabilidad Penal para Adolescentes (SRPA)</li>
                     </ul>
                 </div>
             </div>"""

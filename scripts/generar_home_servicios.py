@@ -140,7 +140,7 @@ def generar_index():
             "alt": "Servicio Forjar Restaurativo",
             "archivo": "gestion_conocimiento_forjar_2025.html",
             "imagen": "imagenes/servicios/forjar.png",
-            "desc": "Servicio restaurativo de atenci&oacute;n integral a adolescentes y j&oacute;venes vinculados al SRPA, con enfoque en sanciones no privativas de libertad y acompa&ntilde;amiento sociofamiliar.",
+            "desc": "Servicio de atenci&oacute;n integral, especializada y diferencial que se brinda a adolescentes/j&oacute;venes vinculados al SRPA y sus redes familiares, en el marco de modalidades de atenci&oacute;n no privativas de la libertad, desde un enfoque pedag&oacute;gico y restaurativo.",
         },
         {
             "alt": "Parche seguro",
