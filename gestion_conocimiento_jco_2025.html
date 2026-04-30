@@ -53,6 +53,19 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 .timeline-text { color: #555; font-size: 0.9rem; margin-top: 4px; line-height: 1.5; }
 /* Footer */
 .footer { text-align: center; padding: 35px 30px; color: #bbb; font-size: 0.82rem; }
+/* Tarjetas tipo m&oacute;dulo (cabezal con flecha de color y cuerpo crema con texto largo).
+   Usado en M&oacute;dulos de Proyecto de Vida (JCO) y Modalidades de atenci&oacute;n (Forjar).
+   La variante "-num" lleva el n&uacute;mero del &iacute;tem; "-flag" es solo pesta&ntilde;a de color sin texto. */
+.modulo-acordeon { margin-bottom: 14px; }
+.modulo-header { width: 100%; display: flex; align-items: stretch; }
+.modulo-header-num { color: #fff; min-width: 72px; padding: 16px 24px 16px 18px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.6rem; clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index: 2; }
+.modulo-header-flag { min-width: 36px; padding: 0 18px 0 0; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); z-index: 2; align-self: stretch; }
+.modulo-header-titulo { background: #2F3E3C; color: #F8F4E1; flex: 1; padding: 16px 20px 16px 28px; font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-left: -20px; border-radius: 0 8px 8px 0; display: flex; align-items: center; letter-spacing: 0.02em; }
+/* Cuando el cabezal no lleva flecha ni pesta&ntilde;a, el t&iacute;tulo no compensa con margen negativo. */
+.modulo-header-titulo:first-child { margin-left: 0; padding-left: 22px; border-radius: 8px 8px 0 0; }
+.modulo-body { background: #F8F4E1; color: #2F3E3C; padding: 20px 26px 22px; border-radius: 0 0 8px 8px; }
+.modulo-body p { font-size: 0.92rem; line-height: 1.75; margin: 0 0 10px; color: #3A3A3A; }
+.modulo-body p:last-child { margin-bottom: 0; }
 @media (max-width: 768px) {
     .container { flex-direction: column; }
     .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }
@@ -248,52 +261,73 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                     <h2 class="card-title">Los 7 m&oacute;dulos de formaci&oacute;n en Proyecto de Vida</h2>
                     <p style="line-height:1.7;">Como parte del proceso de fortalecimiento de capacidades, todos los participantes cursan <strong>siete m&oacute;dulos pedag&oacute;gicos</strong> bajo una metodolog&iacute;a de <strong>talleres presenciales y vivenciales</strong>, estructurados en tres momentos: motivaci&oacute;n, teor&iacute;a y ejercicios pr&aacute;cticos.</p>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#5f9ea0; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">1</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Sentido de vida y bienestar.</strong> Desarrollo del autoconocimiento y proyecci&oacute;n de metas personales mediante herramientas como el Ikigai. <em style="opacity:0.85;">Talleres de introspecci&oacute;n y mapeo de sue&ntilde;os.</em>
+                    <div class="modulo-acordeon">
+                        <div class="modulo-header">
+                            <span class="modulo-header-num" style="background:#5f9ea0;">1</span>
+                            <span class="modulo-header-titulo">Sentido de vida</span>
+                        </div>
+                        <div class="modulo-body">
+                            <p>El primer m&oacute;dulo tiene como objetivo aportar al desarrollo del sentido de vida y la visualizaci&oacute;n de metas, con miras al bienestar integral, mediante herramientas de autoconocimiento y proyecci&oacute;n socio-ocupacional. Lo anterior se logra mediante acuerdos previos con los j&oacute;venes para promover espacios seguros para las actividades, donde se recalca que no existen respuestas correctas o incorrectas. Con actividades como el &ldquo;diagrama del Ikigai&rdquo; y &ldquo;Conejos a sus madrigueras&rdquo; se promueve una reflexi&oacute;n sobre la importancia del cuidado propio y cuidado hacia los otros.</p>
                         </div>
                     </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#e07850; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">2</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Coaching en finanzas.</strong> Fortalecimiento de la cultura del ahorro y pautas para la gesti&oacute;n econ&oacute;mica del hogar y el negocio. <em style="opacity:0.85;">Ejercicios de presupuesto y planeaci&oacute;n financiera.</em>
+                    <div class="modulo-acordeon">
+                        <div class="modulo-header">
+                            <span class="modulo-header-num" style="background:#e07850;">2</span>
+                            <span class="modulo-header-titulo">Coaching en finanzas</span>
+                        </div>
+                        <div class="modulo-body">
+                            <p>El segundo m&oacute;dulo busca generar estrategias pr&aacute;cticas que permitan fortalecer habilidades para el entorno financiero y, asimismo, potenciar h&aacute;bitos para un manejo adecuado de las finanzas. A trav&eacute;s del desarrollo de habilidades blandas impartidas durante el m&oacute;dulo, se busca fomentar la asertiva toma de decisiones por medio de h&aacute;bitos financieros saludables. Para lograr este objetivo, el m&oacute;dulo se divide en 2 partes: 1) ense&ntilde;anza de conceptos b&aacute;sicos sobre finanzas personales y 2) la importancia del ahorro.</p>
                         </div>
                     </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#7b6b99; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">3</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Manejo del estr&eacute;s y la ansiedad.</strong> Identificaci&oacute;n de s&iacute;ntomas emocionales y aprendizaje de t&eacute;cnicas para regular el bienestar mental. <em style="opacity:0.85;">Din&aacute;micas de relajaci&oacute;n y reconocimiento emocional.</em>
+                    <div class="modulo-acordeon">
+                        <div class="modulo-header">
+                            <span class="modulo-header-num" style="background:#7b6b99;">3</span>
+                            <span class="modulo-header-titulo">Manejo del estr&eacute;s y la ansiedad</span>
+                        </div>
+                        <div class="modulo-body">
+                            <p>El tercer m&oacute;dulo se plantea entender la diferencia entre estr&eacute;s y ansiedad, identificar sus causas y s&iacute;ntomas, y aprender estrategias efectivas para manejarlos. A trav&eacute;s de t&eacute;cnicas de relajaci&oacute;n, ejercicio f&iacute;sico, planificaci&oacute;n y organizaci&oacute;n para gestionar el tiempo y las cargas de trabajo se busca fortalecer las habilidades para manejar estas emociones de forma asertiva. Por medio de actividades como el &ldquo;medidor emocional&rdquo; y el &ldquo;teatro de la mente&rdquo; se ense&ntilde;a sobre los conceptos b&aacute;sicos necesarios para identificar la ansiedad y el estr&eacute;s, adem&aacute;s de diferenciar sus s&iacute;ntomas e identificar c&oacute;mo manejarlos, ya sea por medio de estrategias de autorregulaci&oacute;n o acudiendo a profesionales cuando los s&iacute;ntomas as&iacute; lo requieran.</p>
                         </div>
                     </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#d4a84b; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">4</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Acoso en el &aacute;mbito educativo, mobbing y resoluci&oacute;n de conflictos.</strong> Herramientas para detectar el <em>bullying</em> y estrategias de di&aacute;logo para la convivencia pac&iacute;fica. <em style="opacity:0.85;">Juegos de rol y simulaci&oacute;n de casos de conflicto.</em>
+                    <div class="modulo-acordeon">
+                        <div class="modulo-header">
+                            <span class="modulo-header-num" style="background:#d4a84b;">4</span>
+                            <span class="modulo-header-titulo">Acoso en el &aacute;mbito educativo, mobbing y resoluci&oacute;n de conflictos</span>
+                        </div>
+                        <div class="modulo-body">
+                            <p>El cuarto m&oacute;dulo se plantea identificar el acoso (Bullying) como una problem&aacute;tica social actual y brindar informaci&oacute;n acerca de los escenarios en los que se presenta, las herramientas existentes para prevenir o afrontar situaciones de acoso, rutas de apoyo y estrategias para la resoluci&oacute;n de conflictos. Por medio de actividades como &ldquo;en tus zapatos&rdquo; y &ldquo;representaciones del acoso&rdquo; se ense&ntilde;an conceptos relevantes sobre el acoso, adem&aacute;s de rutas de atenci&oacute;n para abordar esta problem&aacute;tica cuando se presenta.</p>
                         </div>
                     </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#6b8e7f; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">5</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Relaciones saludables y cuidadosas.</strong> Fomento de v&iacute;nculos basados en el respeto, el cuidado mutuo y la prevenci&oacute;n de violencias. <em style="opacity:0.85;">Actividades grupales de empat&iacute;a y comunicaci&oacute;n.</em>
+                    <div class="modulo-acordeon">
+                        <div class="modulo-header">
+                            <span class="modulo-header-num" style="background:#6b8e7f;">5</span>
+                            <span class="modulo-header-titulo">Relaciones saludables y cuidadosas</span>
+                        </div>
+                        <div class="modulo-body">
+                            <p>El quinto m&oacute;dulo tiene como objetivo fortalecer habilidades blandas para la construcci&oacute;n de relaciones saludables y cuidadosas mediante la implementaci&oacute;n de acciones de informaci&oacute;n y formaci&oacute;n. En este m&oacute;dulo se aborda el desarrollo de un &ldquo;botiqu&iacute;n de gesti&oacute;n emocional&rdquo; y &ldquo;la receta de las relaciones sanas y cuidadosas&rdquo;, las cuales buscan ense&ntilde;ar y recopilar las herramientas trabajadas durante la sesi&oacute;n para mejorar el trato de las relaciones saludables en el &aacute;mbito familiar, social, de pareja, laboral, entre otros. Adem&aacute;s, se ense&ntilde;a sobre &ldquo;red flags&rdquo; (banderas rojas), lo cual permite identificar y establecer l&iacute;mites en las relaciones.</p>
                         </div>
                     </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#c86464; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">6</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Promoci&oacute;n de derechos y habilidades para la vida.</strong> Reconocimiento del joven como sujeto de derechos y fortalecimiento de habilidades socioemocionales. <em style="opacity:0.85;">Debates y an&aacute;lisis de derechos ciudadanos.</em>
+                    <div class="modulo-acordeon">
+                        <div class="modulo-header">
+                            <span class="modulo-header-num" style="background:#c86464;">6</span>
+                            <span class="modulo-header-titulo">Promoci&oacute;n de derechos y habilidades para la vida</span>
+                        </div>
+                        <div class="modulo-body">
+                            <p>El sexto m&oacute;dulo busca incentivar la promoci&oacute;n y protecci&oacute;n de los derechos mediante diferentes estrategias que contribuyan en su conocimiento, difusi&oacute;n y respeto, e identificar las habilidades sociales de cada joven para que estas puedan aportar de manera significativa su desarrollo e interacci&oacute;n con la sociedad en diferentes contextos. Para lograr este objetivo, el m&oacute;dulo aborda tem&aacute;ticas relacionadas con la promoci&oacute;n y la protecci&oacute;n de los derechos, enfocados principalmente en el derecho a la vida, a la salud, al trabajo, a la educaci&oacute;n y los derechos sexuales y reproductivos.</p>
                         </div>
                     </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#4a7ba7; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">7</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
-                            <strong style="font-size:0.98rem;">Activa tu potencial.</strong> Conexi&oacute;n de las capacidades individuales con las rutas de inclusi&oacute;n social y productiva. <em style="opacity:0.85;">Mapeo de habilidades y perfiles de oportunidad.</em>
+                    <div class="modulo-acordeon">
+                        <div class="modulo-header">
+                            <span class="modulo-header-num" style="background:#4a7ba7;">7</span>
+                            <span class="modulo-header-titulo">Activa tu potencial</span>
+                        </div>
+                        <div class="modulo-body">
+                            <p>El &uacute;ltimo m&oacute;dulo tiene como objetivo orientar e incentivar la apropiaci&oacute;n de elementos relevantes que faciliten la participaci&oacute;n en la ruta de formaci&oacute;n corta e intermediaci&oacute;n laboral. En este m&oacute;dulo se ense&ntilde;a en qu&eacute; consiste la ruta de formaci&oacute;n e intermediaci&oacute;n laboral, adem&aacute;s de ense&ntilde;ar los beneficios de participar en la ruta. En este m&oacute;dulo final, los participantes identifican, con base en sus intereses, los procesos para avanzar en las rutas, adem&aacute;s de los canales de comunicaci&oacute;n en caso de requerir apoyo.</p>
                         </div>
                     </div>
                 </div>
@@ -373,6 +407,9 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                         <div style=" margin-top:8px;"><p style="font-size:0.85rem; color:#555; margin:0;"><em>Formación técnica e intermediación laboral para Jóvenes con Oportunidades</em></p><p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Brindar procesos de formación complementaria (cursos cortos) con los Centros de Formación e intermediación laboral con la Agencia Publica de Empleo.</p></div>
                     </div>
                     </div>
+                    <div style="margin-top:14px;">
+                        <a href="https://sdisgovco.sharepoint.com/:x:/s/CONTRATACIONJUVENTUD/IQABuPry6rcnRqJmVgH_xC_oAUSg1OGmJpMN_gj9ff9Fkf8?e=qikMTF" target="_blank" rel="noopener" style="display:inline-block; padding:7px 16px; border:1px solid var(--accent); border-radius:6px; color:var(--accent); text-decoration:none; font-size:0.85rem; font-weight:600;">Ver matriz completa &rarr;</a>
+                    </div>
 
                     <h3 class="card-subtitle" style="font-size:1.1rem; color:var(--accent); margin-top:25px; margin-bottom:15px; padding-top:20px; border-top:1px solid #e0e0e0;">Alianzas 2026</h3>
                     <div style="padding-left:0;">
@@ -388,6 +425,9 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                         <strong style="color:#3A3A3A;">SENA Formación</strong>
                         <div style=" margin-top:8px;"><p style="font-size:0.85rem; color:#555; margin:0;"><em>Formación técnica e intermediación laboral para Jóvenes con Oportunidades</em></p><p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Brindar procesos de formación complementaria (cursos cortos) con los Centros de Formación e intermediación laboral con la Agencia Publica de Empleo.</p></div>
                     </div>
+                    </div>
+                    <div style="margin-top:14px;">
+                        <a href="https://sdisgovco.sharepoint.com/:x:/s/CONTRATACIONJUVENTUD/IQBtkEUVJAhRRaBV8uRLaAu9AY51M3I-jsGwwI03Hh-zDWY?e=dKj7G5" target="_blank" rel="noopener" style="display:inline-block; padding:7px 16px; border:1px solid var(--accent); border-radius:6px; color:var(--accent); text-decoration:none; font-size:0.85rem; font-weight:600;">Ver matriz completa &rarr;</a>
                     </div>
                 </div>
             </div>

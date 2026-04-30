@@ -69,6 +69,19 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 .timeline-text { color: #555; font-size: 0.9rem; margin-top: 4px; line-height: 1.5; }
 /* Footer */
 .footer { text-align: center; padding: 35px 30px; color: #bbb; font-size: 0.82rem; }
+/* Tarjetas tipo m&oacute;dulo (cabezal con flecha de color y cuerpo crema con texto largo).
+   Usado en M&oacute;dulos de Proyecto de Vida (JCO) y Modalidades de atenci&oacute;n (Forjar).
+   La variante "-num" lleva el n&uacute;mero del &iacute;tem; "-flag" es solo pesta&ntilde;a de color sin texto. */
+.modulo-acordeon { margin-bottom: 14px; }
+.modulo-header { width: 100%; display: flex; align-items: stretch; }
+.modulo-header-num { color: #fff; min-width: 72px; padding: 16px 24px 16px 18px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.6rem; clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index: 2; }
+.modulo-header-flag { min-width: 36px; padding: 0 18px 0 0; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); z-index: 2; align-self: stretch; }
+.modulo-header-titulo { background: #2F3E3C; color: #F8F4E1; flex: 1; padding: 16px 20px 16px 28px; font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-left: -20px; border-radius: 0 8px 8px 0; display: flex; align-items: center; letter-spacing: 0.02em; }
+/* Cuando el cabezal no lleva flecha ni pesta&ntilde;a, el t&iacute;tulo no compensa con margen negativo. */
+.modulo-header-titulo:first-child { margin-left: 0; padding-left: 22px; border-radius: 8px 8px 0 0; }
+.modulo-body { background: #F8F4E1; color: #2F3E3C; padding: 20px 26px 22px; border-radius: 0 0 8px 8px; }
+.modulo-body p { font-size: 0.92rem; line-height: 1.75; margin: 0 0 10px; color: #3A3A3A; }
+.modulo-body p:last-child { margin-bottom: 0; }
 @media (max-width: 768px) {
     .container { flex-direction: column; }
     .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }

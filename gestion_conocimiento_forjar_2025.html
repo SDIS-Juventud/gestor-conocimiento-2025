@@ -53,6 +53,19 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 .timeline-text { color: #555; font-size: 0.9rem; margin-top: 4px; line-height: 1.5; }
 /* Footer */
 .footer { text-align: center; padding: 35px 30px; color: #bbb; font-size: 0.82rem; }
+/* Tarjetas tipo m&oacute;dulo (cabezal con flecha de color y cuerpo crema con texto largo).
+   Usado en M&oacute;dulos de Proyecto de Vida (JCO) y Modalidades de atenci&oacute;n (Forjar).
+   La variante "-num" lleva el n&uacute;mero del &iacute;tem; "-flag" es solo pesta&ntilde;a de color sin texto. */
+.modulo-acordeon { margin-bottom: 14px; }
+.modulo-header { width: 100%; display: flex; align-items: stretch; }
+.modulo-header-num { color: #fff; min-width: 72px; padding: 16px 24px 16px 18px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.6rem; clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index: 2; }
+.modulo-header-flag { min-width: 36px; padding: 0 18px 0 0; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); z-index: 2; align-self: stretch; }
+.modulo-header-titulo { background: #2F3E3C; color: #F8F4E1; flex: 1; padding: 16px 20px 16px 28px; font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-left: -20px; border-radius: 0 8px 8px 0; display: flex; align-items: center; letter-spacing: 0.02em; }
+/* Cuando el cabezal no lleva flecha ni pesta&ntilde;a, el t&iacute;tulo no compensa con margen negativo. */
+.modulo-header-titulo:first-child { margin-left: 0; padding-left: 22px; border-radius: 8px 8px 0 0; }
+.modulo-body { background: #F8F4E1; color: #2F3E3C; padding: 20px 26px 22px; border-radius: 0 0 8px 8px; }
+.modulo-body p { font-size: 0.92rem; line-height: 1.75; margin: 0 0 10px; color: #3A3A3A; }
+.modulo-body p:last-child { margin-bottom: 0; }
 @media (max-width: 768px) {
     .container { flex-direction: column; }
     .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }
@@ -324,46 +337,59 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                     <p style="color:#888; font-size:0.88rem; margin-bottom:28px;">Las modalidades se clasifican seg&uacute;n el tipo de medida, sanci&oacute;n o estrategia impuesta por la autoridad competente.</p>
 
                     <!-- Categor&iacute;a 1: Sanciones no privativas -->
-                    <div style="margin-bottom:14px;">
-                        <div style="background:#5f9ea0; color:#fff; padding:10px 18px; border-radius:8px 8px 0 0; font-weight:700; font-size:0.95rem;">1. No privativas de la libertad (sanciones)</div>
-                        <div style="background:#edf6f6; padding:8px 18px; border-radius:0 0 8px 8px; font-size:0.85rem; color:#555;">Se cumplen en medio abierto, sociofamiliar o comunitario. Buscan la responsabilizaci&oacute;n, reparaci&oacute;n del da&ntilde;o e inclusi&oacute;n social.</div>
-                    </div>
+                    <div style="background:#5f9ea0; color:#fff; padding:12px 20px; border-radius:8px 8px 0 0; font-weight:700; font-size:0.95rem;">1. No privativas de la libertad (sanciones)</div>
+                    <div style="background:#F8F4E1; padding:18px 22px 20px; border-radius:0 0 8px 8px; margin-bottom:32px;">
+                        <p style="font-size:0.85rem; color:#555; margin:0 0 18px;">Se cumplen en medio abierto, sociofamiliar o comunitario. Buscan la responsabilizaci&oacute;n, reparaci&oacute;n del da&ntilde;o e inclusi&oacute;n social.</p>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:10px; border-radius:8px;">
-                        <div style="background:#5f9ea0; color:#fff; min-width:160px; padding:14px 20px 14px 16px; display:flex; align-items:center; font-weight:700; font-size:0.88rem; position:relative; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2; position:relative;">Libertad asistida y/o vigilada</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 18px 14px 28px; font-size:0.85rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Concesi&oacute;n de libertad otorgada por la autoridad judicial con la condici&oacute;n de que el adolescente o joven se someta a supervisi&oacute;n, asistencia y orientaci&oacute;n de un programa especializado. Busca fortalecer la autonom&iacute;a y la reparaci&oacute;n a trav&eacute;s de espacios pedag&oacute;gicos y pr&aacute;cticas restaurativas. <strong>M&iacute;nimo 10 actividades mensuales.</strong></div>
-                    </div>
+                        <div style="margin-bottom:18px;">
+                            <h4 style="font-size:1rem; font-weight:700; color:#2F3E3C; margin:0 0 8px; line-height:1.4;"><span style="color:#5f9ea0; margin-right:10px; font-size:1.2rem;">&bull;</span>Libertad asistida y/o vigilada</h4>
+                            <div style="padding-left:24px;">
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0 0 10px;">Concesi&oacute;n de libertad otorgada por la autoridad judicial con la condici&oacute;n de que el adolescente o joven se someta a supervisi&oacute;n, asistencia y orientaci&oacute;n de un programa especializado. Busca fortalecer la autonom&iacute;a y la reparaci&oacute;n a trav&eacute;s de espacios pedag&oacute;gicos y pr&aacute;cticas restaurativas. <strong>M&iacute;nimo 10 actividades mensuales.</strong></p>
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0;">Para garantizar la efectividad de esta medida, estas intervenciones mensuales se distribuyen estrat&eacute;gicamente a nivel individual, familiar, grupal y en el contexto del joven. Con este abordaje integral, el programa involucra activamente a la familia o red vincular de apoyo para que lo acompa&ntilde;en en el reconocimiento de su responsabilidad, facilitando procesos de reparaci&oacute;n (directa, indirecta o simb&oacute;lica) hacia las personas afectadas y logrando la resignificaci&oacute;n de su proyecto vital en el marco de la cultura de la legalidad.</p>
+                            </div>
+                        </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:10px; border-radius:8px;">
-                        <div style="background:#5f9ea0; color:#fff; min-width:160px; padding:14px 20px 14px 16px; display:flex; align-items:center; font-weight:700; font-size:0.88rem; position:relative; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2; position:relative;">Prestaci&oacute;n de servicios a la comunidad</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 18px 14px 28px; font-size:0.85rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Ejecuci&oacute;n de acciones no remuneradas para restaurar los lazos afectados, posibilitando la reparaci&oacute;n (directa, indirecta o simb&oacute;lica) a la v&iacute;ctima, la familia o la comunidad. <strong>M&iacute;nimo 32 horas mensuales:</strong> 24 horas de trabajo comunitario y 8 horas de acompa&ntilde;amiento psicosocial.</div>
+                        <div>
+                            <h4 style="font-size:1rem; font-weight:700; color:#2F3E3C; margin:0 0 8px; line-height:1.4;"><span style="color:#5f9ea0; margin-right:10px; font-size:1.2rem;">&bull;</span>Prestaci&oacute;n de servicios a la comunidad</h4>
+                            <div style="padding-left:24px;">
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0 0 10px;">La prestaci&oacute;n de servicios a la comunidad es una sanci&oacute;n judicial que consiste en la ejecuci&oacute;n de acciones o actividades no remuneradas de utilidad social por parte del adolescente o joven. <strong>M&iacute;nimo 32 horas mensuales:</strong> 24 horas de trabajo comunitario y 8 horas de acompa&ntilde;amiento psicosocial.</p>
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0;">Esta sanci&oacute;n tiene una finalidad restaurativa y formativa, ya que busca que el participante reflexione de forma cr&iacute;tica sobre las consecuencias de su conducta punible. Las acciones ejecutadas posibilitan la reparaci&oacute;n directa, indirecta o simb&oacute;lica a la v&iacute;ctima, a la familia y a la comunidad, facilitando as&iacute; la restauraci&oacute;n de los lazos de confianza afectados, la reconstrucci&oacute;n del tejido social y el fortalecimiento del sentido de ciudadan&iacute;a.</p>
+                            </div>
+                        </div>
                     </div>
-
 
                     <!-- Categor&iacute;a 2: Apoyo y restablecimiento -->
-                    <div style="margin-top:50px; margin-bottom:14px;">
-                        <div style="background:#e07850; color:#fff; padding:10px 18px; border-radius:8px 8px 0 0; font-weight:700; font-size:0.95rem;">2. Apoyo y restablecimiento de derechos</div>
-                        <div style="background:#fdf0eb; padding:8px 18px; border-radius:0 0 8px 8px; font-size:0.85rem; color:#555;">Medidas complementarias frente a vulneraciones de derechos.</div>
-                    </div>
+                    <div style="background:#e07850; color:#fff; padding:12px 20px; border-radius:8px 8px 0 0; font-weight:700; font-size:0.95rem;">2. Apoyo y restablecimiento de derechos</div>
+                    <div style="background:#F8F4E1; padding:18px 22px 20px; border-radius:0 0 8px 8px; margin-bottom:32px;">
+                        <p style="font-size:0.85rem; color:#555; margin:0 0 18px;">Medidas complementarias frente a vulneraciones de derechos.</p>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:10px; border-radius:8px;">
-                        <div style="background:#e07850; color:#fff; min-width:160px; padding:14px 20px 14px 16px; display:flex; align-items:center; font-weight:700; font-size:0.88rem; position:relative; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2; position:relative;">IARAJ</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 18px 14px 28px; font-size:0.85rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;"><strong>Intervenci&oacute;n de apoyo al restablecimiento en administraci&oacute;n de justicia.</strong> Restablecimiento y garant&iacute;a de derechos con orientaci&oacute;n familiar. Apoyo pedag&oacute;gico, psicosocial y psicol&oacute;gico especializado para que el joven comprenda y se responsabilice de los hechos. <strong>M&iacute;nimo 10 actividades mensuales.</strong></div>
-                    </div>
+                        <div style="margin-bottom:18px;">
+                            <h4 style="font-size:1rem; font-weight:700; color:#2F3E3C; margin:0 0 8px; line-height:1.4;"><span style="color:#e07850; margin-right:10px; font-size:1.2rem;">&bull;</span>IARAJ</h4>
+                            <div style="padding-left:24px;">
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0 0 10px;">La <strong>Intervenci&oacute;n de Apoyo al Restablecimiento en Administraci&oacute;n de Justicia (IARAJ)</strong> es una modalidad que se aplica como medida complementaria, cuyo prop&oacute;sito central es el restablecimiento y la garant&iacute;a de los derechos de los adolescentes y j&oacute;venes bajo el acompa&ntilde;amiento y orientaci&oacute;n de su red familiar. Su implementaci&oacute;n operativa requiere un cumplimiento <strong>m&iacute;nimo de diez (10) actividades mensuales</strong>, desarrolladas mediante intervenciones individuales, grupales, familiares y contextuales, asegurando un abordaje sist&eacute;mico frente a la problem&aacute;tica.</p>
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0;">A trav&eacute;s de este servicio en medio abierto, se ofrece apoyo pedag&oacute;gico, psicol&oacute;gico y psicosocial especializado para que los participantes se vinculen a escenarios de socializaci&oacute;n positiva. La finalidad es brindarles herramientas que les permitan comprender y responsabilizarse de los hechos de riesgo en los que se han involucrado, mitigando as&iacute; los factores de vulnerabilidad social en su entorno.</p>
+                            </div>
+                        </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:10px; border-radius:8px;">
-                        <div style="background:#e07850; color:#fff; min-width:160px; padding:14px 20px 14px 16px; display:flex; align-items:center; font-weight:700; font-size:0.88rem; position:relative; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2; position:relative;">RIAJ</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 18px 14px 28px; font-size:0.85rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;"><strong>Ruta integral de atenci&oacute;n para j&oacute;venes.</strong> Dirigida a j&oacute;venes (especialmente mayores de edad) con conflicto con la ley cuya situaci&oacute;n jur&iacute;dica a&uacute;n no ha sido definida. Favorece el acceso a educaci&oacute;n, empleo, emprendimiento, arte, cultura y deporte.</div>
+                        <div>
+                            <h4 style="font-size:1rem; font-weight:700; color:#2F3E3C; margin:0 0 8px; line-height:1.4;"><span style="color:#e07850; margin-right:10px; font-size:1.2rem;">&bull;</span>RIAJ</h4>
+                            <div style="padding-left:24px;">
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0 0 10px;">La <strong>Ruta Integral de Atenci&oacute;n para J&oacute;venes (RIAJ)</strong> es una estrategia garantizada por la Secretar&iacute;a Distrital de Integraci&oacute;n Social, dirigida espec&iacute;ficamente a j&oacute;venes (incluso mayores de edad) que se encuentran en conflicto con la ley penal, pero cuya situaci&oacute;n jur&iacute;dica a&uacute;n no ha sido definida por la autoridad competente. Al igual que la modalidad IARAJ, su modelo de intervenci&oacute;n exige un <strong>m&iacute;nimo de diez (10) actividades mensuales</strong> de atenci&oacute;n y orientaci&oacute;n junto con el joven y su familia.</p>
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0;">El enfoque principal de la estrategia RIAJ es preventivo y protector, operando a trav&eacute;s de la gesti&oacute;n de servicios, la generaci&oacute;n de alertas y la vinculaci&oacute;n a la oferta institucional del Distrito. Su desarrollo busca favorecer el acceso real a oportunidades de inclusi&oacute;n en &aacute;reas fundamentales como el empleo, el emprendimiento, la educaci&oacute;n, el aprovechamiento del tiempo libre, el arte, la cultura y el deporte, evitando de este modo la escalada en conductas delictivas.</p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Categor&iacute;a 3: Estrategias transversales -->
-                    <div style="margin-top:50px; margin-bottom:14px;">
-                        <div style="background:#7b6b99; color:#fff; padding:10px 18px; border-radius:8px 8px 0 0; font-weight:700; font-size:0.95rem;">3. Estrategias transversales de continuidad</div>
-                    </div>
-
-                    <div style="display:flex; align-items:stretch; margin-bottom:10px; border-radius:8px;">
-                        <div style="background:#7b6b99; color:#fff; min-width:160px; padding:14px 20px 14px 16px; display:flex; align-items:center; font-weight:700; font-size:0.88rem; position:relative; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2; position:relative;">Estrategia de acompa&ntilde;amiento al egreso</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 18px 14px 28px; font-size:0.85rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Dirigida a quienes culminaron el cumplimiento de diversas modalidades del Sistema de Responsabilidad Penal para Adolescentes (SRPA) y deciden dar continuidad voluntaria a su proceso. <strong>Acompa&ntilde;amiento por 6 meses a 1 a&ntilde;o</strong> para consolidar la inclusi&oacute;n social y productiva mediante la Ruta de Oportunidades Juveniles.</div>
+                    <div style="background:#7b6b99; color:#fff; padding:12px 20px; border-radius:8px 8px 0 0; font-weight:700; font-size:0.95rem;">3. Estrategias transversales de continuidad</div>
+                    <div style="background:#F8F4E1; padding:18px 22px 20px; border-radius:0 0 8px 8px;">
+                        <div>
+                            <h4 style="font-size:1rem; font-weight:700; color:#2F3E3C; margin:0 0 8px; line-height:1.4;"><span style="color:#7b6b99; margin-right:10px; font-size:1.2rem;">&bull;</span>Estrategia de acompa&ntilde;amiento al egreso</h4>
+                            <div style="padding-left:24px;">
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0 0 10px;">Dirigida a quienes culminaron el cumplimiento de diversas modalidades del Sistema de Responsabilidad Penal para Adolescentes (SRPA) y deciden dar continuidad voluntaria a su proceso. <strong>Acompa&ntilde;amiento por 6 meses a 1 a&ntilde;o</strong> para consolidar la inclusi&oacute;n social y productiva mediante la Ruta de Oportunidades Juveniles.</p>
+                                <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0;">Para materializar este objetivo, el equipo de la Ruta de Oportunidades Juveniles (ROJ) implementa acciones estrat&eacute;gicas de gesti&oacute;n y articulaci&oacute;n intra e interinstitucional para conectar a los j&oacute;venes y a sus familias con la oferta de servicios locales y distritales. Este esfuerzo se centra en garantizar el acceso efectivo a oportunidades de educaci&oacute;n, empleabilidad, emprendimiento, salud, cultura y deporte, respondiendo a los intereses y necesidades particulares de cada participante. El prop&oacute;sito final de esta fase de transici&oacute;n es fomentar la autonom&iacute;a del joven, consolidar un proyecto de vida con sentido en el marco de la legalidad y asegurar una plena integraci&oacute;n social que act&uacute;e como escudo protector frente a la reincidencia.</p>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -479,6 +505,9 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                         <div style=" margin-top:8px;"><p style="font-size:0.85rem; color:#555; margin:0;"><em>Obras de teatro</em></p><p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Fortalecer el bienestar, la recreación y el acceso a bienes culturales de las diferentes poblaciones, incluyendo la población joven.</p></div>
                     </div>
                     </div>
+                    <div style="margin-top:14px;">
+                        <a href="https://sdisgovco.sharepoint.com/:x:/s/CONTRATACIONJUVENTUD/IQABuPry6rcnRqJmVgH_xC_oAUSg1OGmJpMN_gj9ff9Fkf8?e=qikMTF" target="_blank" rel="noopener" style="display:inline-block; padding:7px 16px; border:1px solid var(--accent); border-radius:6px; color:var(--accent); text-decoration:none; font-size:0.85rem; font-weight:600;">Ver matriz completa &rarr;</a>
+                    </div>
 
                     <h3 class="card-subtitle" style="font-size:1.1rem; color:var(--accent); margin-top:25px; margin-bottom:15px; padding-top:20px; border-top:1px solid #e0e0e0;">Alianzas 2026</h3>
                     <div style="padding-left:0;">
@@ -502,6 +531,9 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                         <strong style="color:#3A3A3A;">Secretaria de Habitat</strong>
                         <div style=" margin-top:8px;"><p style="font-size:0.85rem; color:#555; margin:0;"><em>Voluntaridao Territoros Magicos</em></p><p style="font-size:0.85rem; color:#666; margin:3px 0 0;">Articular acciones entre la Secretaría Distrital de Hábitat y la SDIS para vincular jóvenes del territorio al proceso Territorio Mágico Cerro Norte, promoviendo su participación en procesos de formación, voluntariado comunitario y apropiación del espacio público</p></div>
                     </div>
+                    </div>
+                    <div style="margin-top:14px;">
+                        <a href="https://sdisgovco.sharepoint.com/:x:/s/CONTRATACIONJUVENTUD/IQBtkEUVJAhRRaBV8uRLaAu9AY51M3I-jsGwwI03Hh-zDWY?e=dKj7G5" target="_blank" rel="noopener" style="display:inline-block; padding:7px 16px; border:1px solid var(--accent); border-radius:6px; color:var(--accent); text-decoration:none; font-size:0.85rem; font-weight:600;">Ver matriz completa &rarr;</a>
                     </div>
                 </div>
             </div>
