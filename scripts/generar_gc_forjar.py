@@ -4,6 +4,7 @@
 # para facilitar ediciones futuras desde Python.
 
 import os
+import re
 import sys
 import pandas as pd
 
@@ -56,6 +57,11 @@ SIDEBAR = """\
                     <div class="sidebar-item" onclick="showContent('equipo')">Equipo</div>
                     <div class="sidebar-item" onclick="showContent('ubicacion')">Ubicaci&oacute;n</div>
                     <div class="sidebar-item" onclick="showContent('modalidades')">Modalidades de atenci&oacute;n</div>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="showContent('proceso_operativo')" style="cursor:pointer;">
+                    <span>Proceso operativo</span>
                 </div>
             </div>
             <div class="sidebar-section">
@@ -364,10 +370,10 @@ SECCION_MODALIDADES = """\
                     </div>
 
                     <!-- Categor&iacute;a 3: Estrategias transversales -->
-                    <div style="background:#7b6b99; color:#fff; padding:12px 20px; border-radius:8px 8px 0 0; font-weight:700; font-size:0.95rem;">3. Estrategias transversales de continuidad</div>
+                    <div style="background:#1eaf76; color:#fff; padding:12px 20px; border-radius:8px 8px 0 0; font-weight:700; font-size:0.95rem;">3. Estrategias transversales de continuidad</div>
                     <div style="background:#F8F4E1; padding:18px 22px 20px; border-radius:0 0 8px 8px;">
                         <div>
-                            <h4 style="font-size:1rem; font-weight:700; color:#2F3E3C; margin:0 0 8px; line-height:1.4;"><span style="color:#7b6b99; margin-right:10px; font-size:1.2rem;">&bull;</span>Estrategia de acompa&ntilde;amiento al egreso</h4>
+                            <h4 style="font-size:1rem; font-weight:700; color:#2F3E3C; margin:0 0 8px; line-height:1.4;"><span style="color:#1eaf76; margin-right:10px; font-size:1.2rem;">&bull;</span>Estrategia de acompa&ntilde;amiento al egreso</h4>
                             <div style="padding-left:24px;">
                                 <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0 0 10px;">Dirigida a quienes culminaron el cumplimiento de diversas modalidades del Sistema de Responsabilidad Penal para Adolescentes (SRPA) y deciden dar continuidad voluntaria a su proceso. <strong>Acompa&ntilde;amiento por 6 meses a 1 a&ntilde;o</strong> para consolidar la inclusi&oacute;n social y productiva mediante la Ruta de Oportunidades Juveniles.</p>
                                 <p style="font-size:0.9rem; line-height:1.7; color:#3A3A3A; margin:0;">Para materializar este objetivo, el equipo de la Ruta de Oportunidades Juveniles (ROJ) implementa acciones estrat&eacute;gicas de gesti&oacute;n y articulaci&oacute;n intra e interinstitucional para conectar a los j&oacute;venes y a sus familias con la oferta de servicios locales y distritales. Este esfuerzo se centra en garantizar el acceso efectivo a oportunidades de educaci&oacute;n, empleabilidad, emprendimiento, salud, cultura y deporte, respondiendo a los intereses y necesidades particulares de cada participante. El prop&oacute;sito final de esta fase de transici&oacute;n es fomentar la autonom&iacute;a del joven, consolidar un proyecto de vida con sentido en el marco de la legalidad y asegurar una plena integraci&oacute;n social que act&uacute;e como escudo protector frente a la reincidencia.</p>
@@ -377,6 +383,364 @@ SECCION_MODALIDADES = """\
 
                 </div>
             </div>"""
+
+# =====================================================================
+# Proceso operativo: etapas del flujo, documentos y actores.
+# Texto y estructura vienen de datos/forjar_proceso_operativo.xlsx (3 hojas).
+# Los enlaces de los documentos vienen de enlaces/enlaces.xlsx (Hoja1) filtrando
+# HTML="Forjar" y SECCION que empiece con "Proceso Operativo".
+# =====================================================================
+SECCION_PROCESO_OPERATIVO = """\
+            <div class="content-section" id="proceso_operativo">
+                <div class="card">
+                    <h2 class="card-title">Proceso operativo</h2>
+                    <p style="line-height:1.7;">Proceso operativo de atenci&oacute;n integral para adolescentes y j&oacute;venes vinculados al SRPA. Conoce las etapas, actividades, registros, formularios y actores clave del servicio.</p>
+
+                    <style>
+                        .po-stages-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:16px; margin:20px 0 8px; }
+                        .po-stage-card { background:#fff; border-radius:12px; border:1.5px solid #e5e0d3; padding:22px 20px; cursor:pointer; transition:transform 0.18s, box-shadow 0.18s; position:relative; overflow:hidden; }
+                        .po-stage-card:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,.08); }
+                        .po-stage-bar { position:absolute; top:0; left:0; right:0; height:4px; }
+                        .po-stage-num { font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:2.2rem; color:#d8d3c4; line-height:1; margin-bottom:10px; letter-spacing:1px; }
+                        .po-stage-title { font-family:'Anton','Figtree',sans-serif; font-weight:400; letter-spacing:0.4px; text-transform:uppercase; font-size:1rem; margin-bottom:6px; color:#2F3E3C; }
+                        .po-stage-sub { font-size:0.78rem; color:#666; margin-bottom:10px; font-style:italic; line-height:1.35; }
+                        .po-stage-desc { font-size:0.85rem; color:#444; line-height:1.55; }
+
+                        .po-detail-panel { display:none; background:#fff; border-radius:12px; border:1.5px solid #e5e0d3; padding:24px; margin:20px 0 28px; }
+                        .po-detail-panel.active { display:block; animation:poFadeIn 0.25s ease; }
+                        @keyframes poFadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+                        .po-detail-panel h3 { font-family:'Anton','Figtree',sans-serif; font-weight:400; letter-spacing:0.4px; text-transform:uppercase; font-size:1.1rem; color:var(--accent); margin-bottom:6px; }
+                        .po-detail-intro { font-size:0.9rem; color:#666; margin-bottom:16px; line-height:1.6; }
+
+                        .po-activity-table { width:100%; border-collapse:collapse; font-size:0.85rem; margin-top:8px; }
+                        .po-activity-table th { background:#F8F4E1; text-transform:uppercase; letter-spacing:0.07em; font-size:0.7rem; font-weight:600; color:#666; padding:10px 14px; text-align:left; border-bottom:2px solid #e5e0d3; }
+                        .po-activity-table td { padding:12px 14px; border-bottom:1px solid #efeadc; vertical-align:top; line-height:1.55; }
+                        .po-activity-table tr:last-child td { border-bottom:none; }
+                        .po-activity-table tr:hover td { background:#fbf9f1; }
+                        .po-table-wrapper { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:8px -4px 0; padding:0 4px 4px; }
+                        @media (max-width: 720px) {
+                            .po-detail-panel { padding:16px; }
+                            .po-activity-table { font-size:0.78rem; min-width:540px; }
+                            .po-activity-table th, .po-activity-table td { padding:8px 10px; }
+                        }
+
+                        .po-resp-badge { display:inline-block; font-size:0.72rem; font-weight:500; padding:3px 10px; border-radius:100px; white-space:nowrap; }
+                        .po-resp-cespa { background:#d4e6e7; color:#26565a; }
+                        .po-resp-administrativo { background:#e8eaed; color:#4a5159; }
+                        .po-resp-interdisciplinario { background:#a8c8c9; color:#1d4445; }
+                        .po-resp-psicosocial { background:#c5c9ce; color:#3a4148; }
+                        .po-resp-roj { background:#7ba3a4; color:#F8F4E1; }
+                        .po-resp-otro { background:#dfe3e7; color:#3f464d; }
+
+                        .po-section-block { margin-top:36px; }
+
+                        .po-filter-pills { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 20px; }
+                        .po-pill { padding:6px 16px; border-radius:100px; font-size:0.78rem; font-weight:500; cursor:pointer; border:1.5px solid #e5e0d3; background:#fff; color:#666; transition:all 0.18s; }
+                        .po-pill:hover { border-color:var(--accent); color:var(--accent); }
+                        .po-pill.active { color:#fff; }
+                        .po-pill[data-stage="ingreso"].active { background:#e07850; border-color:#e07850; }
+                        .po-pill[data-stage="permanencia"].active { background:#5f9ea0; border-color:#5f9ea0; }
+                        .po-pill[data-stage="egreso"].active { background:#1eaf76; border-color:#1eaf76; }
+                        .po-pill[data-stage="rae"].active { background:#4a7ba7; border-color:#4a7ba7; }
+
+                        .po-docs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
+                        .po-doc-card { background:#fff; border:1.5px solid #e5e0d3; border-radius:12px; padding:22px 20px 18px; display:flex; align-items:flex-start; gap:14px; transition:box-shadow 0.18s, transform 0.18s; position:relative; overflow:hidden; }
+                        .po-doc-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:#999; }
+                        .po-doc-card.po-doc-ingreso::before { background:#e07850; }
+                        .po-doc-card.po-doc-permanencia::before { background:#5f9ea0; }
+                        .po-doc-card.po-doc-egreso::before { background:#1eaf76; }
+                        .po-doc-card.po-doc-rae::before { background:#4a7ba7; }
+                        .po-doc-card:hover { box-shadow:0 8px 22px rgba(0,0,0,.10); transform:translateY(-2px); }
+                        .po-doc-icon { width:36px; min-width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#2F3E3C; }
+                        .po-doc-icon svg { width:30px; height:30px; display:block; }
+                        .po-doc-info { flex:1; min-width:0; }
+                        .po-doc-name { font-size:0.92rem; font-weight:600; color:#2F3E3C; margin-bottom:10px; line-height:1.35; }
+                        .po-doc-link { display:inline-flex; align-items:center; gap:6px; font-size:0.78rem; font-weight:500; color:var(--accent); text-decoration:none; }
+                        .po-doc-link:hover { text-decoration:underline; }
+
+                        .po-actores-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px 16px; padding-bottom:10px; }
+                        .po-actor-card { background:#2B2F3A; color:#F8F4E1; border:none; border-radius:12px; padding:22px 22px 24px; box-shadow:7px 7px 0 var(--accent-bg); }
+                        .po-actor-icon { width:30px; height:30px; color:#F8F4E1; margin-bottom:14px; }
+                        .po-actor-icon svg { width:100%; height:100%; display:block; }
+                        .po-actor-name { font-family:'Anton','Figtree',sans-serif; font-weight:400; letter-spacing:0.3px; text-transform:uppercase; font-size:0.98rem; margin-bottom:10px; color:#F8F4E1; }
+                        .po-actor-desc { font-size:0.83rem; color:#b8c0c4; line-height:1.55; }
+                        @media (max-width: 720px) { .po-actores-grid { grid-template-columns:1fr; } }
+                    </style>
+
+                    <h3 class="card-subtitle">Flujo operativo del servicio</h3>
+                    <p style="font-size:0.9rem; color:#666; margin-bottom:8px;">Haz clic en una etapa para ver el detalle de actividades, registros y responsables.</p>
+
+                    <div class="po-stages-grid">
+<!--CARDS_ETAPAS-->
+                    </div>
+<!--PANELES_ETAPAS-->
+
+                    <div class="po-section-block">
+                        <h3 class="card-subtitle">Documentos y formularios</h3>
+                        <p style="font-size:0.9rem; color:#666; margin-bottom:8px;">Accede a los formatos, instrumentos y formularios asociados a cada etapa del servicio.</p>
+
+                        <div class="po-filter-pills">
+                            <span class="po-pill" data-stage="ingreso" onclick="filterDocs('ingreso', this)">Ingreso</span>
+                            <span class="po-pill" data-stage="permanencia" onclick="filterDocs('permanencia', this)">Permanencia</span>
+                            <span class="po-pill" data-stage="egreso" onclick="filterDocs('egreso', this)">Egreso</span>
+                            <span class="po-pill" data-stage="rae" onclick="filterDocs('rae', this)">Post-Egreso (RAE)</span>
+                        </div>
+
+                        <div class="po-docs-grid">
+<!--DOCUMENTOS-->
+                        </div>
+                    </div>
+
+                    <div class="po-section-block">
+                        <h3 class="card-subtitle">Actores clave del proceso</h3>
+                        <p style="font-size:0.9rem; color:#666; margin-bottom:14px;">Roles y responsabilidades en la prestaci&oacute;n del servicio.</p>
+
+                        <div class="po-actores-grid">
+<!--ACTORES-->
+                        </div>
+                    </div>
+                </div>
+            </div>"""
+
+# Color visual de cada etapa (no se guarda en Excel para no confundir al equipo).
+# Paleta SDIS reutilizada de los modulos de JCO (generar_gc_jco.py) para mantener
+# consistencia visual entre los HTMLs del gestor. La asignacion comunica el flujo:
+# tonos calidos al ingreso, frios hacia el cierre y egreso.
+COLOR_ETAPA = {
+    "ingreso": "#e07850",      # naranja (terracota)
+    "permanencia": "#5f9ea0",  # teal Forjar
+    "egreso": "#1eaf76",       # verde
+    "rae": "#4a7ba7",          # azul SDIS
+}
+
+# Iconos SVG outline (estilo Lucide) por actor. Si maniana se agrega un actor
+# nuevo a la hoja Excel sin entrada aqui, cae en _ICONO_ACTOR_DEFAULT.
+_SVG_PROLOGO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'
+_ICONO_ACTOR_DEFAULT = (
+    _SVG_PROLOGO + '<circle cx="12" cy="12" r="9"/></svg>'
+)
+ICONOS_ACTOR = {
+    "Enlace CESPA": (
+        _SVG_PROLOGO
+        + '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>'
+        + '<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'
+        + '</svg>'
+    ),
+    "Equipo Administrativo": (
+        _SVG_PROLOGO
+        + '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>'
+        + '</svg>'
+    ),
+    "Equipo Interdisciplinario": (
+        _SVG_PROLOGO
+        + '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>'
+        + '<circle cx="9" cy="7" r="4"/>'
+        + '<path d="M23 21v-2a4 4 0 0 0-3-3.87"/>'
+        + '<path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
+        + '</svg>'
+    ),
+    "Equipo ROJ": (
+        _SVG_PROLOGO
+        + '<circle cx="6" cy="19" r="3"/>'
+        + '<path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/>'
+        + '<circle cx="18" cy="5" r="3"/>'
+        + '</svg>'
+    ),
+    "Familia / Referente": (
+        _SVG_PROLOGO
+        + '<circle cx="5" cy="7" r="2"/>'
+        + '<path d="M2 21v-5c0-1.5 1.5-3 3-3s3 1.5 3 3v5"/>'
+        + '<circle cx="12" cy="9" r="1.5"/>'
+        + '<path d="M10 21v-4c0-1 1-2 2-2s2 1 2 2v4"/>'
+        + '<circle cx="19" cy="7" r="2"/>'
+        + '<path d="M16 21v-5c0-1.5 1.5-3 3-3s3 1.5 3 3v5"/>'
+        + '</svg>'
+    ),
+    "Autoridades Competentes": (
+        _SVG_PROLOGO
+        + '<path d="M12 3v18"/>'
+        + '<path d="M7 21h10"/>'
+        + '<path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>'
+        + '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>'
+        + '<path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/>'
+        + '</svg>'
+    ),
+}
+
+
+def _grupo_responsable(nombre):
+    """Mapea el nombre del responsable a uno de los 5 grupos de color del badge.
+
+    Es deliberadamente tolerante: si maniana cambian el rotulo de un equipo
+    (por ejemplo "Equipo Interdisciplinario Ampliado"), sigue cayendo en el
+    mismo grupo de color sin que haya que tocar el Excel ni el script.
+    """
+    n = str(nombre).lower()
+    if "cespa" in n:
+        return "cespa"
+    if "administrativo" in n:
+        return "administrativo"
+    if "roj" in n:
+        return "roj"
+    if "interdisciplinario" in n:
+        return "interdisciplinario"
+    if "psicosocial" in n or "bina" in n:
+        return "psicosocial"
+    return "otro"
+
+
+def _normalizar_etapa_id(texto):
+    """Convierte el segmento de etapa de la columna SECCION en el id canonico."""
+    t = str(texto).lower().strip()
+    if "ingreso" in t:
+        return "ingreso"
+    if "permanencia" in t:
+        return "permanencia"
+    if "post" in t or "rae" in t:
+        return "rae"
+    if "egreso" in t:
+        return "egreso"
+    return None
+
+
+# Cargar datos del proceso operativo
+proceso_excel = os.path.join(DATOS, "forjar_proceso_operativo.xlsx")
+if os.path.exists(proceso_excel):
+    df_etapas = pd.read_excel(proceso_excel, sheet_name="etapas")
+    df_acts = pd.read_excel(proceso_excel, sheet_name="actividades")
+    df_actores = pd.read_excel(proceso_excel, sheet_name="actores")
+
+    # Cards de etapas y paneles desplegables con la tabla de actividades
+    cards_html = ""
+    paneles_html = ""
+    for idx, fila in df_etapas.iterrows():
+        eid = str(fila["id"]).strip()
+        numero = f"{idx + 1:02d}"
+        color = COLOR_ETAPA.get(eid, "#999")
+
+        cards_html += f'                        <div class="po-stage-card" onclick="togglePanel(\'po-panel-{eid}\', this)">\n'
+        cards_html += f'                            <div class="po-stage-bar" style="background:{color};"></div>\n'
+        cards_html += f'                            <div class="po-stage-num">{numero}</div>\n'
+        cards_html += f'                            <div class="po-stage-title">{fila["titulo"]}</div>\n'
+        cards_html += f'                            <div class="po-stage-sub">{fila["subtitulo"]}</div>\n'
+        cards_html += f'                            <div class="po-stage-desc">{fila["descripcion_breve"]}</div>\n'
+        cards_html += f'                        </div>\n'
+
+        actividades_etapa = df_acts[df_acts["etapa_id"].astype(str).str.strip() == eid]
+        filas_act = ""
+        for _, act in actividades_etapa.iterrows():
+            grupo = _grupo_responsable(act["responsable"])
+            filas_act += f'                                <tr>\n'
+            filas_act += f'                                    <td>{act["actividad"]}</td>\n'
+            filas_act += f'                                    <td>{act["registro"]}</td>\n'
+            filas_act += f'                                    <td><span class="po-resp-badge po-resp-{grupo}">{act["responsable"]}</span></td>\n'
+            filas_act += f'                                </tr>\n'
+
+        paneles_html += f'                    <div class="po-detail-panel" id="po-panel-{eid}">\n'
+        paneles_html += f'                        <h3>Etapa {numero} &mdash; {fila["titulo"]}</h3>\n'
+        paneles_html += f'                        <p class="po-detail-intro">{fila["descripcion_panel"]}</p>\n'
+        paneles_html += f'                        <div class="po-table-wrapper">\n'
+        paneles_html += f'                            <table class="po-activity-table">\n'
+        paneles_html += f'                                <thead><tr><th>Actividad</th><th>Registro</th><th>Responsable</th></tr></thead>\n'
+        paneles_html += f'                                <tbody>\n{filas_act.rstrip()}\n                                </tbody>\n'
+        paneles_html += f'                            </table>\n'
+        paneles_html += f'                        </div>\n'
+        paneles_html += f'                    </div>\n'
+
+    SECCION_PROCESO_OPERATIVO = SECCION_PROCESO_OPERATIVO.replace("<!--CARDS_ETAPAS-->", cards_html.rstrip())
+    SECCION_PROCESO_OPERATIVO = SECCION_PROCESO_OPERATIVO.replace("<!--PANELES_ETAPAS-->", paneles_html.rstrip())
+
+    # Cards de actores (3x2). Sombra plana en teal pastel Forjar, uniforme
+    # para evitar saturacion cromatica con el resto de la pestania.
+    actores_html = ""
+    for _, act in df_actores.iterrows():
+        nombre = str(act["nombre"]).strip()
+        icono = ICONOS_ACTOR.get(nombre, _ICONO_ACTOR_DEFAULT)
+        actores_html += f'                            <div class="po-actor-card">\n'
+        actores_html += f'                                <div class="po-actor-icon">{icono}</div>\n'
+        actores_html += f'                                <div class="po-actor-name">{nombre}</div>\n'
+        actores_html += f'                                <div class="po-actor-desc">{act["descripcion"]}</div>\n'
+        actores_html += f'                            </div>\n'
+    SECCION_PROCESO_OPERATIVO = SECCION_PROCESO_OPERATIVO.replace("<!--ACTORES-->", actores_html.rstrip())
+
+    print(f"Proceso operativo Forjar: {len(df_etapas)} etapas, {len(df_acts)} actividades, {len(df_actores)} actores")
+else:
+    SECCION_PROCESO_OPERATIVO = SECCION_PROCESO_OPERATIVO.replace("<!--CARDS_ETAPAS-->", "")
+    SECCION_PROCESO_OPERATIVO = SECCION_PROCESO_OPERATIVO.replace("<!--PANELES_ETAPAS-->", "")
+    SECCION_PROCESO_OPERATIVO = SECCION_PROCESO_OPERATIVO.replace("<!--ACTORES-->", "")
+    print("Excel forjar_proceso_operativo.xlsx no encontrado en datos/")
+
+# Cargar enlaces de documentos desde enlaces/enlaces.xlsx
+enlaces_excel = os.path.join(BASE, "enlaces", "enlaces.xlsx")
+if os.path.exists(enlaces_excel):
+    df_enlaces = pd.read_excel(enlaces_excel, sheet_name="Hoja1")
+    mask = (
+        df_enlaces["HTML"].astype(str).str.strip().str.lower() == "forjar"
+    ) & (
+        df_enlaces["SECCION"].astype(str).str.strip().str.lower().str.startswith("proceso operativo")
+    )
+    df_docs = df_enlaces[mask].copy()
+
+    docs_html = ""
+    docs_validos = 0
+    for _, fila in df_docs.iterrows():
+        seccion = str(fila["SECCION"]).strip()
+        url = str(fila["ENLACE"]).strip()
+        # Estructura esperada: "Proceso Operativo - <Etapa> - <Nombre del documento>"
+        partes = [p.strip() for p in seccion.split(" - ", 2)]
+        if len(partes) < 3:
+            print(f"  Aviso: enlace ignorado, formato inesperado en SECCION: {seccion!r}")
+            continue
+        etapa_id = _normalizar_etapa_id(partes[1])
+        if etapa_id is None:
+            print(f"  Aviso: enlace ignorado, etapa no reconocida: {partes[1]!r}")
+            continue
+        nombre = partes[2]
+
+        # Tipo deducido de la URL: forms.office -> formulario (icono documento +
+        # verbo "Rellenar"); cualquier otro -> descarga (icono flecha-a-bandeja
+        # + verbo "Descargar"). Asi el icono refuerza la accion del enlace.
+        es_formulario = "forms.office.com" in url.lower()
+        if es_formulario:
+            verbo = "Rellenar"
+            icono_svg = (
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+                'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'
+                '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>'
+                '<polyline points="14 2 14 8 20 8"/>'
+                '</svg>'
+            )
+        else:
+            verbo = "Descargar"
+            icono_svg = (
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+                'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'
+                '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'
+                '<polyline points="7 10 12 15 17 10"/>'
+                '<line x1="12" y1="15" x2="12" y2="3"/>'
+                '</svg>'
+            )
+
+        # Si el nombre incluye un codigo entre parentesis al final tipo (FOR-PSS-476),
+        # lo agregamos al texto del enlace.
+        m = re.search(r"\(([A-Z]{2,4}-[A-Z]{2,4}-\d+)\)\s*$", nombre)
+        codigo = m.group(1) if m else None
+        link_text = f"{verbo} {codigo}" if codigo else verbo
+
+        docs_html += f'                            <div class="po-doc-card po-doc-{etapa_id}" data-stage="{etapa_id}">\n'
+        docs_html += f'                                <div class="po-doc-icon">{icono_svg}</div>\n'
+        docs_html += f'                                <div class="po-doc-info">\n'
+        docs_html += f'                                    <div class="po-doc-name">{nombre}</div>\n'
+        docs_html += f'                                    <a href="{url}" target="_blank" class="po-doc-link">{link_text}</a>\n'
+        docs_html += f'                                </div>\n'
+        docs_html += f'                            </div>\n'
+        docs_validos += 1
+
+    SECCION_PROCESO_OPERATIVO = SECCION_PROCESO_OPERATIVO.replace("<!--DOCUMENTOS-->", docs_html.rstrip())
+    print(f"Documentos Forjar desde enlaces.xlsx: {docs_validos} enlaces")
+else:
+    SECCION_PROCESO_OPERATIVO = SECCION_PROCESO_OPERATIVO.replace("<!--DOCUMENTOS-->", "")
+    print("enlaces/enlaces.xlsx no encontrado")
 
 SECCION_FLUJO_DATOS = """\
             <div class="content-section" id="flujo_datos">
@@ -490,6 +854,29 @@ function showContent(id) {
     if (event && event.target && event.target.classList.contains('sidebar-item')) {
         event.target.classList.add('active');
     }
+}
+function togglePanel(id, card) {
+    var panel = document.getElementById(id);
+    var allPanels = document.querySelectorAll('.po-detail-panel');
+    var isOpen = panel.classList.contains('active');
+    allPanels.forEach(function(p) { p.classList.remove('active'); });
+    if (!isOpen) {
+        panel.classList.add('active');
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+function filterDocs(stage, el) {
+    var yaActiva = el.classList.contains('active');
+    document.querySelectorAll('.po-filter-pills .po-pill').forEach(function(p) { p.classList.remove('active'); });
+    if (yaActiva) {
+        // Click en la pestania activa: deseleccionar y volver a mostrar todas.
+        document.querySelectorAll('.po-doc-card').forEach(function(card) { card.style.display = ''; });
+    } else {
+        el.classList.add('active');
+        document.querySelectorAll('.po-doc-card').forEach(function(card) {
+            card.style.display = (card.dataset.stage === stage) ? '' : 'none';
+        });
+    }
 }"""
 
 
@@ -506,6 +893,7 @@ def ensamblar_html():
         SECCION_EQUIPO,
         SECCION_UBICACION,
         SECCION_MODALIDADES,
+        SECCION_PROCESO_OPERATIVO,
         SECCION_FLUJO_DATOS,
         SECCION_DATOS_SIRBE,
         seccion_aliados_forjar(),

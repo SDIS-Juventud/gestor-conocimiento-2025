@@ -31,7 +31,7 @@ gestor-conocimiento-2025/
 |---|---|---|
 | `index.html` | `scripts/generar_home_servicios.py` | (contenido hardcoded en el script) |
 | `gestion_conocimiento_juventud_2025.html` | `scripts/generar_juventud.py` | `datos/equipo_casas_juventud.xlsx`, `datos/directorio_casas_juventud.xlsx`, base SIRBE limpia, `datos/localidades_bogota.geojson` |
-| `gestion_conocimiento_forjar_2025.html` | `scripts/generar_gc_forjar.py` | (contenido hardcoded) |
+| `gestion_conocimiento_forjar_2025.html` | `scripts/generar_gc_forjar.py` | `datos/equipo_forjar.xlsx`, `datos/directorio_forjar.xlsx`, `datos/forjar_proceso_operativo.xlsx`, `enlaces/enlaces.xlsx` (filas con HTML="Forjar") |
 | `gestion_conocimiento_jco_2025.html` | `scripts/generar_gc_jco.py` | (contenido hardcoded) |
 | `gestion_conocimiento_alertas_2025.html` | `scripts/generar_gc_alertas.py` | (contenido hardcoded) |
 | `mapa_casas_juventud.html` | `scripts/generar_juventud.py` (efecto colateral) | `datos/directorio_casas_juventud.xlsx`, `datos/localidades_bogota.geojson` |
@@ -63,6 +63,26 @@ El contenido está hardcoded en el Python correspondiente (excepto equipo y dire
 3. Correr el script.
 
 **Importante:** nunca editar el `.html` directamente. El cambio se pierde la siguiente regeneración.
+
+### Cambiar la pestaña "Proceso operativo" de Forjar
+
+La pestaña Proceso operativo de Forjar lee de dos Excels:
+
+- `datos/forjar_proceso_operativo.xlsx` — tres hojas:
+    - `etapas` (id, titulo, subtitulo, descripcion_breve, descripcion_panel)
+    - `actividades` (etapa_id, actividad, registro, responsable)
+    - `actores` (nombre, descripcion)
+- `enlaces/enlaces.xlsx` Hoja1 — para los enlaces a documentos. Filas con HTML="Forjar" y SECCION="Proceso Operativo - <Etapa> - <Nombre> (<código opcional>)". Las etapas válidas son Ingreso, Permanencia, Egreso, Post-Egreso (RAE).
+
+Para agregar un nuevo documento o formulario:
+1. Abrir `enlaces/enlaces.xlsx` Hoja1.
+2. Agregar una fila nueva: HTML="Forjar", SECCION siguiendo el patrón, ENLACE con la URL.
+3. Si la URL es de `forms.office.com`, el script la marca como formulario; cualquier otra URL se marca como descarga.
+4. Correr `python scripts/generar_gc_forjar.py`.
+
+Para cambiar el texto de una etapa, una actividad o un actor: editar la celda correspondiente en `datos/forjar_proceso_operativo.xlsx` y regenerar.
+
+**Lo que vive en el Python (no en Excel):** colores de cada etapa y de los badges de responsables, mapeo del nombre del responsable a su grupo de color, y los íconos de las cards de documentos. No editar en el Excel.
 
 ### Cambiar estilos (colores, tipografía)
 
