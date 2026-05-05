@@ -9,10 +9,14 @@ El objetivo es que las ediciones de contenido se hagan aquí
 
 import os
 import sys
+import pandas as pd
 
 # CSS compartido con los demás generadores
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _comun.estilos import css_para
+
+# Raíz del proyecto (un nivel arriba de scripts/)
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # ─── Configuración ───────────────────────────────────────────────────────────
 
 NOMBRE_ARCHIVO = "gestion_conocimiento_alertas_2025.html"
@@ -54,7 +58,20 @@ SIDEBAR_CONTEXTO = """\
                     <div class="sidebar-item" onclick="showContent('descripcion')">Objetivos</div>
                     <div class="sidebar-item" onclick="showContent('triage')">Detecci&oacute;n de alertas</div>
                     <div class="sidebar-item" onclick="showContent('protocolos')">C&oacute;mo opera</div>
-                    <div class="sidebar-item" onclick="showContent('estadisticas')">Estad&iacute;sticas</div>
+                </div>
+            </div>"""
+
+SIDEBAR_PROTOCOLOS = """\
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="showContent('enlaces')" style="cursor:pointer;">
+                    <span>Protocolos</span>
+                </div>
+            </div>"""
+
+SIDEBAR_ESTADISTICAS = """\
+            <div class="sidebar-section">
+                <div class="sidebar-title" onclick="showContent('estadisticas')" style="cursor:pointer;">
+                    <span>Estad&iacute;sticas</span>
                 </div>
             </div>"""
 
@@ -64,6 +81,8 @@ SIDEBAR_HTML = f"""\
             <div class="sidebar-title" onclick="showContent('welcome')" style="cursor:pointer;"><span>Inicio</span></div>
 
 {SIDEBAR_CONTEXTO}
+{SIDEBAR_PROTOCOLOS}
+{SIDEBAR_ESTADISTICAS}
         </nav>"""
 
 # ─── Secciones de contenido ─────────────────────────────────────────────────
@@ -314,6 +333,76 @@ SECCION_PROTOCOLOS = """\
                 </div>
             </div>"""
 
+# =====================================================================
+# Protocolos: cards con los PDFs de protocolos de atencion.
+# Los enlaces vienen de enlaces/enlaces.xlsx (Hoja1) filtrando HTML="Alertas"
+# y SECCION que empiece con "Protocolos".
+# =====================================================================
+SECCION_ENLACES_PROTOCOLOS = """\
+            <div class="content-section" id="enlaces">
+                <div class="card">
+                    <h2 class="card-title">Protocolos</h2>
+                    <p style="line-height:1.7;">Documentos de referencia con los protocolos de atenci&oacute;n y orientaci&oacute;n que utiliza el equipo de Parche seguro frente a las distintas tipolog&iacute;as de alertas.</p>
+
+                    <style>
+                        .al-protocolos-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px 16px; padding:18px 0 10px; }
+                        .al-protocolo-card { background:#2B2F3A; color:#F8F4E1; border:none; border-radius:12px; padding:22px 22px 24px; box-shadow:7px 7px 0 var(--accent-bg); display:flex; flex-direction:column; gap:14px; }
+                        .al-protocolo-icon { width:30px; height:30px; color:#F8F4E1; }
+                        .al-protocolo-icon svg { width:100%; height:100%; display:block; }
+                        .al-protocolo-name { font-family:'Anton','Figtree',sans-serif; font-weight:400; letter-spacing:0.3px; text-transform:uppercase; font-size:0.95rem; color:#F8F4E1; line-height:1.25; flex:1; }
+                        .al-protocolo-link { display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; font-weight:500; color:rgba(248,244,225,0.85); text-decoration:none; }
+                        .al-protocolo-link:hover { color:#fff; text-decoration:underline; }
+                        @media (max-width: 720px) { .al-protocolos-grid { grid-template-columns:1fr; } }
+                    </style>
+
+                    <div class="al-protocolos-grid">
+<!--PROTOCOLOS-->
+                    </div>
+                </div>
+            </div>"""
+
+# Icono SVG outline (Lucide download): flecha-a-bandeja, comunica "descargar".
+_ICONO_DESCARGA_SVG = (
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+    'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'
+    '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'
+    '<polyline points="7 10 12 15 17 10"/>'
+    '<line x1="12" y1="15" x2="12" y2="3"/>'
+    '</svg>'
+)
+
+# Cargar protocolos desde enlaces/enlaces.xlsx
+enlaces_excel = os.path.join(BASE, "enlaces", "enlaces.xlsx")
+if os.path.exists(enlaces_excel):
+    df_enlaces = pd.read_excel(enlaces_excel, sheet_name="Hoja1")
+    mask = (
+        df_enlaces["HTML"].astype(str).str.strip().str.lower() == "alertas"
+    ) & (
+        df_enlaces["SECCION"].astype(str).str.strip().str.lower().str.startswith("protocolos")
+    )
+    df_protocolos = df_enlaces[mask].copy()
+
+    cards_html = ""
+    for _, fila in df_protocolos.iterrows():
+        seccion = str(fila["SECCION"]).strip()
+        url = str(fila["ENLACE"]).strip()
+        # Estructura esperada: "Protocolos - <nombre>". Si no, usa la cadena completa.
+        if " - " in seccion:
+            nombre = seccion.split(" - ", 1)[1].strip()
+        else:
+            nombre = seccion
+        cards_html += f'                        <div class="al-protocolo-card">\n'
+        cards_html += f'                            <div class="al-protocolo-icon">{_ICONO_DESCARGA_SVG}</div>\n'
+        cards_html += f'                            <div class="al-protocolo-name">{nombre}</div>\n'
+        cards_html += f'                            <a href="{url}" target="_blank" class="al-protocolo-link">Descargar PDF</a>\n'
+        cards_html += f'                        </div>\n'
+    SECCION_ENLACES_PROTOCOLOS = SECCION_ENLACES_PROTOCOLOS.replace("<!--PROTOCOLOS-->", cards_html.rstrip())
+    print(f"Protocolos Alertas desde enlaces.xlsx: {len(df_protocolos)} enlaces")
+else:
+    SECCION_ENLACES_PROTOCOLOS = SECCION_ENLACES_PROTOCOLOS.replace("<!--PROTOCOLOS-->", "")
+    print("enlaces/enlaces.xlsx no encontrado")
+
+
 SECCION_ESTADISTICAS = """\
             <div class="content-section" id="estadisticas">
                 <div class="card">
@@ -365,6 +454,8 @@ HTML_COMPLETO = f"""\
 {SECCION_TRIAGE}
 
 {SECCION_PROTOCOLOS}
+
+{SECCION_ENLACES_PROTOCOLOS}
 
 {SECCION_ESTADISTICAS}
         </main>

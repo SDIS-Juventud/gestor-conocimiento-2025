@@ -33,7 +33,7 @@ gestor-conocimiento-2025/
 | `gestion_conocimiento_juventud_2025.html` | `scripts/generar_juventud.py` | `datos/equipo_casas_juventud.xlsx`, `datos/directorio_casas_juventud.xlsx`, base SIRBE limpia, `datos/localidades_bogota.geojson` |
 | `gestion_conocimiento_forjar_2025.html` | `scripts/generar_gc_forjar.py` | `datos/equipo_forjar.xlsx`, `datos/directorio_forjar.xlsx`, `datos/forjar_proceso_operativo.xlsx`, `enlaces/enlaces.xlsx` (filas con HTML="Forjar") |
 | `gestion_conocimiento_jco_2025.html` | `scripts/generar_gc_jco.py` | (contenido hardcoded) |
-| `gestion_conocimiento_alertas_2025.html` | `scripts/generar_gc_alertas.py` | (contenido hardcoded) |
+| `gestion_conocimiento_alertas_2025.html` | `scripts/generar_gc_alertas.py` | `enlaces/enlaces.xlsx` (filas con HTML="Alertas" y SECCION="Protocolos - ...") |
 | `mapa_casas_juventud.html` | `scripts/generar_juventud.py` (efecto colateral) | `datos/directorio_casas_juventud.xlsx`, `datos/localidades_bogota.geojson` |
 | `mapa_forjar.html` | `scripts/generar_home_servicios.py` (efecto colateral) | `datos/directorio_forjar.xlsx`, `datos/localidades_bogota.geojson` |
 
@@ -83,6 +83,17 @@ Para agregar un nuevo documento o formulario:
 Para cambiar el texto de una etapa, una actividad o un actor: editar la celda correspondiente en `datos/forjar_proceso_operativo.xlsx` y regenerar.
 
 **Lo que vive en el Python (no en Excel):** colores de cada etapa y de los badges de responsables, mapeo del nombre del responsable a su grupo de color, y los íconos de las cards de documentos. No editar en el Excel.
+
+### Cambiar la pestaña "Protocolos" de Alertas
+
+La pestaña Protocolos del HTML de Alertas lee de `enlaces/enlaces.xlsx` Hoja1, filtrando filas con HTML="Alertas" y SECCION que empiece con "Protocolos - ".
+
+Para agregar un nuevo protocolo:
+1. Abrir `enlaces/enlaces.xlsx` Hoja1.
+2. Agregar una fila nueva: HTML="Alertas", SECCION="Protocolos - Nombre del documento", ENLACE con la URL del PDF.
+3. Correr `python scripts/generar_gc_alertas.py`.
+
+El script muestra el nombre del documento (lo que va después de "Protocolos - ") como título de cada card, y un botón "Descargar PDF" enlazado a la URL.
 
 ### Cambiar estilos (colores, tipografía)
 
