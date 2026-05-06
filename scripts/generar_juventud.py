@@ -934,6 +934,7 @@ CSS = """        @import url('https://fonts.googleapis.com/css2?family=Anton&fam
         table { width: 100%; border-collapse: collapse; margin: 15px 0; }
         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
         th { background: #faf8f2; font-weight: 600; color: #253C5C; } tr:hover { background: #faf8f2; }
+        #homologacion tr:hover { background: transparent; }
         .methodology-box { background: #EAEFF5; border-left: 4px solid #253C5C; padding: 15px 20px; margin: 15px 0; border-radius: 0 8px 8px 0; }
         .materials-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; }
         .welcome-section { text-align: center; padding: 60px 20px; }
@@ -1083,7 +1084,7 @@ html = f"""<!DOCTYPE html>
                 <h2 class="card-title">A tener en cuenta</h2>
 
                 <div style="text-align:center; margin:0;">
-                    <img src="imagenes/contexto1.png" alt="Evolución del modelo de servicio" style="max-width:450px;">
+                    <img src="imagenes/contexto1.png" alt="Evolución del modelo de servicio" style="max-width:450px; width:100%; height:auto;">
                 </div>
 
                 <h3 class="card-subtitle">Consolidación de proyectos de inversión</h3>
