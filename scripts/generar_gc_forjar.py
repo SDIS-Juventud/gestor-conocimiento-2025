@@ -281,10 +281,10 @@ SECCION_UBICACION = """\
                 <h3 class="card-subtitle">Directorio</h3>
                 <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
                     <thead>
-                        <tr style="background:#f8f9fa;">
-                            <th style="padding:10px; border-bottom:2px solid var(--accent); text-align:left;">Unidad operativa</th>
-                            <th style="padding:10px; border-bottom:2px solid var(--accent); text-align:left;">Localidad</th>
-                            <th style="padding:10px; border-bottom:2px solid var(--accent); text-align:left;">Direcci&oacute;n</th>
+                        <tr style="background:#2F3E3C; color:#F8F4E1;">
+                            <th style="padding:12px 14px; text-align:left; font-weight:700;">Unidad operativa</th>
+                            <th style="padding:12px 14px; text-align:left; font-weight:700;">Localidad</th>
+                            <th style="padding:12px 14px; text-align:left; font-weight:700;">Direcci&oacute;n</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -301,17 +301,17 @@ if os.path.exists(directorio_excel):
     df_dir = pd.read_excel(directorio_excel)
     filas_html = ""
     for idx, row in df_dir.iterrows():
-        bg = '#fff' if idx % 2 == 0 else '#f8f9fa'
+        bg = '#fafafa' if idx % 2 == 0 else '#fff'
         link_maps = row.get("Link Google Maps", "")
         direccion = str(row["Dirección"])
         if pd.notna(link_maps) and str(link_maps).strip():
             direccion_html = f'<a href="{link_maps}" target="_blank" style="color:var(--accent);">{direccion}</a>'
         else:
             direccion_html = direccion
-        filas_html += f'                        <tr style="background:{bg};">\n'
-        filas_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>{row["Nombre unidad operativa"]}</strong></td>\n'
-        filas_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{row["Localidad"]}</td>\n'
-        filas_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{direccion_html}</td>\n'
+        filas_html += f'                        <tr style="background:{bg}; border-bottom:1px solid #e0e0e0;">\n'
+        filas_html += f'                            <td style="padding:12px 14px; vertical-align:top;"><strong>{row["Nombre unidad operativa"]}</strong></td>\n'
+        filas_html += f'                            <td style="padding:12px 14px; vertical-align:top;">{row["Localidad"]}</td>\n'
+        filas_html += f'                            <td style="padding:12px 14px; vertical-align:top;">{direccion_html}</td>\n'
         filas_html += f'                        </tr>\n'
     SECCION_UBICACION = SECCION_UBICACION.replace("<!--FILAS_DIRECTORIO-->", filas_html.rstrip())
     print(f"Directorio Forjar generado desde Excel: {len(df_dir)} unidades")
@@ -413,10 +413,12 @@ SECCION_PROCESO_OPERATIVO = """\
                         .po-detail-intro { font-size:0.9rem; color:#666; margin-bottom:16px; line-height:1.6; }
 
                         .po-activity-table { width:100%; border-collapse:collapse; font-size:0.85rem; margin-top:8px; }
-                        .po-activity-table th { background:#F8F4E1; text-transform:uppercase; letter-spacing:0.07em; font-size:0.7rem; font-weight:600; color:#666; padding:10px 14px; text-align:left; border-bottom:2px solid #e5e0d3; }
-                        .po-activity-table td { padding:12px 14px; border-bottom:1px solid #efeadc; vertical-align:top; line-height:1.55; }
+                        .po-activity-table th { background:#2F3E3C; color:#F8F4E1; font-size:0.85rem; font-weight:700; padding:12px 14px; text-align:left; }
+                        .po-activity-table tbody tr:nth-child(odd) { background:#fafafa; }
+                        .po-activity-table tbody tr:nth-child(even) { background:#fff; }
+                        .po-activity-table td { padding:12px 14px; border-bottom:1px solid #e0e0e0; vertical-align:top; line-height:1.55; }
                         .po-activity-table tr:last-child td { border-bottom:none; }
-                        .po-activity-table tr:hover td { background:#fbf9f1; }
+                        .po-activity-table tr:hover td { background:#f5f5f5; }
                         .po-table-wrapper { overflow-x:auto; -webkit-overflow-scrolling:touch; margin:8px -4px 0; padding:0 4px 4px; }
                         @media (max-width: 720px) {
                             .po-detail-panel { padding:16px; }

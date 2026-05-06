@@ -582,28 +582,36 @@ if os.path.exists(directorio_excel):
     directorio_html += '                <h3 class="card-subtitle">Directorio</h3>\n'
     directorio_html += '                <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">\n'
     directorio_html += '                    <thead>\n'
-    directorio_html += '                        <tr style="background:#f8f9fa;">\n'
-    directorio_html += '                            <th style="padding:10px; border-bottom:2px solid #253C5C; text-align:left;">Casa de Juventud</th>\n'
-    directorio_html += '                            <th style="padding:10px; border-bottom:2px solid #253C5C; text-align:left;">Localidad</th>\n'
-    directorio_html += '                            <th style="padding:10px; border-bottom:2px solid #253C5C; text-align:left;">Dirección</th>\n'
-    directorio_html += '                            <th style="padding:10px; border-bottom:2px solid #253C5C; text-align:left;">Barrio</th>\n'
+    directorio_html += '                        <tr>\n'
+    directorio_html += '                            <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; text-align:left; font-weight:700; border-bottom:none;">Casa de Juventud</th>\n'
+    directorio_html += '                            <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; text-align:left; font-weight:700; border-bottom:none;">Localidad</th>\n'
+    directorio_html += '                            <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; text-align:left; font-weight:700; border-bottom:none;">Dirección</th>\n'
+    directorio_html += '                            <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; text-align:left; font-weight:700; border-bottom:none;">Barrio</th>\n'
+    directorio_html += '                            <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; text-align:left; font-weight:700; border-bottom:none;">Correo de contacto</th>\n'
     directorio_html += '                        </tr>\n'
     directorio_html += '                    </thead>\n'
     directorio_html += '                    <tbody>\n'
-    
+
     for idx, row in df_dir.iterrows():
-        bg = '#fff' if idx % 2 == 0 else '#f8f9fa'
+        bg = '#fafafa' if idx % 2 == 0 else '#fff'
         # Si la fila tiene link de Google Maps, envuelve la dirección en <a>
         link_maps = row.get("Link Google Maps", "")
         if pd.notna(link_maps) and str(link_maps).strip():
             direccion_html = f'<a href="{link_maps}" target="_blank" style="color:#253C5C;">{row["Dirección"]}</a>'
         else:
             direccion_html = str(row["Dirección"])
-        directorio_html += f'                        <tr style="background:{bg};">\n'
-        directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;"><strong>{row["Casa de Juventud"]}</strong></td>\n'
-        directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{row["Localidad"]}</td>\n'
-        directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{direccion_html}</td>\n'
-        directorio_html += f'                            <td style="padding:8px 10px; border-bottom:1px solid #eee;">{row["Barrio"]}</td>\n'
+        # Correo (con mailto si esta presente)
+        correo = row.get("Correo", "")
+        if pd.notna(correo) and str(correo).strip():
+            correo_html = f'<a href="mailto:{correo}" style="color:#253C5C;">{correo}</a>'
+        else:
+            correo_html = '<span style="color:#999;">—</span>'
+        directorio_html += f'                        <tr style="background:{bg}; border-bottom:1px solid #e0e0e0;">\n'
+        directorio_html += f'                            <td style="padding:12px 14px; vertical-align:top;"><strong>{row["Casa de Juventud"]}</strong></td>\n'
+        directorio_html += f'                            <td style="padding:12px 14px; vertical-align:top;">{row["Localidad"]}</td>\n'
+        directorio_html += f'                            <td style="padding:12px 14px; vertical-align:top;">{direccion_html}</td>\n'
+        directorio_html += f'                            <td style="padding:12px 14px; vertical-align:top;">{row["Barrio"]}</td>\n'
+        directorio_html += f'                            <td style="padding:12px 14px; vertical-align:top; word-break:break-all;">{correo_html}</td>\n'
         directorio_html += '                        </tr>\n'
     
     directorio_html += '                    </tbody>\n'
@@ -657,7 +665,33 @@ if os.path.exists(directorio_excel) and os.path.exists(geojson_path):
                 fill=True, fill_color="#c0392b", fill_opacity=0.9, weight=2,
                 popup=folium.Popup(popup_html, max_width=250), tooltip=row["Casa de Juventud"]).add_to(m)
 
-    m.save(os.path.join(BASE, "mapa_casas_juventud.html"))
+    ruta_mapa = os.path.join(BASE, "mapa_casas_juventud.html")
+    m.save(ruta_mapa)
+
+    # Folium asigna IDs hexadecimales aleatorios (32 chars) al mapa y a cada
+    # capa en cada corrida. Eso ensucia el git diff con cambios cosmeticos.
+    # Aqui los reemplazamos por IDs estables segun orden de aparicion, asi
+    # ejecutar el script con los mismos datos da el mismo HTML byte a byte.
+    import re
+    with open(ruta_mapa, "r", encoding="utf-8") as f:
+        html_mapa = f.read()
+    # Captura "prefijo_<32 hex>" donde el prefijo no esta pegado a un identificador
+    # anterior. No usamos \b al final porque algunos identificadores tienen
+    # sufijos como "_styler" o "_add" pegados al hex.
+    patron_ids = re.compile(r'(?<![a-zA-Z0-9_])([a-z_]+)_([a-f0-9]{32})(?![a-f0-9])')
+    contadores = {}
+    mapeo_ids = {}
+    def _id_estable(match):
+        prefijo = match.group(1)
+        original = match.group(0)
+        if original not in mapeo_ids:
+            contadores[prefijo] = contadores.get(prefijo, 0) + 1
+            mapeo_ids[original] = f"{prefijo}_{contadores[prefijo]:03d}"
+        return mapeo_ids[original]
+    html_mapa = patron_ids.sub(_id_estable, html_mapa)
+    with open(ruta_mapa, "w", encoding="utf-8") as f:
+        f.write(html_mapa)
+
     print(f"Mapa generado con {len(df_mapa)} casas, {len(locs_con_casa)} localidades destacadas")
 else:
     print("Faltan archivos para generar mapa")
@@ -1039,6 +1073,10 @@ html = f"""<!DOCTYPE html>
                         <div class="timeline-text"><strong>Una Casa de Juventud por localidad.</strong> Se crea el producto nuevo <strong>1.1.7</strong> del CONPES D.C. 08: <em>&ldquo;Número de localidades de la ciudad con al menos una casa de la juventud en operación&rdquo;</em>. Este producto establece como meta tener <strong>mínimo una Casa de Juventud por localidad para el año 2027</strong>.</div>
                     </div>
                 </div>
+
+                <div style="text-align:center; margin-top:30px;">
+                    <img src="imagenes/Linea del tiempo - casas de juventud.png" alt="Línea de tiempo de las Casas de Juventud" style="width:100%;">
+                </div>
             </div></div>
 
             <div class="content-section" id="cambios2026"><div class="card">
@@ -1103,12 +1141,12 @@ html = f"""<!DOCTYPE html>
 
                                     <table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:20px;">
                         <thead>
-                            <tr style="background:#f8f9fa;">
-                                <th style="padding:10px; width:16%; border:1px solid #ddd;">Oferta Casas de Juventud 2026</th>
-                                <th style="padding:10px; width:18%; border:1px solid #ddd;">Actuación en SIRBE misional</th>
-                                <th style="padding:10px; width:14%; border:1px solid #ddd;">Código Ruta de Oportunidades Juveniles</th>
-                                <th style="padding:10px; width:26%; border:1px solid #ddd;">Nombre de la actividad</th>
-                                <th style="padding:10px; width:26%; border:1px solid #ddd;">Tipo de actividad (ficha física y SIRBE)</th>
+                            <tr>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:16%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Código Ruta de Oportunidades Juveniles</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1139,12 +1177,12 @@ html = f"""<!DOCTYPE html>
 
                     <table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:20px;">
                         <thead>
-                            <tr style="background:#f8f9fa;">
-                                <th style="padding:10px; width:16%; border:1px solid #ddd;">Oferta Casas de Juventud 2026</th>
-                                <th style="padding:10px; width:18%; border:1px solid #ddd;">Actuación en SIRBE misional</th>
-                                <th style="padding:10px; width:14%; border:1px solid #ddd;">Código Ruta de Oportunidades Juveniles</th>
-                                <th style="padding:10px; width:26%; border:1px solid #ddd;">Nombre de la actividad</th>
-                                <th style="padding:10px; width:26%; border:1px solid #ddd;">Tipo de actividad (ficha física y SIRBE)</th>
+                            <tr>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:16%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Código Ruta de Oportunidades Juveniles</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1176,12 +1214,12 @@ html = f"""<!DOCTYPE html>
 
                     <table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:20px;">
                         <thead>
-                            <tr style="background:#f8f9fa;">
-                                <th style="padding:10px; width:16%; border:1px solid #ddd;">Oferta Casas de Juventud 2026</th>
-                                <th style="padding:10px; width:18%; border:1px solid #ddd;">Actuación en SIRBE misional</th>
-                                <th style="padding:10px; width:14%; border:1px solid #ddd;">Código Ruta de Oportunidades Juveniles</th>
-                                <th style="padding:10px; width:26%; border:1px solid #ddd;">Nombre de la actividad</th>
-                                <th style="padding:10px; width:26%; border:1px solid #ddd;">Tipo de actividad (ficha física y SIRBE)</th>
+                            <tr>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:16%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Código Ruta de Oportunidades Juveniles</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1210,12 +1248,12 @@ html = f"""<!DOCTYPE html>
 
                     <table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:20px;">
                         <thead>
-                            <tr style="background:#f8f9fa;">
-                                <th style="padding:10px; width:14%; border:1px solid #ddd;">Oferta Casas de Juventud 2026</th>
-                                <th style="padding:10px; width:18%; border:1px solid #ddd;">Actuación en SIRBE misional</th>
-                                <th style="padding:10px; width:14%; border:1px solid #ddd;">Código Ruta de Oportunidades Juveniles</th>
-                                <th style="padding:10px; width:26%; border:1px solid #ddd;">Nombre de la actividad</th>
-                                <th style="padding:10px; width:28%; border:1px solid #ddd;">Tipo de actividad (ficha física y SIRBE)</th>
+                            <tr>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Código Ruta de Oportunidades Juveniles</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:28%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
                             </tr>
                         </thead>
                         <tbody>

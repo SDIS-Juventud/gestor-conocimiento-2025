@@ -7,6 +7,8 @@ alianzas/
 !datos/directorio_casas_juventud.xlsx
 !datos/directorio_forjar.xlsx
 !datos/equipo_forjar.xlsx
+!datos/forjar_proceso_operativo.xlsx
+!enlaces/enlaces.xlsx
 *.csv
 *.xls
 validacion_*.html
