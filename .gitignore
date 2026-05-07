@@ -1,6 +1,8 @@
 Notes/
 archivo/
 alianzas/
+forjar/
+*.ipynb
 *.xlsx
 !datos/equipo_casas_juventud.xlsx
 !datos/directorio_casas_juventud.xlsx
