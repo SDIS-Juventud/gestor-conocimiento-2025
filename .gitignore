@@ -19,3 +19,4 @@ __pycache__/
 *_backup_*.html
 .DS_Store
 Thumbs.db
+ppt/
