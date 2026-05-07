@@ -212,6 +212,94 @@ EXTRAS_CSS = """\
 @media (min-width: 901px) and (max-width: 1100px) {
     .atc-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Flujo de gesti&oacute;n de la informaci&oacute;n: pasos en una columna con &iacute;cono
+   redondo a la izquierda y contenido a la derecha. Conector vertical punteado
+   sutil entre &iacute;conos para se&ntilde;alar el flujo. As&iacute; se diferencia visualmente
+   de Proceso operativo (cards horizontales clicables con n&uacute;mero grande). */
+.flujo-pasos { display: flex; flex-direction: column; gap: 28px; margin: 22px 0 8px; }
+.flujo-paso {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 22px;
+    align-items: flex-start;
+    position: relative;
+}
+.flujo-paso:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 31px;
+    top: 64px;
+    bottom: -28px;
+    width: 0;
+    border-left: 2px dashed var(--accent-border);
+}
+.flujo-icono {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent-bg);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+}
+.flujo-icono svg { width: 26px; height: 26px; stroke-width: 1.8; }
+.flujo-orden {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: #888;
+    margin: 0 0 2px;
+}
+.flujo-titulo {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.15rem;
+    color: var(--accent);
+    margin: 0 0 4px;
+}
+.flujo-responsable {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 12px;
+    font-weight: 600;
+}
+.flujo-texto {
+    font-size: 0.9rem;
+    color: #3a3a3a;
+    line-height: 1.7;
+    margin: 0 0 8px;
+}
+.flujo-texto:last-child { margin-bottom: 0; }
+.flujo-texto strong { color: #2f3e3c; font-weight: 700; }
+@media (max-width: 720px) {
+    .flujo-paso { grid-template-columns: 48px 1fr; gap: 14px; }
+    .flujo-paso:not(:last-child)::before { left: 23px; top: 48px; }
+    .flujo-icono { width: 40px; height: 40px; }
+    .flujo-icono svg { width: 20px; height: 20px; }
+}
+
+/* Override Forjar: TODOS los subt&iacute;tulos de tarjeta van en Antonio Bold
+   may&uacute;sculas, consistente con .lt-titulo, .atc-titulo, .flujo-titulo,
+   .po-stage-title y dem&aacute;s subt&iacute;tulos especializados de la secci&oacute;n.
+   Aplica solo a Forjar porque vive en EXTRAS_CSS de este script. */
+.card-subtitle {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.05rem;
+    opacity: 1;
+}
 """
 
 # CSS del servicio (base compartido + color propio de Forjar + extras)
@@ -997,44 +1085,48 @@ SECCION_FLUJO_DATOS = """\
                     <h2 class="card-title">Flujo de gesti&oacute;n de la informaci&oacute;n</h2>
                     <p style="color:#666; margin-bottom:20px;">Proceso de recolecci&oacute;n, registro y reporte de datos en el servicio Forjar Restaurativo.</p>
 
-                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:25px;">
-                        <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:var(--accent-bg); color:var(--accent); font-size:0.8rem; font-weight:600;">Equipo psicosocial</span>
-                        <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:#e8ecf1; color:#3A3A3A; font-size:0.8rem; font-weight:600;">Enlace CESPA</span>
-                        <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:var(--accent-border); color:var(--accent); font-size:0.8rem; font-weight:600;">Referente t&eacute;cnico</span>
-                    </div>
-
-                    <div style="position:relative; padding-left:30px;">
-                        <div style="position:absolute; left:12px; top:0; bottom:0; width:3px; background:linear-gradient(to bottom, var(--accent), #2F3E3C); border-radius:2px;"></div>
-
-                        <div style="position:relative; margin-bottom:25px;">
-                            <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:var(--accent); border-radius:50%; border:3px solid var(--accent-bg);"></div>
-                            <h3 style="font-size:1rem; color:var(--accent); margin:0 0 6px;">1. Ingreso y acogida</h3>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:var(--accent-bg); color:var(--accent); margin-bottom:6px;">Equipo psicosocial</span>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">Durante el ingreso, la equipo psicosocial (psicolog&iacute;a y trabajo social) realiza la acogida mediante entrevista. Se generan dos registros: el diligenciamiento de la <strong>ficha SIRBE</strong> y la toma de datos en la <strong>Valija Estandarizada</strong>. Se capturan variables b&aacute;sicas (edad, sexo, educaci&oacute;n), transversales (pertenencia &eacute;tnica, discapacidad), de ubicaci&oacute;n geogr&aacute;fica, din&aacute;micas familiares y variables espec&iacute;ficas sobre la remisi&oacute;n judicial y el delito.</p>
+                    <div class="flujo-pasos">
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="user-plus"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 01</p>
+                                <h3 class="flujo-titulo">Ingreso y acogida</h3>
+                                <p class="flujo-responsable">Equipo psicosocial</p>
+                                <p class="flujo-texto">Durante el ingreso, el equipo psicosocial (psicolog&iacute;a y trabajo social) realiza la acogida mediante entrevista. Se generan dos registros: el diligenciamiento de la <strong>ficha SIRBE</strong> y la toma de datos en la <strong>Valija Estandarizada</strong>. Se capturan variables b&aacute;sicas (edad, sexo, educaci&oacute;n), transversales (pertenencia &eacute;tnica, discapacidad), de ubicaci&oacute;n geogr&aacute;fica, din&aacute;micas familiares y variables espec&iacute;ficas sobre la remisi&oacute;n judicial y el delito.</p>
+                            </div>
                         </div>
 
-                        <div style="position:relative; margin-bottom:25px;">
-                            <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:var(--accent); border-radius:50%; border:3px solid var(--accent-bg);"></div>
-                            <h3 style="font-size:1rem; color:var(--accent); margin:0 0 6px;">2. Instrumentos de captura</h3>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:var(--accent-bg); color:var(--accent); margin-bottom:6px;">Equipo psicosocial</span>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0 0 8px;"><strong>Fichas SIRBE:</strong> la informaci&oacute;n se consigna en dos formatos estandarizados de la SDIS: el formato de informaci&oacute;n b&aacute;sica y transversal (FOR-PSS-321) y el formato de variables espec&iacute;ficas del servicio Forjar (FOR-PSS-694).</p>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;"><strong>Valija Estandarizada:</strong> base de datos en Excel utilizada internamente por cada unidad operativa. Recopila datos b&aacute;sicos y transversales, asigna un n&uacute;mero de &ldquo;Historia Social&rdquo; para el archivo f&iacute;sico e incluye variables de contraste para verificar la consistencia y calidad de la informaci&oacute;n antes de subirla al sistema oficial.</p>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="clipboard-list"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 02</p>
+                                <h3 class="flujo-titulo">Instrumentos de captura</h3>
+                                <p class="flujo-responsable">Equipo psicosocial</p>
+                                <p class="flujo-texto"><strong>Fichas SIRBE:</strong> la informaci&oacute;n se consigna en dos formatos estandarizados de la SDIS: el formato de informaci&oacute;n b&aacute;sica y transversal (FOR-PSS-321) y el formato de variables espec&iacute;ficas del servicio Forjar (FOR-PSS-694).</p>
+                                <p class="flujo-texto"><strong>Valija Estandarizada:</strong> base de datos en Excel utilizada internamente por cada unidad operativa. Recopila datos b&aacute;sicos y transversales, asigna un n&uacute;mero de &ldquo;Historia Social&rdquo; para el archivo f&iacute;sico e incluye variables de contraste para verificar la consistencia y calidad de la informaci&oacute;n antes de subirla al sistema oficial.</p>
+                            </div>
                         </div>
 
-                        <div style="position:relative; margin-bottom:25px;">
-                            <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:var(--accent); border-radius:50%; border:3px solid var(--accent-bg);"></div>
-                            <h3 style="font-size:1rem; color:var(--accent); margin:0 0 6px;">3. Digitalizaci&oacute;n en SIRBE WEB</h3>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#e8ecf1; color:#3A3A3A; margin-bottom:6px;">Enlace CESPA / Equipo psicosocial</span>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">Una vez consolidada la informaci&oacute;n en fichas f&iacute;sicas y Valija Estandarizada, se realiza el cargue al aplicativo <strong>SIRBE WEB</strong> (Sistema de Informaci&oacute;n Misional). All&iacute; queda el estado actualizado de cada usuario: ingresos, seguimientos, incumplimientos de sanci&oacute;n y egresos.</p>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="monitor"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 03</p>
+                                <h3 class="flujo-titulo">Digitalizaci&oacute;n en SIRBE WEB</h3>
+                                <p class="flujo-responsable">Enlace CESPA &middot; Equipo psicosocial</p>
+                                <p class="flujo-texto">Una vez consolidada la informaci&oacute;n en fichas f&iacute;sicas y Valija Estandarizada, se realiza el cargue al aplicativo <strong>SIRBE WEB</strong> (Sistema de Informaci&oacute;n Misional). All&iacute; queda el estado actualizado de cada usuario: ingresos, seguimientos, incumplimientos de sanci&oacute;n y egresos.</p>
+                            </div>
                         </div>
 
-                        <div style="position:relative; margin-bottom:10px;">
-                            <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:var(--accent); border-radius:50%; border:3px solid var(--accent-bg);"></div>
-                            <h3 style="font-size:1rem; color:var(--accent); margin:0 0 6px;">4. Controles de calidad y reportes</h3>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:var(--accent-border); color:var(--accent); margin-bottom:6px;">Referente t&eacute;cnico</span>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0 0 8px;">El proceso est&aacute; regulado por manuales que definen los roles. Los referentes t&eacute;cnicos revisan mensualmente los datos para ajustes previos a los reportes.</p>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0 0 8px;">El tratamiento de datos personales es estrictamente confidencial y se rige por la Ley Estatutaria 1581 de 2012.</p>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">La informaci&oacute;n depurada sirve como insumo para preparar mensualmente el <strong>Informe Cualitativo y Cuantitativo del Servicio Forjar Restaurativo</strong>, que visibiliza el volumen de atenciones, cumplimiento de metas y avance del modelo.</p>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="shield-check"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 04</p>
+                                <h3 class="flujo-titulo">Controles de calidad y reportes</h3>
+                                <p class="flujo-responsable">Referente t&eacute;cnico</p>
+                                <p class="flujo-texto">El proceso est&aacute; regulado por manuales que definen los roles. Los referentes t&eacute;cnicos revisan mensualmente los datos para ajustes previos a los reportes.</p>
+                                <p class="flujo-texto">El tratamiento de datos personales es estrictamente confidencial y se rige por la <strong>Ley Estatutaria 1581 de 2012</strong>.</p>
+                                <p class="flujo-texto">La informaci&oacute;n depurada sirve como insumo para preparar mensualmente el <strong>Informe Cualitativo y Cuantitativo del Servicio Forjar Restaurativo</strong>, que visibiliza el volumen de atenciones, cumplimiento de metas y avance del modelo.</p>
+                            </div>
                         </div>
                     </div>
 
