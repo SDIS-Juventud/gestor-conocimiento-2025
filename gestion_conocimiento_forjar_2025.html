@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de conocimiento - Servicio Forjar Restaurativo</title>
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Figtree:wght@400;500;600;700;800&display=swap');
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root { --accent: #5f9ea0; --accent-bg: #edf6f6; --accent-border: #d4eaeb; }
 body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff; color: #2F3E3C; }
@@ -70,6 +70,194 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
     .container { flex-direction: column; }
     .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }
     .rutas-formacion-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+}
+/* L&iacute;nea de tiempo en chevrones encadenados horizontales (Forjar)
+   Componente exclusivo de Forjar por ahora; si otros servicios lo adoptan,
+   migrar al CSS base en _comun/estilos.py. */
+.linea-tiempo-bloque {
+    background: #ffffff;
+    padding: 50px 28px 38px;
+    border-radius: 16px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+.linea-tiempo-titulo {
+    font-family: 'Anton', 'Segoe UI', sans-serif;
+    font-size: 2.4rem;
+    color: #2f3e3c;
+    text-align: center;
+    margin-bottom: 32px;
+    letter-spacing: 0.03em;
+}
+.linea-tiempo {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto auto;
+    row-gap: 22px;
+}
+.lt-hito { display: contents; }
+.lt-hito > .lt-chevron { grid-row: 1; }
+.lt-hito > .lt-cuerpo { grid-row: 2; }
+.lt-chevron {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 16px 22px 16px 18px;
+    font-family: 'Anton', 'Segoe UI', sans-serif;
+    color: #ffffff;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%);
+}
+.lt-hito + .lt-hito > .lt-chevron { margin-left: -18px; }
+.lt-chevron svg { width: 20px; height: 20px; flex-shrink: 0; }
+/* Paleta oficial SDIS Juventud (extendida) para los 7 hitos */
+.lt-c1 { background: #f4676e; }
+.lt-c2 { background: #1eaf76; }
+.lt-c3 { background: #663a93; }
+.lt-c4 { background: #f58b53; }
+.lt-c5 { background: #1e9da3; }
+.lt-c6 { background: #2fa4d4; }
+.lt-c7 { background: #1e7895; }
+.lt-cuerpo {
+    padding: 0 14px;
+    border-left: 1px dashed rgba(47, 62, 60, 0.18);
+}
+.lt-hito:first-child > .lt-cuerpo { border-left: none; }
+.lt-icono {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0 12px;
+}
+.lt-icono svg { width: 38px; height: 38px; stroke-width: 1.6; }
+.lt-i1 svg { color: #f4676e; }
+.lt-i2 svg { color: #1eaf76; }
+.lt-i3 svg { color: #663a93; }
+.lt-i4 svg { color: #f58b53; }
+.lt-i5 svg { color: #1e9da3; }
+.lt-i6 svg { color: #2fa4d4; }
+.lt-i7 svg { color: #1e7895; }
+.lt-titulo {
+    font-family: 'Antonio', 'Anton', 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-align: center;
+}
+.lt-t1 { color: #f4676e; }
+.lt-t2 { color: #1eaf76; }
+.lt-t3 { color: #663a93; }
+.lt-t4 { color: #f58b53; }
+.lt-t5 { color: #1e9da3; }
+.lt-t6 { color: #2fa4d4; }
+.lt-t7 { color: #1e7895; }
+.lt-texto {
+    font-family: 'Figtree', 'Segoe UI', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: #3a3a3a;
+    line-height: 1.6;
+}
+.lt-texto strong { font-weight: 700; color: #2f3e3c; }
+/* Variante m&oacute;vil: 1 columna, cada hito apilado como bloque completo
+   con su chevron arriba y el cuerpo debajo separado por l&iacute;nea punteada gris. */
+@media (max-width: 900px) {
+    .linea-tiempo {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        row-gap: 0;
+    }
+    .lt-hito {
+        display: block;
+        margin-bottom: 24px;
+    }
+    .lt-hito:last-child { margin-bottom: 0; }
+    .lt-hito > .lt-chevron, .lt-hito > .lt-cuerpo {
+        grid-row: auto;
+    }
+    .lt-chevron {
+        clip-path: none;
+        padding: 14px 20px;
+        border-radius: 6px;
+        font-size: 1.15rem;
+    }
+    .lt-hito + .lt-hito > .lt-chevron { margin-left: 0; }
+    .lt-cuerpo {
+        border-left: 1px dashed rgba(47, 62, 60, 0.3);
+        padding: 14px 0 4px 18px;
+        margin: 10px 0 0 14px;
+    }
+    .lt-hito:first-child > .lt-cuerpo { border-left: 1px dashed rgba(47, 62, 60, 0.3); }
+    .lt-icono { justify-content: flex-start; margin: 0 0 8px; }
+    .lt-icono svg { width: 30px; height: 30px; }
+    .lt-titulo { text-align: left; }
+}
+
+/* Infograf&iacute;a "A tener en cuenta": 6 fichas crema con manos halftone del branding.
+   Sin bandas de color en cabecera (eso se siente AI). El acento del punto vive
+   en el subt&iacute;tulo en Antonio Bold del color de la paleta oficial. */
+.atc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 18px;
+}
+.atc-card {
+    background: #f5efd2;
+    border-radius: 14px;
+    padding: 28px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.atc-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+.atc-mano {
+    margin: 0 0 16px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.atc-mano img { height: 100%; object-fit: contain; display: block; }
+.atc-titulo {
+    font-family: 'Antonio', 'Anton', 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+.atc-titulo-1 { color: #f4676e; }
+.atc-titulo-2 { color: #1eaf76; }
+.atc-titulo-3 { color: #663a93; }
+.atc-titulo-4 { color: #f58b53; }
+.atc-titulo-5 { color: #1e9da3; }
+.atc-titulo-6 { color: #1e7895; }
+.atc-texto {
+    font-family: 'Figtree', 'Segoe UI', sans-serif;
+    font-weight: 500;
+    font-size: 0.83rem;
+    color: #3a3a3a;
+    line-height: 1.6;
+}
+.atc-texto strong { font-weight: 700; color: #2f3e3c; }
+@media (max-width: 900px) {
+    .atc-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 901px) and (max-width: 1100px) {
+    .atc-grid { grid-template-columns: repeat(2, 1fr); }
 }</style>
 </head>
 <body>
@@ -143,35 +331,69 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
             <div class="content-section" id="linea_tiempo">
                 <div class="card">
                     <h2 class="card-title">L&iacute;nea de tiempo</h2>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-year">2009</div>
-                            <div class="timeline-text"><strong>Creaci&oacute;n como Convenio.</strong> El servicio nace en la localidad de Ciudad Bol&iacute;var como respuesta a la &ldquo;delincuencia juvenil&rdquo; identificada en las zonas de calor a nivel distrital. Este convenio se desarroll&oacute; entre la Alcald&iacute;a Local, Artesan&iacute;as de Colombia, CIRCO Ciudad, USAID y la OIM, con enfoque en formaci&oacute;n en artes y oficios, como alternativa al delito.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2012 &ndash; 2013</div>
-                            <div class="timeline-text"><strong>Consolidaci&oacute;n e institucionalizaci&oacute;n en la SDIS.</strong> Se determina que la SDIS debe asumir la operaci&oacute;n desde un enfoque de inclusi&oacute;n y pol&iacute;tica p&uacute;blica. A partir de 2013 se consolida como servicio especializado de atenci&oacute;n integral, operado directamente por la SDIS (inicialmente bajo la Subdirecci&oacute;n para la Infancia), dirigido a sanciones no privativas de libertad y restablecimiento de derechos. Se abren las unidades operativas de <strong>Suba</strong> y <strong>Rafael Uribe Uribe</strong> para cubrir el 100% del distrito.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2020 (septiembre)</div>
-                            <div class="timeline-text"><strong>Transici&oacute;n a la Subdirecci&oacute;n para la Juventud.</strong> El servicio es trasladado de la Subdirecci&oacute;n para la Infancia a la Subdirecci&oacute;n para la Juventud, enmarcado bajo el proyecto de inversi&oacute;n 7740 &ldquo;Generaci&oacute;n J&oacute;venes con Derechos en Bogot&aacute;&rdquo;.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2021</div>
-                            <div class="timeline-text"><strong>Creaci&oacute;n de nuevas rutas de atenci&oacute;n.</strong> Se dise&ntilde;a la <strong>Ruta de Oportunidades Juveniles</strong> para ampliar opciones en educaci&oacute;n, inclusi&oacute;n productiva, cultura y recreaci&oacute;n. Tambi&eacute;n surge la <strong>Ruta Integral de Atenci&oacute;n para J&oacute;venes (RIAJ)</strong>, estrategia propia de la SDIS para orientar a quienes est&aacute;n vinculados al Sistema de Responsabilidad Penal para Adolescentes (SRPA) y esperan la resoluci&oacute;n de su situaci&oacute;n socio-jur&iacute;dica.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2023</div>
-                            <div class="timeline-text"><strong>Actualizaci&oacute;n normativa y metodol&oacute;gica.</strong> Se expide un marco normativo robusto: adopci&oacute;n del Anexo T&eacute;cnico de Est&aacute;ndares de Calidad (Resoluci&oacute;n 0824, abril 2023) y publicaci&oacute;n del Documento Metodol&oacute;gico (septiembre 2023). Se armonizan los postulados de justicia restaurativa y juvenil con las din&aacute;micas sociales actuales y las pol&iacute;ticas p&uacute;blicas distritales.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2025</div>
-                            <div class="timeline-text"><strong>Fortalecimiento del acompa&ntilde;amiento en el egreso.</strong> Se ampl&iacute;a la estrategia de acompa&ntilde;amiento en el egreso para brindar continuidad voluntaria por 6 meses a 1 a&ntilde;o tras cumplir la sanci&oacute;n, consolidando la inclusi&oacute;n social y productiva a trav&eacute;s de la Ruta de Oportunidades Juveniles.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2026</div>
-                            <div class="timeline-text"><strong>Creaci&oacute;n del Manual Operativo del servicio.</strong> Reemplaza el Modelo de Atenci&oacute;n Integral del servicio, actualizando los referentes conceptuales y metodol&oacute;gicos para la prestaci&oacute;n y articul&aacute;ndolos con las condiciones espec&iacute;ficas de calidad del servicio.</div>
-                        </div>
+                    <div class="linea-tiempo">
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c1"><i data-lucide="handshake"></i>2009</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i1"><i data-lucide="handshake"></i></div>
+                                <div class="lt-titulo lt-t1">Creaci&oacute;n como convenio</div>
+                                <div class="lt-texto">El servicio nace en Ciudad Bol&iacute;var como respuesta a la &ldquo;delincuencia juvenil&rdquo; en zonas de calor. Convenio entre <strong>Alcald&iacute;a Local, Artesan&iacute;as de Colombia, CIRCO Ciudad, USAID y OIM</strong>, con enfoque en formaci&oacute;n en artes y oficios.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c2"><i data-lucide="landmark"></i>2012&mdash;13</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i2"><i data-lucide="landmark"></i></div>
+                                <div class="lt-titulo lt-t2">Consolidaci&oacute;n en SDIS</div>
+                                <div class="lt-texto">La SDIS asume la operaci&oacute;n desde un enfoque de inclusi&oacute;n y pol&iacute;tica p&uacute;blica. Se consolida como servicio especializado bajo Subdirecci&oacute;n para la Infancia. Se abren las unidades de <strong>Suba</strong> y <strong>Rafael Uribe Uribe</strong> para cubrir el 100% del distrito.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c3"><i data-lucide="users"></i>2020</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i3"><i data-lucide="users"></i></div>
+                                <div class="lt-titulo lt-t3">Llega a Juventud</div>
+                                <div class="lt-texto">El servicio es trasladado de la Subdirecci&oacute;n para la Infancia a la Subdirecci&oacute;n para la Juventud, bajo el proyecto de inversi&oacute;n <strong>7740 &ldquo;Generaci&oacute;n J&oacute;venes con Derechos en Bogot&aacute;&rdquo;</strong>.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c4"><i data-lucide="route"></i>2021</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i4"><i data-lucide="route"></i></div>
+                                <div class="lt-titulo lt-t4">Nuevas rutas</div>
+                                <div class="lt-texto">Se dise&ntilde;a la <strong>Ruta de Oportunidades Juveniles</strong> y la <strong>Ruta Integral de Atenci&oacute;n para J&oacute;venes (RIAJ)</strong> para orientar a quienes est&aacute;n vinculados al Sistema de Responsabilidad Penal para Adolescentes (SRPA).</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c5"><i data-lucide="scale"></i>2023</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i5"><i data-lucide="scale"></i></div>
+                                <div class="lt-titulo lt-t5">Marco normativo</div>
+                                <div class="lt-texto">Adopci&oacute;n del Anexo T&eacute;cnico de Est&aacute;ndares de Calidad (<strong>Resoluci&oacute;n 0824</strong>, abril 2023) y publicaci&oacute;n del Documento Metodol&oacute;gico (septiembre 2023). Se armonizan los postulados de justicia restaurativa y juvenil con las pol&iacute;ticas distritales.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c6"><i data-lucide="door-open"></i>2025</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i6"><i data-lucide="door-open"></i></div>
+                                <div class="lt-titulo lt-t6">Egreso fortalecido</div>
+                                <div class="lt-texto">Se amplía la estrategia de acompa&ntilde;amiento en el egreso para brindar continuidad voluntaria por <strong>6 meses a 1 a&ntilde;o</strong> tras cumplir la sanci&oacute;n, consolidando la inclusi&oacute;n social y productiva.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c7"><i data-lucide="book-open"></i>2026</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i7"><i data-lucide="book-open"></i></div>
+                                <div class="lt-titulo lt-t7">Manual operativo</div>
+                                <div class="lt-texto">Creaci&oacute;n del <strong>Manual Operativo</strong> que reemplaza el Modelo de Atenci&oacute;n Integral. Actualiza referentes conceptuales y metodol&oacute;gicos articulados con las condiciones espec&iacute;ficas de calidad del servicio.</div>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -180,23 +402,43 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                 <div class="card">
                     <h2 class="card-title">A tener en cuenta</h2>
 
-                    <h3 class="card-subtitle">El nombre refleja un cambio de paradigma</h3>
-                    <p style="line-height:1.7;">El servicio antes se conoc&iacute;a como &ldquo;Centros Forjar&rdquo;. La palabra &ldquo;centro&rdquo; fue eliminada porque los j&oacute;venes la asociaban con centros de reclusi&oacute;n, lo que iba en contra del enfoque restaurativo del programa. La referencia correcta es &ldquo;servicio Forjar&rdquo; o &ldquo;servicio Forjar Restaurativo&rdquo;. Nunca &ldquo;Centro Forjar&rdquo;.</p>
+                    <div class="atc-grid">
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/3.png" alt="Mano se&ntilde;alando"></div>
+                            <h3 class="atc-titulo atc-titulo-1">Cambio de paradigma en el nombre</h3>
+                            <p class="atc-texto">El servicio antes se conoc&iacute;a como <strong>&ldquo;Centros Forjar&rdquo;</strong>. La palabra &ldquo;centro&rdquo; fue eliminada porque los j&oacute;venes la asociaban con centros de reclusi&oacute;n, lo que iba en contra del enfoque restaurativo. La referencia correcta es <strong>servicio Forjar</strong>. Nunca &ldquo;Centro Forjar&rdquo;.</p>
+                        </article>
 
-                    <h3 class="card-subtitle">Justicia restaurativa, no retributiva</h3>
-                    <p style="line-height:1.7;">El servicio se fundamenta en tres pilares: la responsabilizaci&oacute;n, la reparaci&oacute;n del da&ntilde;o y la inclusi&oacute;n social (reintegraci&oacute;n). Se distancia del modelo de justicia retributiva centrado en el castigo.</p>
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/2.png" alt="Mano love-rock"></div>
+                            <h3 class="atc-titulo atc-titulo-2">Justicia restaurativa, no retributiva</h3>
+                            <p class="atc-texto">El servicio se fundamenta en tres pilares: <strong>responsabilizaci&oacute;n</strong>, <strong>reparaci&oacute;n del da&ntilde;o</strong> e <strong>inclusi&oacute;n social</strong>. Se distancia del modelo de justicia retributiva centrado en el castigo.</p>
+                        </article>
 
-                    <h3 class="card-subtitle">Atenci&oacute;n a j&oacute;venes mayores de edad</h3>
-                    <p style="line-height:1.7;">El Servicio Forjar Restaurativo atiende a j&oacute;venes hasta los 28 a&ntilde;os (11 meses y 29 d&iacute;as) en dos l&iacute;neas: j&oacute;venes que cumplen sanciones por conductas punibles (Sistema de Responsabilidad Penal para Adolescentes &mdash; SRPA, cuando el ingreso ocurri&oacute; antes de los 18 a&ntilde;os) y j&oacute;venes que requieren medidas de protecci&oacute;n y restablecimiento de derechos. Debido a los tiempos de los procesos judiciales, m&aacute;s de la mitad de la poblaci&oacute;n atendida es mayor de edad, por lo que el servicio enfoca su oferta en favorecer procesos de inclusi&oacute;n social y productiva.</p>
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/3.png" alt="Mano se&ntilde;alando"></div>
+                            <h3 class="atc-titulo atc-titulo-3">Atenci&oacute;n a j&oacute;venes mayores de edad</h3>
+                            <p class="atc-texto">Forjar atiende hasta los <strong>28 a&ntilde;os</strong> en dos l&iacute;neas: SRPA (cuando el ingreso ocurri&oacute; antes de los 18) y j&oacute;venes que requieren restablecimiento de derechos. M&aacute;s de la mitad de la poblaci&oacute;n atendida es mayor de edad.</p>
+                        </article>
 
-                    <h3 class="card-subtitle">Cobertura distrital desde tres puntos estrat&eacute;gicos</h3>
-                    <p style="line-height:1.7;">Aunque opera f&iacute;sicamente en tres unidades operativas (Suba, Ciudad Bol&iacute;var y Rafael Uribe Uribe), ubicadas en localidades con alta incidencia, Forjar atiende al 100% de la poblaci&oacute;n objetivo del Distrito Capital, recibiendo j&oacute;venes de cualquier localidad.</p>
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/5.png" alt="Mano apuntando"></div>
+                            <h3 class="atc-titulo atc-titulo-4">Cobertura distrital desde tres puntos</h3>
+                            <p class="atc-texto">Opera f&iacute;sicamente en <strong>3 unidades operativas</strong> (Suba, Ciudad Bol&iacute;var y Rafael Uribe Uribe), pero atiende al <strong>100% del Distrito Capital</strong> recibiendo j&oacute;venes de cualquier localidad.</p>
+                        </article>
 
-                    <h3 class="card-subtitle">Continuidad voluntaria despu&eacute;s de la sanci&oacute;n</h3>
-                    <p style="line-height:1.7;">El acompa&ntilde;amiento no termina cuando se cumple la orden del juez. La estrategia de acompa&ntilde;amiento al egreso permite a los j&oacute;venes continuar de manera 100% voluntaria por 6 meses a 1 a&ntilde;o, buscando consolidar su proyecto de vida y evitar el retorno a entornos vulnerables sin apoyo institucional o la reincidencia en conductas al margen de la ley.</p>
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/4.png" alt="Mano OK"></div>
+                            <h3 class="atc-titulo atc-titulo-5">Continuidad voluntaria tras la sanci&oacute;n</h3>
+                            <p class="atc-texto">El acompa&ntilde;amiento no termina con la orden del juez. Los j&oacute;venes pueden continuar de manera <strong>100% voluntaria por 6 meses a 1 a&ntilde;o</strong> para consolidar su proyecto de vida y evitar el retorno a entornos vulnerables.</p>
+                        </article>
 
-                    <h3 class="card-subtitle">Cumplimiento de mandatos judiciales</h3>
-                    <p style="line-height:1.7;">A diferencia de otros servicios de la Subdirecci&oacute;n, el cumplimiento de modalidades no privativas de la libertad que contempla el SRPA, en el servicio Forjar, no es voluntario, sino que responde a imposiciones de las autoridades administrativas y judiciales del SRPA, y por tanto la prestaci&oacute;n del servicio no puede interrumpirse ni postergarse, ya que cualquier incumplimiento a la atenci&oacute;n puede generar consecuencias legales y disciplinarias para la entidad, adem&aacute;s de afectar directamente el proceso de los j&oacute;venes.</p>
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/6.png" alt="Pu&ntilde;o cerrado"></div>
+                            <h3 class="atc-titulo atc-titulo-6">Cumplimiento de mandatos judiciales</h3>
+                            <p class="atc-texto">A diferencia de otros servicios, el cumplimiento en Forjar <strong>no es voluntario</strong>: responde a imposiciones de autoridades del SRPA. La prestaci&oacute;n no puede interrumpirse porque cualquier incumplimiento puede generar consecuencias legales y disciplinarias.</p>
+                        </article>
+                    </div>
                 </div>
             </div>
 
@@ -407,24 +649,22 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 
                     <style>
                         .po-stages-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:16px; margin:20px 0 8px; }
-                        .po-stage-card { background:#fff; border-radius:12px; border:1.5px solid #e5e0d3; padding:22px 20px; cursor:pointer; transition:transform 0.18s, box-shadow 0.18s; position:relative; overflow:hidden; }
-                        .po-stage-card:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,.08); }
-                        .po-stage-bar { position:absolute; top:0; left:0; right:0; height:4px; }
-                        .po-stage-num { font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:2.2rem; color:#d8d3c4; line-height:1; margin-bottom:10px; letter-spacing:1px; }
-                        .po-stage-title { font-family:'Anton','Figtree',sans-serif; font-weight:400; letter-spacing:0.4px; text-transform:uppercase; font-size:1rem; margin-bottom:6px; color:#2F3E3C; }
+                        .po-stage-card { background:#fff; border-radius:12px; border:1.5px solid #e5e0d3; padding:22px 20px; cursor:pointer; transition:transform 0.18s, box-shadow 0.18s; }
+                        .po-stage-card:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+                        .po-stage-num { font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:2.6rem; line-height:1; margin-bottom:10px; letter-spacing:1px; }
+                        .po-stage-title { font-family:'Antonio','Anton','Figtree',sans-serif; font-weight:700; letter-spacing:0.4px; text-transform:uppercase; font-size:1rem; margin-bottom:6px; color:#2F3E3C; }
                         .po-stage-sub { font-size:0.78rem; color:#666; margin-bottom:10px; font-style:italic; line-height:1.35; }
                         .po-stage-desc { font-size:0.85rem; color:#444; line-height:1.55; }
 
                         .po-detail-panel { display:none; background:#fff; border-radius:12px; border:1.5px solid #e5e0d3; padding:24px; margin:20px 0 28px; }
                         .po-detail-panel.active { display:block; animation:poFadeIn 0.25s ease; }
                         @keyframes poFadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-                        .po-detail-panel h3 { font-family:'Anton','Figtree',sans-serif; font-weight:400; letter-spacing:0.4px; text-transform:uppercase; font-size:1.1rem; color:var(--accent); margin-bottom:6px; }
+                        .po-detail-panel h3 { font-family:'Antonio','Anton','Figtree',sans-serif; font-weight:700; letter-spacing:0.4px; text-transform:uppercase; font-size:1.1rem; color:var(--accent); margin-bottom:6px; }
                         .po-detail-intro { font-size:0.9rem; color:#666; margin-bottom:16px; line-height:1.6; }
 
                         .po-activity-table { width:100%; border-collapse:collapse; font-size:0.85rem; margin-top:8px; }
-                        .po-activity-table th { background:#2F3E3C; color:#F8F4E1; font-size:0.85rem; font-weight:700; padding:12px 14px; text-align:left; }
-                        .po-activity-table tbody tr:nth-child(odd) { background:#fafafa; }
-                        .po-activity-table tbody tr:nth-child(even) { background:#fff; }
+                        .po-activity-table th { background:#2F3E3C; color:#F8F4E1; font-family:'Antonio','Anton','Figtree',sans-serif; font-size:0.9rem; font-weight:700; letter-spacing:0.3px; text-transform:uppercase; padding:12px 14px; text-align:left; }
+                        .po-activity-table tbody tr { background:#fff; }
                         .po-activity-table td { padding:12px 14px; border-bottom:1px solid #e0e0e0; vertical-align:top; line-height:1.55; }
                         .po-activity-table tr:last-child td { border-bottom:none; }
                         .po-activity-table tr:hover td { background:#f5f5f5; }
@@ -449,20 +689,20 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                         .po-pill { padding:6px 16px; border-radius:100px; font-size:0.78rem; font-weight:500; cursor:pointer; border:1.5px solid #e5e0d3; background:#fff; color:#666; transition:all 0.18s; }
                         .po-pill:hover { border-color:var(--accent); color:var(--accent); }
                         .po-pill.active { color:#fff; }
-                        .po-pill[data-stage="ingreso"].active { background:#e07850; border-color:#e07850; }
+                        .po-pill[data-stage="ingreso"].active { background:#f58b53; border-color:#f58b53; }
                         .po-pill[data-stage="permanencia"].active { background:#5f9ea0; border-color:#5f9ea0; }
                         .po-pill[data-stage="egreso"].active { background:#1eaf76; border-color:#1eaf76; }
-                        .po-pill[data-stage="rae"].active { background:#4a7ba7; border-color:#4a7ba7; }
+                        .po-pill[data-stage="rae"].active { background:#1e7895; border-color:#1e7895; }
 
                         .po-docs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
-                        .po-doc-card { background:#fff; border:1.5px solid #e5e0d3; border-radius:12px; padding:22px 20px 18px; display:flex; align-items:flex-start; gap:14px; transition:box-shadow 0.18s, transform 0.18s; position:relative; overflow:hidden; }
-                        .po-doc-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:#999; }
-                        .po-doc-card.po-doc-ingreso::before { background:#e07850; }
-                        .po-doc-card.po-doc-permanencia::before { background:#5f9ea0; }
-                        .po-doc-card.po-doc-egreso::before { background:#1eaf76; }
-                        .po-doc-card.po-doc-rae::before { background:#4a7ba7; }
-                        .po-doc-card:hover { box-shadow:0 8px 22px rgba(0,0,0,.10); transform:translateY(-2px); }
+                        .po-doc-card { background:#fff; border:1.5px solid #e5e0d3; border-radius:12px; padding:22px 20px 18px; display:flex; align-items:flex-start; gap:14px; transition:box-shadow 0.18s, transform 0.18s; }
+                        .po-doc-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.05); transform:translateY(-2px); }
+                        /* El color de la etapa vive en el &iacute;cono, no en una banda superior. */
                         .po-doc-icon { width:36px; min-width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#2F3E3C; }
+                        .po-doc-card.po-doc-ingreso .po-doc-icon { color:#f58b53; }
+                        .po-doc-card.po-doc-permanencia .po-doc-icon { color:#5f9ea0; }
+                        .po-doc-card.po-doc-egreso .po-doc-icon { color:#1eaf76; }
+                        .po-doc-card.po-doc-rae .po-doc-icon { color:#1e7895; }
                         .po-doc-icon svg { width:30px; height:30px; display:block; }
                         .po-doc-info { flex:1; min-width:0; }
                         .po-doc-name { font-size:0.92rem; font-weight:600; color:#2F3E3C; margin-bottom:10px; line-height:1.35; }
@@ -473,7 +713,7 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                         .po-actor-card { background:#2B2F3A; color:#F8F4E1; border:none; border-radius:12px; padding:22px 22px 24px; box-shadow:7px 7px 0 var(--accent-bg); }
                         .po-actor-icon { width:30px; height:30px; color:#F8F4E1; margin-bottom:14px; }
                         .po-actor-icon svg { width:100%; height:100%; display:block; }
-                        .po-actor-name { font-family:'Anton','Figtree',sans-serif; font-weight:400; letter-spacing:0.3px; text-transform:uppercase; font-size:0.98rem; margin-bottom:10px; color:#F8F4E1; }
+                        .po-actor-name { font-family:'Antonio','Anton','Figtree',sans-serif; font-weight:700; letter-spacing:0.3px; text-transform:uppercase; font-size:0.98rem; margin-bottom:10px; color:#F8F4E1; }
                         .po-actor-desc { font-size:0.83rem; color:#b8c0c4; line-height:1.55; }
                         @media (max-width: 720px) { .po-actores-grid { grid-template-columns:1fr; } }
                     </style>
@@ -483,29 +723,25 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 
                     <div class="po-stages-grid">
                         <div class="po-stage-card" onclick="togglePanel('po-panel-ingreso', this)">
-                            <div class="po-stage-bar" style="background:#e07850;"></div>
-                            <div class="po-stage-num">01</div>
+                            <div class="po-stage-num" style="color:#f58b53;">01</div>
                             <div class="po-stage-title">Ingreso y Acogida</div>
                             <div class="po-stage-sub">Reconocimiento y sensibilización</div>
                             <div class="po-stage-desc">Recepción del caso, inducción, valoraciones interdisciplinarias y construcción del PAI inicial.</div>
                         </div>
                         <div class="po-stage-card" onclick="togglePanel('po-panel-permanencia', this)">
-                            <div class="po-stage-bar" style="background:#5f9ea0;"></div>
-                            <div class="po-stage-num">02</div>
+                            <div class="po-stage-num" style="color:#5f9ea0;">02</div>
                             <div class="po-stage-title">Permanencia</div>
                             <div class="po-stage-sub">Ejecución y seguimiento al PAI</div>
                             <div class="po-stage-desc">Intervenciones individuales, familiares y grupales con enfoque pedagógico y restaurativo.</div>
                         </div>
                         <div class="po-stage-card" onclick="togglePanel('po-panel-egreso', this)">
-                            <div class="po-stage-bar" style="background:#1eaf76;"></div>
-                            <div class="po-stage-num">03</div>
+                            <div class="po-stage-num" style="color:#1eaf76;">03</div>
                             <div class="po-stage-title">Proyección y Egreso</div>
                             <div class="po-stage-sub">Cierre formal del proceso</div>
                             <div class="po-stage-desc">Estudio de caso de egreso, informe final y socialización de la Estrategia de Acompañamiento.</div>
                         </div>
                         <div class="po-stage-card" onclick="togglePanel('po-panel-rae', this)">
-                            <div class="po-stage-bar" style="background:#4a7ba7;"></div>
-                            <div class="po-stage-num">04</div>
+                            <div class="po-stage-num" style="color:#1e7895;">04</div>
                             <div class="po-stage-title">Post-Egreso (RAE)</div>
                             <div class="po-stage-sub">Estrategia de Acompañamiento al Egreso</div>
                             <div class="po-stage-desc">Acompañamiento voluntario de hasta 1 año para la inclusión social y productiva del joven.</div>
@@ -958,5 +1194,8 @@ function filterDocs(stage, el) {
     }
 }
 </script>
+    <!-- Lucide Icons (flat icons de l&iacute;nea, MIT license) para la l&iacute;nea de tiempo -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
