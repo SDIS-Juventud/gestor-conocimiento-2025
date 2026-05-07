@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de Conocimiento - Casas de Juventud 2025</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Figtree:wght@400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff; color: #2F3E3C; }
         .header { background: #2F3E3C; color: #F8F4E1; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
@@ -88,6 +88,26 @@
             margin-top: 4px;
         }
         @media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; } .quick-link-img { width: 90px; height: 90px; } }
+        /* Flujo de gestión: pasos en columna con ícono redondo a la izquierda y conector punteado entre ellos. */
+        .flujo-pasos { display: flex; flex-direction: column; gap: 28px; margin: 22px 0 8px; }
+        .flujo-paso { display: grid; grid-template-columns: 64px 1fr; gap: 22px; align-items: flex-start; position: relative; }
+        .flujo-paso:not(:last-child)::before { content: ''; position: absolute; left: 31px; top: 64px; bottom: -28px; width: 0; border-left: 2px dashed #DFE8F1; }
+        .flujo-icono { width: 56px; height: 56px; border-radius: 50%; background: #EAEFF5; color: #253C5C; display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 1; }
+        .flujo-icono svg { width: 26px; height: 26px; stroke-width: 1.8; }
+        .flujo-orden { font-family: 'Antonio', 'Anton', 'Figtree', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; color: #888; margin: 0 0 2px; }
+        .flujo-titulo { font-family: 'Antonio', 'Anton', 'Figtree', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 1.15rem; color: #253C5C; margin: 0 0 4px; }
+        .flujo-responsable { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 12px; font-weight: 600; }
+        .flujo-texto { font-size: 0.9rem; color: #3a3a3a; line-height: 1.7; margin: 0 0 8px; }
+        .flujo-texto:last-child { margin-bottom: 0; }
+        .flujo-texto strong { color: #2f3e3c; font-weight: 700; }
+        .flujo-texto ul { margin: 6px 0 0 20px; padding: 0; }
+        .flujo-texto ul li { margin-bottom: 4px; }
+        @media (max-width: 720px) {
+            .flujo-paso { grid-template-columns: 48px 1fr; gap: 14px; }
+            .flujo-paso:not(:last-child)::before { left: 23px; top: 48px; }
+            .flujo-icono { width: 40px; height: 40px; }
+            .flujo-icono svg { width: 20px; height: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -627,61 +647,57 @@
                 <h2 class="card-title">Flujo de gestión de la información</h2>
                 <p style="color:#666; margin-bottom:20px;">Proceso completo desde la ejecución de una actividad hasta el reporte oficial de metas.</p>
 
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:25px;">
-                    <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:#EAEFF5; color:#253C5C; font-size:0.8rem; font-weight:600;">Gestor / aliado externo</span>
-                    <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:#e8ecf1; color:#3A3A3A; font-size:0.8rem; font-weight:600;">Administrativo / digitador</span>
-                    <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:#DFE8F1; color:#16263E; font-size:0.8rem; font-weight:600;">DADE</span>
-                    <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:#DFE8F1; color:#16263E; font-size:0.8rem; font-weight:600;">Líder administrativa</span>
-                </div>
-
-                <div style="position:relative; padding-left:30px;">
-                    <div style="position:absolute; left:12px; top:0; bottom:0; width:3px; background:linear-gradient(to bottom, #253C5C, #16263E); border-radius:2px;"></div>
-
-                    <div style="position:relative; margin-bottom:25px;">
-                        <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:#253C5C; border-radius:50%; border:3px solid #EAEFF5;"></div>
-                        <h3 style="font-size:1rem; color:#253C5C; margin:0 0 6px;">1. Ejecución de la actividad</h3>
-                        <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#EAEFF5; color:#253C5C; margin-bottom:6px;">Gestor / aliado externo</span>
-                        <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">La actividad (taller, charla, evento) es ejecutada por el gestor territorial, un aliado externo, voluntario o equipo transversal. Los gestores culturales, por ejemplo, rotan por las localidades dictando talleres específicos de su línea artística.</p>
-                    </div>
-
-                    <div style="position:relative; margin-bottom:25px;">
-                        <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:#253C5C; border-radius:50%; border:3px solid #EAEFF5;"></div>
-                        <h3 style="font-size:1rem; color:#253C5C; margin:0 0 6px;">2. Recolección en campo</h3>
-                        <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#EAEFF5; color:#253C5C; margin-bottom:6px;">Gestor / aliado externo</span>
-                        <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0 0 8px;">Se diligencia la <strong>Ficha SIRBE 328</strong> (FOR-PSS-328), un formato físico único con dos secciones:</p>
-                        <ul style="font-size:0.88rem; color:#555; line-height:1.7; margin:0 0 0 20px; padding:0;">
-                            <li><strong>Sección A (“cabezote”):</strong> la diligencia el gestor. Registra nombre de la actividad, fecha, horas, lugar, modalidad y tipo de actividad.</li>
-                            <li><strong>Sección B (listado de asistencia):</strong> la llenan los jóvenes participantes. Registran datos sociodemográficos y responden preguntas transversales de política pública (ej: derechos vulnerados, ruta de oportunidades juveniles). Cada joven firma como constancia de participación.</li>
-                        </ul>
-                    </div>
-
-                    <div style="position:relative; margin-bottom:25px;">
-                        <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:#253C5C; border-radius:50%; border:3px solid #EAEFF5;"></div>
-                        <h3 style="font-size:1rem; color:#253C5C; margin:0 0 6px;">3. Entrega física</h3>
-                        <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#e8ecf1; color:#3A3A3A; margin-bottom:6px;">Administrativo</span>
-                        <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">Los gestores entregan las fichas físicas y listados al administrativo de la Casa de Juventud. <strong>Plazo: días 1 al 20 de cada mes.</strong></p>
-                    </div>
-
-                    <div style="position:relative; margin-bottom:25px;">
-                        <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:#253C5C; border-radius:50%; border:3px solid #EAEFF5;"></div>
-                        <h3 style="font-size:1rem; color:#253C5C; margin:0 0 6px;">4. Digitación en SIRBE</h3>
-                        <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#e8ecf1; color:#3A3A3A; margin-bottom:6px;">Administrativo / digitador</span>
-                        <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0 0 8px;">El administrativo traduce la ficha física al sistema SIRBE. <strong>Plazo: días 20 al 28 del mismo mes.</strong></p>
-                        <ul style="font-size:0.88rem; color:#555; line-height:1.7; margin:0 0 0 20px; padding:0;">
-                            <li>Selecciona modalidad y actuación de listas desplegables.</li>
-                            <li>Digita el <strong>nombre del curso</strong> en un campo de texto abierto, usando la <strong>tabla de homologación</strong> como referencia.</li>
-                            <li>Carga los jóvenes asistentes. El sistema asigna automáticamente el estado “Atendido Curso”.</li>
-                        </ul>
-                    </div>
-
-                    <div style="position:relative; margin-bottom:10px;">
-                        <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:#16263E; border-radius:50%; border:3px solid #DFE8F1;"></div>
-                        <h3 style="font-size:1rem; color:#16263E; margin:0 0 6px;">5. Reporte oficial DADE y desagregación manual</h3>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px;">
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#DFE8F1; color:#16263E;">DADE</span>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#DFE8F1; color:#16263E;">Líder administrativa</span>
+                <div class="flujo-pasos">
+                    <div class="flujo-paso">
+                        <div class="flujo-icono"><i data-lucide="users"></i></div>
+                        <div>
+                            <p class="flujo-orden">Paso 01</p>
+                            <h3 class="flujo-titulo">Ejecución de la actividad</h3>
+                            <p class="flujo-responsable">Gestor &middot; aliado externo</p>
+                            <p class="flujo-texto">La actividad (taller, charla, evento) es ejecutada por el gestor territorial, un aliado externo, voluntario o equipo transversal. Los gestores culturales, por ejemplo, rotan por las localidades dictando talleres específicos de su línea artística.</p>
                         </div>
-                        <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">La primera semana del mes siguiente, la DADE (Dirección de Análisis y Diseño Estratégico) emite el reporte oficial consolidado a partir de los datos cargados en el sistema. Debido a que DADE entrega la información de manera general, la líder administrativa debe descargar este reporte y realizar un trabajo manual para desagregar los datos por unidad operativa y por equipo móvil, y así poder evaluar el cumplimiento de las metas internas.</p>
+                    </div>
+
+                    <div class="flujo-paso">
+                        <div class="flujo-icono"><i data-lucide="clipboard-list"></i></div>
+                        <div>
+                            <p class="flujo-orden">Paso 02</p>
+                            <h3 class="flujo-titulo">Recolección en campo</h3>
+                            <p class="flujo-responsable">Gestor &middot; aliado externo</p>
+                            <p class="flujo-texto">Se diligencia la <strong>Ficha SIRBE 328</strong> (FOR-PSS-328), un formato físico único con dos secciones:</p>
+                            <p class="flujo-texto"><ul><li><strong>Sección A (&ldquo;cabezote&rdquo;):</strong> la diligencia el gestor. Registra nombre de la actividad, fecha, horas, lugar, modalidad y tipo de actividad.</li><li><strong>Sección B (listado de asistencia):</strong> la llenan los jóvenes participantes. Registran datos sociodemográficos y responden preguntas transversales de política pública (por ejemplo, derechos vulnerados o ruta de oportunidades juveniles). Cada joven firma como constancia de participación.</li></ul></p>
+                        </div>
+                    </div>
+
+                    <div class="flujo-paso">
+                        <div class="flujo-icono"><i data-lucide="inbox"></i></div>
+                        <div>
+                            <p class="flujo-orden">Paso 03</p>
+                            <h3 class="flujo-titulo">Entrega física</h3>
+                            <p class="flujo-responsable">Administrativo</p>
+                            <p class="flujo-texto">Los gestores entregan las fichas físicas y listados al administrativo de la Casa de Juventud. <strong>Plazo: días 1 al 20 de cada mes.</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="flujo-paso">
+                        <div class="flujo-icono"><i data-lucide="monitor"></i></div>
+                        <div>
+                            <p class="flujo-orden">Paso 04</p>
+                            <h3 class="flujo-titulo">Digitación en SIRBE</h3>
+                            <p class="flujo-responsable">Administrativo &middot; digitador</p>
+                            <p class="flujo-texto">El administrativo traduce la ficha física al sistema SIRBE. <strong>Plazo: días 20 al 28 del mismo mes.</strong></p>
+                            <p class="flujo-texto"><ul><li>Selecciona modalidad y actuación de listas desplegables.</li><li>Digita el <strong>nombre del curso</strong> en un campo de texto abierto, usando la <strong>tabla de homologación</strong> como referencia.</li><li>Carga los jóvenes asistentes. El sistema asigna automáticamente el estado &ldquo;Atendido Curso&rdquo;.</li></ul></p>
+                        </div>
+                    </div>
+
+                    <div class="flujo-paso">
+                        <div class="flujo-icono"><i data-lucide="bar-chart-3"></i></div>
+                        <div>
+                            <p class="flujo-orden">Paso 05</p>
+                            <h3 class="flujo-titulo">Reporte oficial DADE y desagregación manual</h3>
+                            <p class="flujo-responsable">DADE &middot; Líder administrativa</p>
+                            <p class="flujo-texto">La primera semana del mes siguiente, la <strong>DADE</strong> (Dirección de Análisis y Diseño Estratégico) emite el reporte oficial consolidado a partir de los datos cargados en el sistema. Debido a que DADE entrega la información de manera general, la líder administrativa debe descargar este reporte y realizar un trabajo manual para desagregar los datos por unidad operativa y por equipo móvil, y así poder evaluar el cumplimiento de las metas internas.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -890,5 +906,8 @@
 
         document.addEventListener('DOMContentLoaded',function(){filtrarLoc('Total');filtrarDemo('Total')});
     </script>
+    <!-- Lucide Icons (flat icons de l&iacute;nea, MIT license) para el flujo de gesti&oacute;n -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
