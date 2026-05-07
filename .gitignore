@@ -1,6 +1,5 @@
 Notes/
 archivo/
-scripts/
 alianzas/
 *.xlsx
 !datos/equipo_casas_juventud.xlsx
@@ -15,5 +14,8 @@ validacion_*.html
 __pycache__/
 .ipynb_checkpoints/
 *.bak
+# Backups locales con fecha (ej: estilos_backup_2026-05-07.py, gestor_backup.html)
+*_backup_*.py
+*_backup_*.html
 .DS_Store
 Thumbs.db
