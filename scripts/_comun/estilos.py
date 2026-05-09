@@ -89,6 +89,46 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
 }"""
 
 
+# Línea de tiempo en chevrones encadenados horizontales.
+# Componente compartido por Forjar, JCO y Casas de Juventud. El número de hitos es
+# flexible: cada wrapper pasa --lt-cols inline (ej. style="--lt-cols: 5"). Los 7
+# colores siguen la paleta oficial extendida SDIS Juventud.
+# Se mantiene como constante separada (en vez de incrustada en _CSS_BASE) porque
+# generar_juventud.py todavía no consume construir_css() y necesita importarla
+# por aparte para evitar duplicar el CSS inline.
+CSS_LINEA_TIEMPO_CHEVRON = """\
+.linea-tiempo { display: grid; grid-template-columns: repeat(var(--lt-cols, 7), 1fr); grid-template-rows: auto auto; row-gap: 22px; }
+.lt-hito { display: contents; }
+.lt-hito > .lt-chevron { grid-row: 1; }
+.lt-hito > .lt-cuerpo { grid-row: 2; }
+.lt-chevron { display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 16px 22px 16px 18px; font-family: 'Anton','Segoe UI',sans-serif; color: #ffffff; font-size: 1.1rem; letter-spacing: 0.02em; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); }
+.lt-hito + .lt-hito > .lt-chevron { margin-left: -18px; }
+.lt-chevron svg { width: 20px; height: 20px; flex-shrink: 0; }
+.lt-c1 { background: #f4676e; } .lt-c2 { background: #1eaf76; } .lt-c3 { background: #663a93; } .lt-c4 { background: #f58b53; } .lt-c5 { background: #1e9da3; } .lt-c6 { background: #2fa4d4; } .lt-c7 { background: #1e7895; }
+.lt-cuerpo { padding: 0 14px; border-left: 1px dashed rgba(47, 62, 60, 0.18); }
+.lt-hito:first-child > .lt-cuerpo { border-left: none; }
+.lt-icono { display: flex; justify-content: center; margin: 16px 0 12px; }
+.lt-icono svg { width: 38px; height: 38px; stroke-width: 1.6; }
+.lt-i1 svg { color: #f4676e; } .lt-i2 svg { color: #1eaf76; } .lt-i3 svg { color: #663a93; } .lt-i4 svg { color: #f58b53; } .lt-i5 svg { color: #1e9da3; } .lt-i6 svg { color: #2fa4d4; } .lt-i7 svg { color: #1e7895; }
+.lt-titulo { font-family: 'Antonio','Anton','Segoe UI',sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.02em; text-align: center; }
+.lt-t1 { color: #f4676e; } .lt-t2 { color: #1eaf76; } .lt-t3 { color: #663a93; } .lt-t4 { color: #f58b53; } .lt-t5 { color: #1e9da3; } .lt-t6 { color: #2fa4d4; } .lt-t7 { color: #1e7895; }
+.lt-texto { font-family: 'Figtree','Segoe UI',sans-serif; font-weight: 500; font-size: 0.8rem; color: #3a3a3a; line-height: 1.6; }
+.lt-texto strong { font-weight: 700; color: #2f3e3c; }
+@media (max-width: 900px) {
+    .linea-tiempo { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 0; }
+    .lt-hito { display: block; margin-bottom: 24px; }
+    .lt-hito:last-child { margin-bottom: 0; }
+    .lt-hito > .lt-chevron, .lt-hito > .lt-cuerpo { grid-row: auto; }
+    .lt-chevron { clip-path: none; padding: 14px 20px; border-radius: 6px; font-size: 1.15rem; }
+    .lt-hito + .lt-hito > .lt-chevron { margin-left: 0; }
+    .lt-cuerpo { border-left: 1px dashed rgba(47, 62, 60, 0.3); padding: 14px 0 4px 18px; margin: 10px 0 0 14px; }
+    .lt-hito:first-child > .lt-cuerpo { border-left: 1px dashed rgba(47, 62, 60, 0.3); }
+    .lt-icono { justify-content: flex-start; margin: 0 0 8px; }
+    .lt-icono svg { width: 30px; height: 30px; }
+    .lt-titulo { text-align: left; }
+}"""
+
+
 # Colores por servicio. Cuando se agrega un servicio nuevo, registrarlo aquí.
 COLORES = {
     "juventud": {
@@ -146,6 +186,10 @@ def construir_css(
             resultado.append(root.rstrip("\n"))
             root_insertado = True
     base = "\n".join(resultado)
+    # La línea de tiempo en chevrones vive en su propia constante para poder
+    # ser importada también por generar_juventud.py (que no usa construir_css).
+    # Aquí se concatena para que Forjar, JCO y los demás la reciban automáticamente.
+    base += "\n" + CSS_LINEA_TIEMPO_CHEVRON
     if extras:
         base += "\n" + extras.strip()
     return base

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestor de conocimiento - J&oacute;venes con Oportunidades</title>
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Figtree:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Antonio:wght@400;700&family=Figtree:wght@400;500;600;700;800&display=swap');
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root { --accent: #8e6bbf; --accent-bg: #f3eef9; --accent-border: #e5ddf0; }
 body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff; color: #2F3E3C; }
@@ -70,6 +70,36 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
     .container { flex-direction: column; }
     .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #e0e0e0; }
     .rutas-formacion-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+}
+.linea-tiempo { display: grid; grid-template-columns: repeat(var(--lt-cols, 7), 1fr); grid-template-rows: auto auto; row-gap: 22px; }
+.lt-hito { display: contents; }
+.lt-hito > .lt-chevron { grid-row: 1; }
+.lt-hito > .lt-cuerpo { grid-row: 2; }
+.lt-chevron { display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 16px 22px 16px 18px; font-family: 'Anton','Segoe UI',sans-serif; color: #ffffff; font-size: 1.1rem; letter-spacing: 0.02em; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 50%, calc(100% - 18px) 100%, 0 100%); }
+.lt-hito + .lt-hito > .lt-chevron { margin-left: -18px; }
+.lt-chevron svg { width: 20px; height: 20px; flex-shrink: 0; }
+.lt-c1 { background: #f4676e; } .lt-c2 { background: #1eaf76; } .lt-c3 { background: #663a93; } .lt-c4 { background: #f58b53; } .lt-c5 { background: #1e9da3; } .lt-c6 { background: #2fa4d4; } .lt-c7 { background: #1e7895; }
+.lt-cuerpo { padding: 0 14px; border-left: 1px dashed rgba(47, 62, 60, 0.18); }
+.lt-hito:first-child > .lt-cuerpo { border-left: none; }
+.lt-icono { display: flex; justify-content: center; margin: 16px 0 12px; }
+.lt-icono svg { width: 38px; height: 38px; stroke-width: 1.6; }
+.lt-i1 svg { color: #f4676e; } .lt-i2 svg { color: #1eaf76; } .lt-i3 svg { color: #663a93; } .lt-i4 svg { color: #f58b53; } .lt-i5 svg { color: #1e9da3; } .lt-i6 svg { color: #2fa4d4; } .lt-i7 svg { color: #1e7895; }
+.lt-titulo { font-family: 'Antonio','Anton','Segoe UI',sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.02em; text-align: center; }
+.lt-t1 { color: #f4676e; } .lt-t2 { color: #1eaf76; } .lt-t3 { color: #663a93; } .lt-t4 { color: #f58b53; } .lt-t5 { color: #1e9da3; } .lt-t6 { color: #2fa4d4; } .lt-t7 { color: #1e7895; }
+.lt-texto { font-family: 'Figtree','Segoe UI',sans-serif; font-weight: 500; font-size: 0.8rem; color: #3a3a3a; line-height: 1.6; }
+.lt-texto strong { font-weight: 700; color: #2f3e3c; }
+@media (max-width: 900px) {
+    .linea-tiempo { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 0; }
+    .lt-hito { display: block; margin-bottom: 24px; }
+    .lt-hito:last-child { margin-bottom: 0; }
+    .lt-hito > .lt-chevron, .lt-hito > .lt-cuerpo { grid-row: auto; }
+    .lt-chevron { clip-path: none; padding: 14px 20px; border-radius: 6px; font-size: 1.15rem; }
+    .lt-hito + .lt-hito > .lt-chevron { margin-left: 0; }
+    .lt-cuerpo { border-left: 1px dashed rgba(47, 62, 60, 0.3); padding: 14px 0 4px 18px; margin: 10px 0 0 14px; }
+    .lt-hito:first-child > .lt-cuerpo { border-left: 1px dashed rgba(47, 62, 60, 0.3); }
+    .lt-icono { justify-content: flex-start; margin: 0 0 8px; }
+    .lt-icono svg { width: 30px; height: 30px; }
+    .lt-titulo { text-align: left; }
 }</style>
 </head>
 <body>
@@ -127,7 +157,7 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
             <div class="content-section active" id="welcome">
                 <div class="welcome-section">
                     <div style="font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:1.9rem; line-height:1.05; letter-spacing:1px; text-transform:uppercase; background:#2d2a28; color:#f4f5de; padding:14px 24px 11px; margin:0 auto 28px; display:block; width:fit-content; max-width:100%; text-align:center;">J&oacute;venes con Oportunidades</div>
-                    <p>Ruta de inclusi&oacute;n social y productiva de la Alcald&iacute;a de Bogot&aacute; dirigida a j&oacute;venes de 14 a 28 a&ntilde;os en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad. El programa no impone restricciones de acceso por la ocupaci&oacute;n actual del joven: vincula tanto a quienes ya se encuentran estudiando (por ejemplo en la ruta de educaci&oacute;n postmedia) como a quienes ya est&aacute;n trabajando.</p>
+                    <p>Ruta de inclusi&oacute;n social y productiva de la Alcald&iacute;a de Bogot&aacute; para empoderar a j&oacute;venes de 14 a 28 a&ntilde;os en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad, especialmente aquellos que no estudian ni trabajan.</p>
                     <p>Iniciativa conjunta entre la Secretar&iacute;a de Integraci&oacute;n Social, la Secretar&iacute;a de Desarrollo Econ&oacute;mico, la Secretar&iacute;a de Educaci&oacute;n y la Agencia Atenea.</p>
                     <div style="margin:30px auto 0; max-width:450px;">
                         <img src="imagenes/Jovenes con oportunidades.png" alt="J&oacute;venes con Oportunidades" style="width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
@@ -138,28 +168,52 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
             <div class="content-section" id="linea_tiempo">
                 <div class="card">
                     <h2 class="card-title">L&iacute;nea de tiempo</h2>
-                    <p style="line-height:1.7; margin-bottom:20px;">Evoluci&oacute;n de las pol&iacute;ticas de inclusi&oacute;n social juvenil y transferencias monetarias en Bogot&aacute;: del modelo de emergencia <strong>Parceros por Bogot&aacute;</strong> hacia la estrategia integral <strong>J&oacute;venes con Oportunidades</strong>.</p>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-year">2020</div>
-                            <div class="timeline-text"><strong>Estrategia RETO.</strong> La SDIS lanza la Estrategia Retorno de las Oportunidades Juveniles &ndash; RETO, estructurada institucionalmente bajo el Proyecto de Inversi&oacute;n 7740 &ldquo;Generaci&oacute;n J&oacute;venes con Derechos en Bogot&aacute;&rdquo;, para reducir el riesgo social en poblaci&oacute;n joven vulnerable.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2021</div>
-                            <div class="timeline-text"><strong>Lanzamiento de Parceros por Bogot&aacute;.</strong> El programa nace como respuesta a las demandas escuchadas en las mesas de di&aacute;logo y concertaci&oacute;n durante el estallido social y el Paro Nacional. Como parte de la Estrategia RETO, entrega a j&oacute;venes vulnerables transferencias de <strong>$500.000 mensuales durante seis meses</strong>. Este apoyo econ&oacute;mico est&aacute; condicionado a su participaci&oacute;n en actividades pedag&oacute;gicas, labores de servicio a la ciudad y acompa&ntilde;amiento psicosocial para apoyar su proyecto de vida.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2023 (septiembre)</div>
-                            <div class="timeline-text"><strong>Cierre del ciclo Parceros por Bogot&aacute;.</strong> Al finalizar el programa se reportan <strong>m&aacute;s de 28.000 j&oacute;venes atendidos</strong>. <strong>4 de cada 10 egresados</strong> obtuvieron empleo formal, apoyo para emprendimiento o acceso a educaci&oacute;n superior.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2024</div>
-                            <div class="timeline-text"><strong>Se lanza oficialmente el programa J&oacute;venes con Oportunidades.</strong> Este nuevo modelo, enmarcado t&eacute;cnica y presupuestalmente dentro del Proyecto de Inversi&oacute;n 7940 &ldquo;Implementaci&oacute;n de estrategias de inclusi&oacute;n social y productiva para la poblaci&oacute;n joven en situaci&oacute;n de pobreza y vulnerabilidad en Bogot&aacute;&rdquo;, mantiene el acompa&ntilde;amiento psicosocial y las transferencias monetarias condicionadas, pero ahora articula el esfuerzo de las Secretar&iacute;as de Integraci&oacute;n Social, Educaci&oacute;n y Desarrollo Econ&oacute;mico junto con la Agencia Atenea. Vincula el apoyo econ&oacute;mico directamente a tres rutas de formaci&oacute;n espec&iacute;fica.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2024 &ndash; 2027</div>
-                            <div class="timeline-text"><strong>Meta del cuatrienio.</strong> J&oacute;venes con Oportunidades tiene el reto de beneficiar a <strong>40.000 j&oacute;venes</strong> con una inversi&oacute;n distrital proyectada de <strong>$324.053 millones</strong>.</div>
-                        </div>
+                    <p style="line-height:1.7; margin-bottom:24px;">Evoluci&oacute;n de las pol&iacute;ticas de inclusi&oacute;n social juvenil y transferencias monetarias en Bogot&aacute;: del modelo de emergencia <strong>Parceros por Bogot&aacute;</strong> hacia la estrategia integral <strong>J&oacute;venes con Oportunidades</strong>.</p>
+                    <div class="linea-tiempo" style="--lt-cols: 5;">
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c1"><i data-lucide="rocket"></i>2020</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i1"><i data-lucide="rocket"></i></div>
+                                <div class="lt-titulo lt-t1">Estrategia RETO</div>
+                                <div class="lt-texto">La SDIS lanza la Estrategia Retorno de las Oportunidades Juveniles &ndash; RETO, bajo el Proyecto de Inversi&oacute;n <strong>7740 &ldquo;Generaci&oacute;n J&oacute;venes con Derechos en Bogot&aacute;&rdquo;</strong>, para reducir el riesgo social en poblaci&oacute;n joven vulnerable.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c2"><i data-lucide="hand-coins"></i>2021</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i2"><i data-lucide="hand-coins"></i></div>
+                                <div class="lt-titulo lt-t2">Parceros por Bogot&aacute;</div>
+                                <div class="lt-texto">Respuesta a las demandas escuchadas en las mesas de di&aacute;logo durante el estallido social. Entrega transferencias de <strong>$500.000 mensuales por seis meses</strong>, condicionadas a participaci&oacute;n en actividades pedag&oacute;gicas, servicio a la ciudad y acompa&ntilde;amiento psicosocial.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c3"><i data-lucide="flag"></i>2023</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i3"><i data-lucide="flag"></i></div>
+                                <div class="lt-titulo lt-t3">Cierre Parceros</div>
+                                <div class="lt-texto">El programa cierra (septiembre) con <strong>m&aacute;s de 28.000 j&oacute;venes atendidos</strong>. <strong>4 de cada 10 egresados</strong> obtuvieron empleo formal, apoyo para emprendimiento o acceso a educaci&oacute;n superior.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c4"><i data-lucide="sparkles"></i>2024</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i4"><i data-lucide="sparkles"></i></div>
+                                <div class="lt-titulo lt-t4">Lanzamiento JCO</div>
+                                <div class="lt-texto">Se lanza <strong>J&oacute;venes con Oportunidades</strong> en el Proyecto de Inversi&oacute;n 7940. Mantiene acompa&ntilde;amiento psicosocial y transferencias condicionadas, pero articula a Integraci&oacute;n Social, Educaci&oacute;n, Desarrollo Econ&oacute;mico y Agencia Atenea, y vincula el apoyo a tres rutas de formaci&oacute;n.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c6"><i data-lucide="target"></i>2024&ndash;27</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i6"><i data-lucide="target"></i></div>
+                                <div class="lt-titulo lt-t6">Meta cuatrienio</div>
+                                <div class="lt-texto">El reto del cuatrienio es beneficiar a <strong>40.000 j&oacute;venes</strong> con una inversi&oacute;n distrital proyectada de <strong>$324.053 millones</strong>.</div>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>
@@ -173,7 +227,7 @@ body { font-family: 'Figtree', 'Segoe UI', sans-serif; background-color: #ffffff
                     <p style="line-height:1.7;">En la ruta de <strong>EFT</strong> en particular, los recursos que pone la SDIS pueden llegar hasta <strong>3 salarios m&iacute;nimos</strong>, m&aacute;s <strong>3 pagos de $400.000</strong> y <strong>$300.000 por intermediaci&oacute;n</strong>.</p>
 
                     <h3 class="card-subtitle">Focalizaci&oacute;n y requisitos de ingreso</h3>
-                    <p style="line-height:1.7;">Los criterios de selecci&oacute;n var&iacute;an entre ambos modelos. Parceros por Bogot&aacute; se enfocaba en j&oacute;venes de <strong>18 a 28 a&ntilde;os</strong> que en ese momento no estudiaban ni trabajaban, identificados directamente en barrios vulnerables mediante una encuesta de 23 preguntas que calculaba su &Iacute;ndice de Vulnerabilidad Juvenil. Por su parte, el nuevo programa J&oacute;venes con Oportunidades atiende a j&oacute;venes de <strong>14 a 28 a&ntilde;os</strong> en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad por inseguridad alimentaria, <strong>sin restringir el acceso por su ocupaci&oacute;n actual</strong>: el servicio vincula tanto a quienes ya se encuentran estudiando (como en la ruta de educaci&oacute;n postmedia) como a quienes ya est&aacute;n trabajando. Su focalizaci&oacute;n exige adem&aacute;s que los beneficiarios residan en Bogot&aacute; y est&eacute;n registrados oficialmente en el Sisb&eacute;n dentro de las categor&iacute;as <strong>A, B o hasta C09</strong>.</p>
+                    <p style="line-height:1.7;">Los criterios de selecci&oacute;n var&iacute;an entre ambos modelos. Parceros por Bogot&aacute; se enfocaba en j&oacute;venes &ldquo;Ninis&rdquo; (que ni estudian ni trabajan) de <strong>18 a 28 a&ntilde;os</strong>, identificados directamente en barrios vulnerables mediante una encuesta de 23 preguntas que calculaba su &Iacute;ndice de Vulnerabilidad Juvenil. Por su parte, el nuevo programa J&oacute;venes con Oportunidades atiende a j&oacute;venes de <strong>14 a 28 a&ntilde;os</strong> en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad por inseguridad alimentaria. Su focalizaci&oacute;n es distinta, ya que exige que los beneficiarios residan en Bogot&aacute; y est&eacute;n registrados oficialmente en el Sisb&eacute;n dentro de las categor&iacute;as <strong>A, B o hasta C09</strong>.</p>
 
                     <h3 class="card-subtitle">Financiaci&oacute;n de los programas</h3>
                     <p style="line-height:1.7;">Una caracter&iacute;stica clave de Parceros por Bogot&aacute; fue que se sustent&oacute;, en gran parte, gracias a la uni&oacute;n institucional con los <strong>Fondos de Desarrollo Local (FDL)</strong>. Esto permiti&oacute; una inversi&oacute;n territorializada, donde los alcaldes locales y ediles destinaban recursos para apoyar directamente a los j&oacute;venes de sus respectivas localidades. En J&oacute;venes con Oportunidades, los FDL tambi&eacute;n han venido aportando recursos: con un rol inicial <strong>desde 2025</strong> y una <strong>presencia muy fuerte en 2026</strong>. A estos aportes se suma la inversi&oacute;n distrital proyectada de <strong>$324.053 millones</strong>, que une los esfuerzos sectoriales de las Secretar&iacute;as de Integraci&oacute;n Social, Educaci&oacute;n, Desarrollo Econ&oacute;mico y la Agencia Atenea.</p>
@@ -456,5 +510,7 @@ function showContent(id) {
     }
 }
 </script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>

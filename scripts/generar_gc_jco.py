@@ -126,32 +126,59 @@ SECCION_A_TENER_EN_CUENTA = """\
             </div>"""
 
 # --- Línea de tiempo ---
+# Componente chevron compartido con Forjar y Casas de Juventud (CSS en _comun/estilos.py).
+# JCO usa 5 hitos, por eso --lt-cols: 5 y se usan los 5 colores intercalados de la
+# paleta extendida SDIS Juventud (se descartan teal y azul petr&oacute;leo).
 SECCION_LINEA_TIEMPO = """\
             <div class="content-section" id="linea_tiempo">
                 <div class="card">
                     <h2 class="card-title">L&iacute;nea de tiempo</h2>
-                    <p style="line-height:1.7; margin-bottom:20px;">Evoluci&oacute;n de las pol&iacute;ticas de inclusi&oacute;n social juvenil y transferencias monetarias en Bogot&aacute;: del modelo de emergencia <strong>Parceros por Bogot&aacute;</strong> hacia la estrategia integral <strong>J&oacute;venes con Oportunidades</strong>.</p>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-year">2020</div>
-                            <div class="timeline-text"><strong>Estrategia RETO.</strong> La SDIS lanza la Estrategia Retorno de las Oportunidades Juveniles &ndash; RETO, estructurada institucionalmente bajo el Proyecto de Inversi&oacute;n 7740 &ldquo;Generaci&oacute;n J&oacute;venes con Derechos en Bogot&aacute;&rdquo;, para reducir el riesgo social en poblaci&oacute;n joven vulnerable.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2021</div>
-                            <div class="timeline-text"><strong>Lanzamiento de Parceros por Bogot&aacute;.</strong> El programa nace como respuesta a las demandas escuchadas en las mesas de di&aacute;logo y concertaci&oacute;n durante el estallido social y el Paro Nacional. Como parte de la Estrategia RETO, entrega a j&oacute;venes vulnerables transferencias de <strong>$500.000 mensuales durante seis meses</strong>. Este apoyo econ&oacute;mico est&aacute; condicionado a su participaci&oacute;n en actividades pedag&oacute;gicas, labores de servicio a la ciudad y acompa&ntilde;amiento psicosocial para apoyar su proyecto de vida.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2023 (septiembre)</div>
-                            <div class="timeline-text"><strong>Cierre del ciclo Parceros por Bogot&aacute;.</strong> Al finalizar el programa se reportan <strong>m&aacute;s de 28.000 j&oacute;venes atendidos</strong>. <strong>4 de cada 10 egresados</strong> obtuvieron empleo formal, apoyo para emprendimiento o acceso a educaci&oacute;n superior.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2024</div>
-                            <div class="timeline-text"><strong>Se lanza oficialmente el programa J&oacute;venes con Oportunidades.</strong> Este nuevo modelo, enmarcado t&eacute;cnica y presupuestalmente dentro del Proyecto de Inversi&oacute;n 7940 &ldquo;Implementaci&oacute;n de estrategias de inclusi&oacute;n social y productiva para la poblaci&oacute;n joven en situaci&oacute;n de pobreza y vulnerabilidad en Bogot&aacute;&rdquo;, mantiene el acompa&ntilde;amiento psicosocial y las transferencias monetarias condicionadas, pero ahora articula el esfuerzo de las Secretar&iacute;as de Integraci&oacute;n Social, Educaci&oacute;n y Desarrollo Econ&oacute;mico junto con la Agencia Atenea. Vincula el apoyo econ&oacute;mico directamente a tres rutas de formaci&oacute;n espec&iacute;fica.</div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-year">2024 &ndash; 2027</div>
-                            <div class="timeline-text"><strong>Meta del cuatrienio.</strong> J&oacute;venes con Oportunidades tiene el reto de beneficiar a <strong>40.000 j&oacute;venes</strong> con una inversi&oacute;n distrital proyectada de <strong>$324.053 millones</strong>.</div>
-                        </div>
+                    <p style="line-height:1.7; margin-bottom:24px;">Evoluci&oacute;n de las pol&iacute;ticas de inclusi&oacute;n social juvenil y transferencias monetarias en Bogot&aacute;: del modelo de emergencia <strong>Parceros por Bogot&aacute;</strong> hacia la estrategia integral <strong>J&oacute;venes con Oportunidades</strong>.</p>
+                    <div class="linea-tiempo" style="--lt-cols: 5;">
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c1"><i data-lucide="rocket"></i>2020</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i1"><i data-lucide="rocket"></i></div>
+                                <div class="lt-titulo lt-t1">Estrategia RETO</div>
+                                <div class="lt-texto">La SDIS lanza la Estrategia Retorno de las Oportunidades Juveniles &ndash; RETO, bajo el Proyecto de Inversi&oacute;n <strong>7740 &ldquo;Generaci&oacute;n J&oacute;venes con Derechos en Bogot&aacute;&rdquo;</strong>, para reducir el riesgo social en poblaci&oacute;n joven vulnerable.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c2"><i data-lucide="hand-coins"></i>2021</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i2"><i data-lucide="hand-coins"></i></div>
+                                <div class="lt-titulo lt-t2">Parceros por Bogot&aacute;</div>
+                                <div class="lt-texto">Respuesta a las demandas escuchadas en las mesas de di&aacute;logo durante el estallido social. Entrega transferencias de <strong>$500.000 mensuales por seis meses</strong>, condicionadas a participaci&oacute;n en actividades pedag&oacute;gicas, servicio a la ciudad y acompa&ntilde;amiento psicosocial.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c3"><i data-lucide="flag"></i>2023</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i3"><i data-lucide="flag"></i></div>
+                                <div class="lt-titulo lt-t3">Cierre Parceros</div>
+                                <div class="lt-texto">El programa cierra (septiembre) con <strong>m&aacute;s de 28.000 j&oacute;venes atendidos</strong>. <strong>4 de cada 10 egresados</strong> obtuvieron empleo formal, apoyo para emprendimiento o acceso a educaci&oacute;n superior.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c4"><i data-lucide="sparkles"></i>2024</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i4"><i data-lucide="sparkles"></i></div>
+                                <div class="lt-titulo lt-t4">Lanzamiento JCO</div>
+                                <div class="lt-texto">Se lanza <strong>J&oacute;venes con Oportunidades</strong> en el Proyecto de Inversi&oacute;n 7940. Mantiene acompa&ntilde;amiento psicosocial y transferencias condicionadas, pero articula a Integraci&oacute;n Social, Educaci&oacute;n, Desarrollo Econ&oacute;mico y Agencia Atenea, y vincula el apoyo a tres rutas de formaci&oacute;n.</div>
+                            </div>
+                        </article>
+
+                        <article class="lt-hito">
+                            <div class="lt-chevron lt-c6"><i data-lucide="target"></i>2024&ndash;27</div>
+                            <div class="lt-cuerpo">
+                                <div class="lt-icono lt-i6"><i data-lucide="target"></i></div>
+                                <div class="lt-titulo lt-t6">Meta cuatrienio</div>
+                                <div class="lt-texto">El reto del cuatrienio es beneficiar a <strong>40.000 j&oacute;venes</strong> con una inversi&oacute;n distrital proyectada de <strong>$324.053 millones</strong>.</div>
+                            </div>
+                        </article>
                     </div>
                 </div>
             </div>"""
@@ -440,6 +467,8 @@ def generar_html():
     <script>
 {JAVASCRIPT}
 </script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
 """

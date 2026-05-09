@@ -19,6 +19,8 @@ from datetime import datetime
 # Modulo compartido para la seccion de aliados
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _comun.aliados import seccion_casas as seccion_aliados_casas
+# CSS de la línea de tiempo en chevrones (compartido con Forjar y JCO)
+from _comun.estilos import CSS_LINEA_TIEMPO_CHEVRON
 
 # Raíz del proyecto (un nivel arriba de scripts/)
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -960,13 +962,6 @@ CSS = """        @import url('https://fonts.googleapis.com/css2?family=Anton&fam
         .filter-btn { padding: 8px 18px; border: 2px solid #253C5C; border-radius: 25px; background: white; color: #253C5C; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .filter-btn:hover { background: #EAEFF5; }
         .filter-btn.active { background: #253C5C; color: white; }
-        /* --- Línea de tiempo --- */
-        .timeline { position: relative; padding-left: 30px; margin: 20px 0; }
-        .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 3px; background: #DFE6F0; }
-        .timeline-item { position: relative; margin-bottom: 25px; }
-        .timeline-item::before { content: ''; position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: #253C5C; border: 3px solid #DFE6F0; }
-        .timeline-year { font-weight: 700; color: #253C5C; font-size: 1rem; }
-        .timeline-text { color: #555; font-size: 0.9rem; margin-top: 4px; line-height: 1.5; }
         /* --- Estructura SIRBE tipo arbol --- */
         .tree-level { margin-left: 25px; padding: 8px 0; }
         .tree-label { font-weight: 600; color: #4A5A78; }
@@ -998,6 +993,9 @@ CSS = """        @import url('https://fonts.googleapis.com/css2?family=Anton&fam
             .flujo-icono { width: 40px; height: 40px; }
             .flujo-icono svg { width: 20px; height: 20px; }
         }"""
+
+# Línea de tiempo en chevrones: source of truth en _comun/estilos.py para no duplicar.
+CSS = CSS + "\n        " + CSS_LINEA_TIEMPO_CHEVRON.replace("\n", "\n        ")
 
 html = f"""<!DOCTYPE html>
 <html lang="es">
@@ -1063,40 +1061,70 @@ html = f"""<!DOCTYPE html>
 
             <div class="content-section" id="linea_tiempo"><div class="card">
                 <h2 class="card-title">Línea de tiempo</h2>
-                <p style="color:#555; margin-bottom:20px; line-height:1.7;">Las Casas de Juventud surgieron en el marco de la Política Pública de Juventud 2006&ndash;2016 y se han consolidado como la principal puerta de entrada al ecosistema de servicios distritales para jóvenes entre 14 y 28 años.</p>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-year">1991</div>
-                        <div class="timeline-text"><strong>Primeros intentos.</strong> Surgen los primeros esfuerzos por crear Casas de Juventud en Bogotá como espacios de encuentro y participación juvenil.</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2006</div>
-                        <div class="timeline-text"><strong>Política Pública de Juventud 2006&ndash;2016.</strong> Se expide el <strong>Decreto 482 de 2006</strong>, que da origen formal al marco en el que posteriormente se implementarán las Casas de Juventud como espacios de participación y desarrollo juvenil.</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2011</div>
-                        <div class="timeline-text"><strong>Proyecto 764 &ldquo;Jóvenes activando su ciudadanía&rdquo; y apertura de las primeras sedes.</strong> El proyecto busca potenciar las habilidades y capacidades de los y las jóvenes en los niveles individual, familiar, social y organizativo. Las Casas de Juventud se conciben como espacios para la participación activa, el fortalecimiento organizativo y el impulso a procesos liderados por jóvenes. Se abren las primeras Casas en las localidades de <strong>Fontibón, Mártires, Antonio Nariño y Barrios Unidos</strong>.</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2016</div>
-                        <div class="timeline-text"><strong>13 Casas de Juventud en operación.</strong> Para este año, el Distrito ya cuenta con 13 Casas de Juventud (SDIS, 2016), consolidando el servicio en varias localidades de la ciudad.</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2016 &ndash; 2019</div>
-                        <div class="timeline-text"><strong>Proyecto 1116 &ldquo;Distrito Joven&rdquo;.</strong> Durante la administración <em>Bogotá Mejor para Todos</em>, el proyecto tiene como objetivo el fortalecimiento de capacidades juveniles y la ampliación de oportunidades, promoviendo el empoderamiento de los y las jóvenes y la apropiación de la política pública de juventud, buscando garantizar el ejercicio pleno de sus derechos. En este marco se consolidan los espacios y se abren nuevas sedes.</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2020</div>
-                        <div class="timeline-text"><strong>PPDJ 2019&ndash;2030 y consolidación del servicio.</strong> Se implementa la nueva Política Pública Distrital de Juventud 2019&ndash;2030. El servicio cuenta con 18 Casas de Juventud distribuidas en el Distrito, además de una Unidad Móvil que amplía la cobertura territorial.</div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2027 (meta)</div>
-                        <div class="timeline-text"><strong>Una Casa de Juventud por localidad.</strong> Se crea el producto nuevo <strong>1.1.7</strong> del CONPES D.C. 08: <em>&ldquo;Número de localidades de la ciudad con al menos una casa de la juventud en operación&rdquo;</em>. Este producto establece como meta tener <strong>mínimo una Casa de Juventud por localidad para el año 2027</strong>.</div>
-                    </div>
-                </div>
+                <p style="color:#555; margin-bottom:24px; line-height:1.7;">Las Casas de Juventud surgieron en el marco de la Política Pública de Juventud 2006&ndash;2016 y se han consolidado como la principal puerta de entrada al ecosistema de servicios distritales para jóvenes entre 14 y 28 años.</p>
+                <div class="linea-tiempo" style="--lt-cols: 7;">
+                    <article class="lt-hito">
+                        <div class="lt-chevron lt-c1"><i data-lucide="lightbulb"></i>1991</div>
+                        <div class="lt-cuerpo">
+                            <div class="lt-icono lt-i1"><i data-lucide="lightbulb"></i></div>
+                            <div class="lt-titulo lt-t1">Primeros intentos</div>
+                            <div class="lt-texto">Surgen los primeros esfuerzos por crear Casas de Juventud en Bogotá como espacios de encuentro y participación juvenil.</div>
+                        </div>
+                    </article>
 
-                <div style="text-align:center; margin-top:30px;">
-                    <img src="imagenes/Linea del tiempo - casas de juventud.png" alt="Línea de tiempo de las Casas de Juventud" style="width:100%;">
+                    <article class="lt-hito">
+                        <div class="lt-chevron lt-c2"><i data-lucide="file-text"></i>2006</div>
+                        <div class="lt-cuerpo">
+                            <div class="lt-icono lt-i2"><i data-lucide="file-text"></i></div>
+                            <div class="lt-titulo lt-t2">PPDJ 2006&ndash;2016</div>
+                            <div class="lt-texto">Se expide el <strong>Decreto 482 de 2006</strong>, que da origen formal al marco en el que posteriormente se implementarán las Casas de Juventud como espacios de participación y desarrollo juvenil.</div>
+                        </div>
+                    </article>
+
+                    <article class="lt-hito">
+                        <div class="lt-chevron lt-c3"><i data-lucide="door-open"></i>2011</div>
+                        <div class="lt-cuerpo">
+                            <div class="lt-icono lt-i3"><i data-lucide="door-open"></i></div>
+                            <div class="lt-titulo lt-t3">Apertura de primeras sedes</div>
+                            <div class="lt-texto">Proyecto 764 &ldquo;Jóvenes activando su ciudadanía&rdquo;: las Casas se conciben como espacios para la participación activa y el fortalecimiento organizativo. Se abren las primeras en <strong>Fontibón, Mártires, Antonio Nariño y Barrios Unidos</strong>.</div>
+                        </div>
+                    </article>
+
+                    <article class="lt-hito">
+                        <div class="lt-chevron lt-c4"><i data-lucide="building"></i>2016</div>
+                        <div class="lt-cuerpo">
+                            <div class="lt-icono lt-i4"><i data-lucide="building"></i></div>
+                            <div class="lt-titulo lt-t4">13 casas en operación</div>
+                            <div class="lt-texto">Para este año el Distrito ya cuenta con <strong>13 Casas de Juventud</strong> (SDIS, 2016), consolidando el servicio en varias localidades de la ciudad.</div>
+                        </div>
+                    </article>
+
+                    <article class="lt-hito">
+                        <div class="lt-chevron lt-c5"><i data-lucide="users"></i>2016&ndash;19</div>
+                        <div class="lt-cuerpo">
+                            <div class="lt-icono lt-i5"><i data-lucide="users"></i></div>
+                            <div class="lt-titulo lt-t5">Distrito Joven</div>
+                            <div class="lt-texto">Proyecto 1116 en la administración <em>Bogotá Mejor para Todos</em>: fortalecimiento de capacidades juveniles, ampliación de oportunidades y apropiación de la política pública. Se consolidan los espacios y se abren nuevas sedes.</div>
+                        </div>
+                    </article>
+
+                    <article class="lt-hito">
+                        <div class="lt-chevron lt-c6"><i data-lucide="landmark"></i>2020</div>
+                        <div class="lt-cuerpo">
+                            <div class="lt-icono lt-i6"><i data-lucide="landmark"></i></div>
+                            <div class="lt-titulo lt-t6">PPDJ 2019&ndash;2030</div>
+                            <div class="lt-texto">Se implementa la nueva Política Pública Distrital de Juventud. El servicio cuenta con <strong>18 Casas de Juventud</strong> distribuidas en el Distrito, además de una <strong>Unidad Móvil</strong> que amplía la cobertura territorial.</div>
+                        </div>
+                    </article>
+
+                    <article class="lt-hito">
+                        <div class="lt-chevron lt-c7"><i data-lucide="target"></i>2027</div>
+                        <div class="lt-cuerpo">
+                            <div class="lt-icono lt-i7"><i data-lucide="target"></i></div>
+                            <div class="lt-titulo lt-t7">Una casa por localidad</div>
+                            <div class="lt-texto">Producto <strong>1.1.7</strong> del CONPES D.C. 08: <em>&ldquo;Número de localidades de la ciudad con al menos una casa de la juventud en operación&rdquo;</em>. Meta: <strong>mínimo una Casa de Juventud por localidad para 2027</strong>.</div>
+                        </div>
+                    </article>
                 </div>
             </div></div>
 
