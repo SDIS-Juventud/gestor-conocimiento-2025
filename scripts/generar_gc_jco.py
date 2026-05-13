@@ -559,8 +559,7 @@ SECCION_WELCOME = """\
             <div class="content-section active" id="welcome">
                 <div class="welcome-section">
                     <div style="font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:1.9rem; line-height:1.05; letter-spacing:1px; text-transform:uppercase; background:#2d2a28; color:#f4f5de; padding:14px 24px 11px; margin:0 auto 28px; display:block; width:fit-content; max-width:100%; text-align:center;">J&oacute;venes con Oportunidades</div>
-                    <p>Ruta de inclusi&oacute;n social y productiva de la Alcald&iacute;a de Bogot&aacute; para empoderar a j&oacute;venes de 14 a 28 a&ntilde;os en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad, especialmente aquellos que no estudian ni trabajan.</p>
-                    <p>Iniciativa conjunta entre la Secretar&iacute;a de Integraci&oacute;n Social, la Secretar&iacute;a de Desarrollo Econ&oacute;mico, la Secretar&iacute;a de Educaci&oacute;n y la Agencia Atenea.</p>
+                    <p>J&oacute;venes con Oportunidades (JcO) es una estrategia intersectorial entre la Secretar&iacute;a de Integraci&oacute;n Social, la Secretar&iacute;a de Educaci&oacute;n, la Secretar&iacute;a de Desarrollo Econ&oacute;mico y la Agencia Atenea, orientada a la inclusi&oacute;n social y productiva de j&oacute;venes entre 14 y 28 a&ntilde;os en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad por inseguridad alimentaria. Articula acompa&ntilde;amiento psicosocial, formaci&oacute;n, intermediaci&oacute;n laboral y transferencias monetarias condicionadas en un proceso continuo.</p>
                     <div style="margin:30px auto 0; max-width:450px;">
                         <img src="imagenes/Jovenes con oportunidades.png" alt="J&oacute;venes con Oportunidades" style="width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
                     </div>
