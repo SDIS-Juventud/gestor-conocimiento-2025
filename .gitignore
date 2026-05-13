@@ -12,7 +12,11 @@ forjar/
 !enlaces/enlaces.xlsx
 *.csv
 *.xls
+*.pptx
 validacion_*.html
+# Documentación oficial JCO: PDFs muy pesados que viven en Google Drive
+# y eventualmente en SharePoint. Los enlaces se gestionan desde enlaces.xlsx.
+Documentación JCO/
 __pycache__/
 .ipynb_checkpoints/
 *.bak

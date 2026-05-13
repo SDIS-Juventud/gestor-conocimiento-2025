@@ -9,18 +9,479 @@ para facilitar la edición de contenido sin tocar HTML crudo.
 
 import os
 import sys
+from urllib.parse import quote
+import pandas as pd
 
 # CSS y datos compartidos con los demás generadores
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _comun.estilos import css_para
 from _comun.aliados import seccion_jco as seccion_aliados_jco
+
+# ============================================================
+# Inventario de documentación oficial de JCO.
+# Los metadatos y URLs viven en `enlaces/enlaces.xlsx`, hoja
+# `jco_documentacion` (columnas: CATEGORIA, LABEL, FECHA, URL).
+# Para agregar/quitar/renombrar documentos basta editar el Excel.
+# Las categorías se definen aquí porque incluyen estilos visuales
+# (ícono Lucide y color) que no es necesario versionar en Excel.
+# ============================================================
+
+CATEGORIAS_DOCS = {
+    "manual-jco":      {"label": "Manual JCO",        "icon": "book-open",      "color": "#663a93"},
+    "instructivo":     {"label": "Instructivo pago",  "icon": "clipboard-list", "color": "#1e9da3"},
+    "convenio":        {"label": "Convenio 1285-2025","icon": "handshake",      "color": "#f58b53"},
+    "manual-parceros": {"label": "Manual Parceros",   "icon": "archive",        "color": "#1e7895"},
+    "portafolios":     {"label": "Portafolios SDIS",  "icon": "library",        "color": "#f4676e"},
+    "normativo":       {"label": "Marco normativo",   "icon": "scale",          "color": "#1eaf76"},
+}
+
+_BASE_JCO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_XLSX_JCO_DOCS = os.path.join(_BASE_JCO, "enlaces", "enlaces.xlsx")
+
+def _cargar_documentos_desde_excel():
+    """Lee la hoja jco_documentacion de enlaces.xlsx y devuelve una lista de
+    tuplas (categoria, label, fecha, url) en el orden del Excel. Si la hoja
+    no existe o falla la lectura, devuelve [] y avisa por stdout."""
+    if not os.path.exists(_XLSX_JCO_DOCS):
+        print(f"enlaces/enlaces.xlsx no encontrado; sección Documentación quedará vacía")
+        return []
+    try:
+        df = pd.read_excel(_XLSX_JCO_DOCS, sheet_name="jco_documentacion")
+    except Exception as e:
+        print(f"No se pudo leer hoja 'jco_documentacion': {e}")
+        return []
+    docs = []
+    for _, fila in df.iterrows():
+        cat = str(fila.get("CATEGORIA", "")).strip()
+        label = str(fila.get("LABEL", "")).strip()
+        fecha = str(fila.get("FECHA", "")).strip()
+        url = str(fila.get("URL", "")).strip()
+        if not cat or not label or not url:
+            continue
+        if cat not in CATEGORIAS_DOCS:
+            print(f"  ! Categoría desconocida '{cat}' en fila '{label}' (se ignora)")
+            continue
+        docs.append((cat, label, fecha, url))
+    print(f"Documentación JCO desde enlaces.xlsx: {len(docs)} documentos")
+    return docs
+
+DOCUMENTOS_JCO = _cargar_documentos_desde_excel()
+
+
+def _generar_bloques_documentos():
+    """Devuelve el HTML con un bloque por cada categoría: subtítulo de color +
+    grid de cards. Cada card es un <a> que abre el PDF en nueva pestaña."""
+    bloques = []
+    for cat, meta in CATEGORIAS_DOCS.items():
+        docs_cat = [d for d in DOCUMENTOS_JCO if d[0] == cat]
+        if not docs_cat:
+            continue
+        cards = []
+        for _, label, fecha, ruta in docs_cat:
+            # URLs http/https ya vienen codificadas (ej. SharePoint); las locales sí necesitan quote().
+            if ruta.startswith(("http://", "https://")):
+                url = ruta
+            else:
+                url = quote(ruta, safe="/")
+            cards.append(
+                f'                            <a class="docs-card" href="{url}" target="_blank">\n'
+                f'                                <div class="docs-icono" style="color:{meta["color"]};"><i data-lucide="{meta["icon"]}"></i></div>\n'
+                f'                                <div class="docs-info">\n'
+                f'                                    <p class="docs-meta">{fecha}</p>\n'
+                f'                                    <p class="docs-name">{label}</p>\n'
+                f'                                    <span class="docs-link">Abrir PDF &rarr;</span>\n'
+                f'                                </div>\n'
+                f'                            </a>'
+            )
+        bloque = (
+            f'                    <h3 class="docs-grupo-titulo" style="color:{meta["color"]};">{meta["label"]} <span class="docs-grupo-conteo">({len(docs_cat)})</span></h3>\n'
+            f'                    <div class="docs-grid">\n'
+            + "\n".join(cards)
+            + '\n                    </div>'
+        )
+        bloques.append(bloque)
+    return "\n\n".join(bloques)
 # ============================================================
 # 1. CSS — estilos del gestor
 # ============================================================
 
 # Las reglas para .modulo-acordeon viven en _comun/estilos.py porque
 # ahora se comparten con el generador de Forjar.
-CSS = css_para("jco")
+#
+# EXTRAS_CSS_JCO replica los componentes nuevos del rediseño 2026-05 ya
+# aplicados a Forjar: la infografía "A tener en cuenta" con manos halftone
+# (.atc-*), el flujo de gestión con íconos Lucide en círculo accent y
+# conector punteado (.flujo-*), las cards de Equipo (.equipo-card-*) y el
+# override de subtítulos en Antonio Bold mayúsculas (.card-subtitle).
+
+EXTRAS_CSS_JCO = """\
+/* Infograf&iacute;a "A tener en cuenta": 5 fichas crema con manos halftone del branding.
+   Sin bandas de color en cabecera (eso se siente AI). El acento del punto vive
+   en el subt&iacute;tulo en Antonio Bold del color de la paleta oficial. */
+.atc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 18px;
+}
+.atc-card {
+    background: #f5efd2;
+    border-radius: 14px;
+    padding: 28px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.atc-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+.atc-mano {
+    margin: 0 0 16px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.atc-mano img { height: 100%; object-fit: contain; display: block; }
+.atc-titulo {
+    font-family: 'Antonio', 'Anton', 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+.atc-titulo-1 { color: #f4676e; }
+.atc-titulo-2 { color: #1eaf76; }
+.atc-titulo-3 { color: #663a93; }
+.atc-titulo-4 { color: #f58b53; }
+.atc-titulo-5 { color: #1e9da3; }
+.atc-titulo-6 { color: #1e7895; }
+.atc-texto {
+    font-family: 'Figtree', 'Segoe UI', sans-serif;
+    font-weight: 500;
+    font-size: 0.83rem;
+    color: #3a3a3a;
+    line-height: 1.6;
+}
+.atc-texto strong { font-weight: 700; color: #2f3e3c; }
+@media (max-width: 900px) {
+    .atc-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 901px) and (max-width: 1100px) {
+    .atc-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Flujo de gesti&oacute;n de la informaci&oacute;n: pasos en una columna con &iacute;cono
+   redondo a la izquierda y contenido a la derecha. Conector vertical punteado
+   sutil entre &iacute;conos para se&ntilde;alar el flujo. */
+.flujo-pasos { display: flex; flex-direction: column; gap: 28px; margin: 22px 0 8px; }
+.flujo-paso {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 22px;
+    align-items: flex-start;
+    position: relative;
+}
+.flujo-paso:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 31px;
+    top: 64px;
+    bottom: -28px;
+    width: 0;
+    border-left: 2px dashed var(--accent-border);
+}
+.flujo-icono {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent-bg);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+}
+.flujo-icono svg { width: 26px; height: 26px; stroke-width: 1.8; }
+.flujo-orden {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: #888;
+    margin: 0 0 2px;
+}
+.flujo-titulo {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.15rem;
+    color: var(--accent);
+    margin: 0 0 4px;
+}
+.flujo-responsable {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 12px;
+    font-weight: 600;
+}
+.flujo-texto {
+    font-size: 0.9rem;
+    color: #3a3a3a;
+    line-height: 1.7;
+    margin: 0 0 8px;
+}
+.flujo-texto:last-child { margin-bottom: 0; }
+.flujo-texto strong { color: #2f3e3c; font-weight: 700; }
+.flujo-lista { font-size: 0.9rem; color: #3a3a3a; line-height: 1.75; margin: 4px 0 8px 18px; }
+.flujo-lista li { margin-bottom: 4px; }
+.flujo-lista strong { color: #2f3e3c; font-weight: 700; }
+@media (max-width: 720px) {
+    .flujo-paso { grid-template-columns: 48px 1fr; gap: 14px; }
+    .flujo-paso:not(:last-child)::before { left: 23px; top: 48px; }
+    .flujo-icono { width: 40px; height: 40px; }
+    .flujo-icono svg { width: 20px; height: 20px; }
+}
+
+/* Organigrama JCO: tree horizontal jer&aacute;rquico, replica el formato que
+   comparti&oacute; el equipo. Card de l&iacute;der arriba, debajo seis ramas (una por
+   l&iacute;nea de jefatura) en colores de la paleta extendida, y subniveles
+   conectados con l&iacute;neas verticales y horizontales en CSS puro. Permite
+   scroll horizontal en pantallas peque&ntilde;as. En m&oacute;vil colapsa a vertical
+   con conectores punteados a la izquierda. */
+.org-tree { overflow-x: auto; padding: 12px 4px 24px; }
+.org-tree-inner { display: inline-block; min-width: 100%; }
+.org-nodo { display: flex; flex-direction: column; align-items: center; position: relative; }
+.org-hijos {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 26px;
+    padding-top: 14px;
+    position: relative;
+}
+/* Conector vertical desde la card del padre hasta la barra horizontal */
+.org-hijos::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 0;
+    height: 12px;
+    border-left: 1.5px solid #c4cec9;
+}
+/* Barra horizontal entre hermanos (se acorta a 0 si solo hay un hijo) */
+.org-hijos::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    border-top: 1.5px solid #c4cec9;
+}
+.org-hijos.org-hijos-multi::before {
+    left: calc(var(--first-half, 50%) * 0);
+    right: 0;
+}
+.org-hijos.org-hijos-multi { /* posiciones de la barra: del primer al &uacute;ltimo */ }
+.org-hijos.org-hijos-multi > .org-nodo:first-child::after { content: ''; position: absolute; top: -14px; left: 50%; right: 0; border-top: 1.5px solid #c4cec9; }
+.org-hijos.org-hijos-multi > .org-nodo:last-child::after { content: ''; position: absolute; top: -14px; left: 0; right: 50%; border-top: 1.5px solid #c4cec9; }
+.org-hijos.org-hijos-multi > .org-nodo:not(:first-child):not(:last-child)::after { content: ''; position: absolute; top: -14px; left: 0; right: 0; border-top: 1.5px solid #c4cec9; }
+.org-hijos.org-hijos-multi::before { display: none; }
+/* Conector vertical desde la barra hasta la card de cada hijo */
+.org-hijos > .org-nodo::before {
+    content: '';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    width: 0;
+    height: 14px;
+    border-left: 1.5px solid #c4cec9;
+    z-index: 1;
+}
+/* Card de cada nodo */
+.org-card {
+    background: #2F3E3C;
+    color: #F8F4E1;
+    border-radius: 6px;
+    padding: 10px 14px;
+    text-align: center;
+    min-width: 150px;
+    max-width: 210px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    line-height: 1.3;
+    position: relative;
+    z-index: 2;
+}
+.org-card .org-rol {
+    display: block;
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.68rem;
+    opacity: 0.9;
+    margin-bottom: 3px;
+}
+.org-card .org-persona {
+    display: block;
+    font-family: 'Figtree', 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 0.86rem;
+}
+.org-card .org-persona em {
+    display: block;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.72rem;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+.org-card-lider { background: #2F3E3C; min-width: 220px; padding: 14px 22px; }
+.org-card-lider .org-persona { font-size: 1rem; }
+/* Colores por NIVEL jer&aacute;rquico (no por rama): primera l&iacute;nea toda en verde,
+   segunda en morado, tercera (leaves) en crema. El verde se eligi&oacute; en lugar
+   del rosa coral para evitar la connotaci&oacute;n negativa del rojo en la primera l&iacute;nea. */
+.org-card-1, .org-card-2, .org-card-3,
+.org-card-4, .org-card-5, .org-card-6 { background: #1eaf76; }
+.org-card-sub { background: #663a93; color: #F8F4E1; }
+.org-card-leaf { background: #f5efd2; color: #2F3E3C; min-width: 140px; font-size: 0.78rem; padding: 8px 12px; }
+.org-card-leaf .org-rol { opacity: 1; color: #666; }
+.org-card-leaf .org-persona { font-weight: 600; font-size: 0.8rem; }
+/* En m&oacute;vil: tree colapsa a layout vertical con barras a la izquierda */
+@media (max-width: 760px) {
+    .org-tree { overflow-x: visible; padding: 12px 0 20px; }
+    .org-tree-inner { display: block; }
+    .org-nodo { align-items: stretch; }
+    .org-hijos {
+        flex-direction: column;
+        gap: 10px;
+        margin: 14px 0 0 22px;
+        padding: 0 0 0 18px;
+        border-left: 1.5px dashed #c4cec9;
+    }
+    .org-hijos::before, .org-hijos::after { display: none; }
+    .org-hijos > .org-nodo::before {
+        content: '';
+        position: absolute;
+        top: 16px;
+        left: -18px;
+        width: 18px;
+        height: 0;
+        border-top: 1.5px dashed #c4cec9;
+        border-left: none;
+    }
+    .org-hijos.org-hijos-multi > .org-nodo::after { display: none; }
+    .org-card { max-width: 100%; text-align: left; }
+}
+
+/* Secci&oacute;n Documentaci&oacute;n: grids por categor&iacute;a con cards linkeadas a los PDFs.
+   Cada categor&iacute;a abre con su subt&iacute;tulo de color (Antonio Bold may&uacute;sculas) y
+   muestra los documentos como cards crema neutras con &iacute;cono Lucide del color
+   de la categor&iacute;a. Pensado para listar y referenciar trazabilidad documental. */
+.docs-grupo-titulo {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.05rem;
+    margin: 28px 0 12px;
+}
+.docs-grupo-conteo { color: #888; font-weight: 500; font-size: 0.85rem; letter-spacing: 0; margin-left: 4px; }
+.docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.docs-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #ffffff;
+    border: 1.5px solid #e5e0d3;
+    border-radius: 12px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: #2F3E3C;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.docs-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.docs-icono { flex-shrink: 0; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+.docs-icono svg { width: 28px; height: 28px; stroke-width: 1.7; }
+.docs-info { flex: 1; min-width: 0; }
+.docs-meta {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.7rem;
+    color: #888;
+    margin: 0 0 3px;
+}
+.docs-name { font-family: 'Figtree', 'Segoe UI', sans-serif; font-weight: 600; font-size: 0.92rem; line-height: 1.35; color: #2F3E3C; margin: 0 0 6px; }
+.docs-link { font-family: 'Figtree', 'Segoe UI', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--accent); }
+
+/* Override JCO: TODOS los subt&iacute;tulos de tarjeta van en Antonio Bold
+   may&uacute;sculas, consistente con .lt-titulo, .atc-titulo, .flujo-titulo
+   y dem&aacute;s subt&iacute;tulos especializados de la secci&oacute;n. */
+.card-subtitle {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.05rem;
+    opacity: 1;
+}
+
+/* Tabla comparativa para "A tener en cuenta" de JCO: 3 programas (RETO,
+   Parceros, JcO) que son etapas evolutivas del mismo programa. JcO es el
+   "actual" y va en card s&oacute;lida morado oficial; los dos hist&oacute;ricos quedan
+   en cards neutras con badge de color. Mismo lenguaje que la tabla de
+   Casas pero con 4 columnas (1 caracter&iacute;stica + 3 programas). */
+.comp-tabla { position: relative; background: #f5efd2; border-radius: 14px; padding: 24px 24px 18px; margin: 32px 0 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); overflow: visible; }
+.comp-mano-decor { position: absolute; top: -38px; left: -32px; width: 120px; height: auto; transform: rotate(-14deg); pointer-events: none; z-index: 2; }
+.comp-tabla-grid { display: grid; grid-template-columns: 1.1fr 1.4fr 1.4fr; gap: 14px 22px; align-items: center; }
+.comp-header { display: flex; align-items: center; justify-content: center; padding: 10px 16px; border-radius: 22px; font-family: 'Antonio', 'Anton', 'Figtree', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.8rem; line-height: 1.2; text-align: center; color: #F8F4E1; }
+.comp-header-1 { background: #2F3E3C; }
+.comp-header-2 { background: #1e7895; }
+.comp-header-3 { background: #663a93; }
+.comp-row-sep { grid-column: 1 / -1; border-top: 1px solid rgba(47, 62, 60, 0.12); margin: 6px 0; }
+.comp-caracteristica { font-family: 'Figtree', 'Segoe UI', sans-serif; font-weight: 700; color: #2F3E3C; font-size: 0.95rem; line-height: 1.3; padding: 10px 4px; }
+.comp-celda { display: flex; align-items: flex-start; gap: 14px; padding: 10px 4px; font-family: 'Figtree', 'Segoe UI', sans-serif; font-size: 0.88rem; color: #2F3E3C; line-height: 1.5; }
+.comp-icono { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+.comp-icono svg { width: 26px; height: 26px; stroke-width: 1.7; }
+.comp-parceros .comp-icono { background: rgba(30, 120, 149, 0.18); color: #1e7895; }
+.comp-jco .comp-icono { background: rgba(102, 58, 147, 0.15); color: #663a93; }
+.comp-celda-texto { display: flex; flex-direction: column; gap: 2px; }
+.comp-celda-badge { display: none; }
+@media (max-width: 760px) {
+    .comp-tabla { padding: 30px 16px 18px; margin-top: 42px; }
+    .comp-mano-decor { width: 88px; top: -28px; left: -18px; }
+    .comp-tabla-grid { grid-template-columns: 1fr; gap: 0; }
+    .comp-header { display: none; }
+    .comp-row-sep { display: none; }
+    .comp-caracteristica { padding: 16px 0 8px; font-size: 0.78rem; color: #2F3E3C; text-transform: uppercase; letter-spacing: 0.06em; font-family: 'Antonio', 'Anton', 'Figtree', sans-serif; border-top: 1px solid rgba(47, 62, 60, 0.18); }
+    .comp-caracteristica:first-of-type { border-top: none; padding-top: 4px; }
+    .comp-celda { padding: 12px 14px; margin-bottom: 8px; border-radius: 10px; }
+    .comp-parceros { background: #ffffff; color: #2F3E3C; }
+    .comp-jco { background: #663a93; color: #F8F4E1; }
+    .comp-jco .comp-icono { background: rgba(248, 244, 225, 0.15); color: #F8F4E1; }
+    .comp-celda-badge { display: inline-block; font-family: 'Antonio', 'Anton', 'Figtree', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.62rem; padding: 2px 8px; border-radius: 10px; color: #F8F4E1; margin-bottom: 4px; }
+    .comp-parceros .comp-celda-badge { background: #1e7895; }
+    .comp-jco .comp-celda-badge { background: rgba(248, 244, 225, 0.22); color: #F8F4E1; }
+    .comp-icono { width: 40px; height: 40px; }
+    .comp-icono svg { width: 20px; height: 20px; }
+}
+"""
+
+CSS = css_para("jco", extras=EXTRAS_CSS_JCO)
 
 # ============================================================
 # 2. Encabezado (header)
@@ -63,6 +524,11 @@ SIDEBAR = """\
                 </div>
             </div>
             <div class="sidebar-section">
+                <div class="sidebar-title" onclick="showContent('documentacion')" style="cursor:pointer;">
+                    <span>Documentaci&oacute;n</span>
+                </div>
+            </div>
+            <div class="sidebar-section">
                 <div class="sidebar-title" onclick="toggleSection(this)">
                     <span>Gesti&oacute;n de datos</span><span class="arrow">&#9654;</span>
                 </div>
@@ -102,26 +568,67 @@ SECCION_WELCOME = """\
             </div>"""
 
 # --- A tener en cuenta ---
+# Sección comparativa: el programa nació como Estrategia RETO (2020-21), pasó
+# a llamarse Parceros por Bogotá (2021-23) y actualmente es Jóvenes con
+# Oportunidades (2024-presente). Son tres etapas evolutivas del mismo programa.
+# La tabla comparativa resume 5 características clave; los 5 párrafos debajo
+# profundizan aspectos transversales (financiación, condicionalidad, etc.).
 SECCION_A_TENER_EN_CUENTA = """\
             <div class="content-section" id="a_tener_en_cuenta">
                 <div class="card">
                     <h2 class="card-title">A tener en cuenta</h2>
+                    <p style="line-height:1.7; margin-bottom:8px;">El programa actual <strong>J&oacute;venes con Oportunidades</strong> (2024&ndash;presente) sucede a <strong>Parceros por Bogot&aacute;</strong> (2021&ndash;2023) en el componente de transferencias monetarias condicionadas para j&oacute;venes vulnerables. La <strong>Estrategia RETO</strong> fue la &ldquo;sombrilla m&aacute;s amplia&rdquo; o estrategia interinstitucional de la Secretar&iacute;a Distrital de Integraci&oacute;n Social de donde naci&oacute; Parceros.</p>
+                    <p style="line-height:1.7; margin-bottom:8px;">La tabla compara las dos etapas del componente de transferencias y formaci&oacute;n para enganche laboral; m&aacute;s abajo se profundiza en aspectos transversales (financiaci&oacute;n, condicionalidad, intermediaci&oacute;n).</p>
 
-                    <h3 class="card-subtitle">Los montos var&iacute;an seg&uacute;n la ruta de formaci&oacute;n</h3>
+                    <div class="comp-tabla">
+                        <img class="comp-mano-decor" src="imagenes/manos/3.png" alt="">
+                        <div class="comp-tabla-grid">
+                            <div class="comp-header comp-header-1">Caracter&iacute;stica</div>
+                            <div class="comp-header comp-header-2">Parceros por Bogot&aacute;<br>2021&ndash;2023</div>
+                            <div class="comp-header comp-header-3">J&oacute;venes con Oportunidades<br>2024&ndash;Presente</div>
+
+                            <div class="comp-row-sep"></div>
+                            <div class="comp-caracteristica">Enfoque principal</div>
+                            <div class="comp-celda comp-parceros"><div class="comp-icono"><i data-lucide="shield"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">Parceros</span><span>Modelo de mitigaci&oacute;n de riesgos a trav&eacute;s del servicio comunitario temporal.</span></div></div>
+                            <div class="comp-celda comp-jco"><div class="comp-icono"><i data-lucide="briefcase"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">JcO</span><span>Modelo de inclusi&oacute;n productiva a trav&eacute;s de la educaci&oacute;n y la conexi&oacute;n directa con el mercado laboral.</span></div></div>
+
+                            <div class="comp-row-sep"></div>
+                            <div class="comp-caracteristica">Duraci&oacute;n de la formaci&oacute;n</div>
+                            <div class="comp-celda comp-parceros"><div class="comp-icono"><i data-lucide="calendar-clock"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">Parceros</span><span>6 meses: 2 de capacitaci&oacute;n y 4 de servicio a la ciudad.</span></div></div>
+                            <div class="comp-celda comp-jco"><div class="comp-icono"><i data-lucide="calendar-range"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">JcO</span><span>Variable seg&uacute;n ruta: de 160 horas (cursos cortos) a 12+ meses (educaci&oacute;n flexible y posmedia).</span></div></div>
+
+                            <div class="comp-row-sep"></div>
+                            <div class="comp-caracteristica">Componentes clave</div>
+                            <div class="comp-celda comp-parceros"><div class="comp-icono"><i data-lucide="hammer"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">Parceros</span><span>Medio tiempo estudio/trabajo, apoyo jur&iacute;dico y psicosocial, labores comunitarias (parques, huertas, mantenimiento).</span></div></div>
+                            <div class="comp-celda comp-jco"><div class="comp-icono"><i data-lucide="layers"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">JcO</span><span>7 m&oacute;dulos psicosociales transversales, formaci&oacute;n para el trabajo, educaci&oacute;n flexible e intermediaci&oacute;n laboral (Talento Capital).</span></div></div>
+
+                            <div class="comp-row-sep"></div>
+                            <div class="comp-caracteristica">Transferencia monetaria</div>
+                            <div class="comp-celda comp-parceros"><div class="comp-icono"><i data-lucide="banknote"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">Parceros</span><span>$500.000 COP mensuales durante 6 meses.</span></div></div>
+                            <div class="comp-celda comp-jco"><div class="comp-icono"><i data-lucide="wallet"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">JcO</span><span>Variable por hitos: $200.000 a $1.000.000/mes (hasta 1 SMMLV). Acumulado: $1.200.000 (cursos), $3.200.000 (bachillerato) o $4.300.000 (universidad).</span></div></div>
+
+                            <div class="comp-row-sep"></div>
+                            <div class="comp-caracteristica">Poblaci&oacute;n objetivo</div>
+                            <div class="comp-celda comp-parceros"><div class="comp-icono"><i data-lucide="user-x"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">Parceros</span><span>18&ndash;28 a&ntilde;os que no estudian ni trabajan, en vulnerabilidad y riesgo social (encuesta del IVJ).</span></div></div>
+                            <div class="comp-celda comp-jco"><div class="comp-icono"><i data-lucide="user-check"></i></div><div class="comp-celda-texto"><span class="comp-celda-badge">JcO</span><span>14&ndash;28 a&ntilde;os en pobreza extrema, moderada o vulnerabilidad (Sisb&eacute;n A, B o hasta C09), residentes en Bogot&aacute;. La actividad principal del joven no es un requisito excluyente: pueden estar estudiando o trabajando.</span></div></div>
+                        </div>
+                    </div>
+
+                    <h3 class="card-subtitle">Cambio de paradigma en la condicionalidad (componentes)</h3>
+                    <p style="line-height:1.7;">En Parceros por Bogot&aacute;, la transferencia monetaria estaba condicionada a la participaci&oacute;n en actividades pedag&oacute;gicas y labores pr&aacute;cticas de servicio a la ciudad, tales como proyectos de embellecimiento, limpieza, huertas urbanas y &ldquo;Nuestras Zonas Seguras&rdquo;. Adem&aacute;s, los participantes se formaban y certificaban como Agentes Comunitarios de Prevenci&oacute;n en temas de salud mental, violencias y consumo de sustancias. Con J&oacute;venes con Oportunidades, la condicionalidad depende directamente del cumplimiento de actividades en tres componentes clave: el acompa&ntilde;amiento psicosocial transversal, el avance en la ruta de formaci&oacute;n elegida, y el proceso de intermediaci&oacute;n laboral.</p>
+
+                    <h3 class="card-subtitle">Intermediaci&oacute;n laboral y conexi&oacute;n con el empleo (componentes)</h3>
+                    <p style="line-height:1.7;">En Parceros por Bogot&aacute; exist&iacute;a un componente de <strong>formaci&oacute;n educativa e inclusi&oacute;n laboral</strong> que se establec&iacute;a <strong>desde el inicio de la atenci&oacute;n</strong>, ofertando oportunidades a los participantes y permitiendo el cumplimiento de actividades condicionadas. En el nuevo modelo de J&oacute;venes con Oportunidades, la intermediaci&oacute;n se consolida como un <strong>tercer componente de la ruta</strong>, una etapa formal y estructural. El objetivo es garantizar la integralidad y que el joven &ldquo;salga por el &uacute;ltimo eslab&oacute;n&rdquo; con el resultado esperado. Por ello, al finalizar su formaci&oacute;n, la Secretar&iacute;a Distrital de Desarrollo Econ&oacute;mico asume el liderazgo directo de la intermediaci&oacute;n laboral, gestionando el registro en el Servicio P&uacute;blico de Empleo y en las plataformas de la estrategia &ldquo;Talento Capital&rdquo;.</p>
+
+                    <h3 class="card-subtitle">Los montos var&iacute;an seg&uacute;n la ruta de formaci&oacute;n (transferencia)</h3>
                     <p style="line-height:1.7;">Parceros entregaba una cuota fija de <strong>$500.000 mensuales durante 6 meses</strong>. En J&oacute;venes con Oportunidades el apoyo econ&oacute;mico depende de la ruta elegida: hasta <strong>$1.200.000 en cursos cortos</strong>, hasta <strong>$3.200.000</strong> en la ruta de educaci&oacute;n flexible para terminar el bachillerato (j&oacute;venes y adultos), y topes m&aacute;ximos que van desde <strong>$2.700.000</strong> (para nivel t&eacute;cnico y tecn&oacute;logo) hasta <strong>$4.300.000</strong> en educaci&oacute;n universitaria de ciclo largo.</p>
                     <p style="line-height:1.7;">En la ruta de <strong>EFT</strong> en particular, los recursos que pone la SDIS pueden llegar hasta <strong>3 salarios m&iacute;nimos</strong>, m&aacute;s <strong>3 pagos de $400.000</strong> y <strong>$300.000 por intermediaci&oacute;n</strong>.</p>
 
-                    <h3 class="card-subtitle">Focalizaci&oacute;n y requisitos de ingreso</h3>
-                    <p style="line-height:1.7;">Los criterios de selecci&oacute;n var&iacute;an entre ambos modelos. Parceros por Bogot&aacute; se enfocaba en j&oacute;venes &ldquo;Ninis&rdquo; (que ni estudian ni trabajan) de <strong>18 a 28 a&ntilde;os</strong>, identificados directamente en barrios vulnerables mediante una encuesta de 23 preguntas que calculaba su &Iacute;ndice de Vulnerabilidad Juvenil. Por su parte, el nuevo programa J&oacute;venes con Oportunidades atiende a j&oacute;venes de <strong>14 a 28 a&ntilde;os</strong> en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad por inseguridad alimentaria. Su focalizaci&oacute;n es distinta, ya que exige que los beneficiarios residan en Bogot&aacute; y est&eacute;n registrados oficialmente en el Sisb&eacute;n dentro de las categor&iacute;as <strong>A, B o hasta C09</strong>.</p>
+                    <h3 class="card-subtitle">Focalizaci&oacute;n y requisitos de ingreso (poblaci&oacute;n)</h3>
+                    <p style="line-height:1.7;">Los criterios de selecci&oacute;n var&iacute;an entre ambos modelos. Parceros por Bogot&aacute; se enfocaba en j&oacute;venes <strong>que no estudian ni trabajan</strong> de <strong>18 a 28 a&ntilde;os</strong>, identificados directamente en barrios vulnerables mediante una encuesta de 23 preguntas que calculaba su &Iacute;ndice de Vulnerabilidad Juvenil. Por su parte, el nuevo programa J&oacute;venes con Oportunidades atiende a j&oacute;venes de <strong>14 a 28 a&ntilde;os</strong> en situaci&oacute;n de pobreza extrema, moderada o vulnerabilidad por inseguridad alimentaria. Su focalizaci&oacute;n es distinta, ya que exige que los beneficiarios residan en Bogot&aacute; y est&eacute;n registrados oficialmente en el Sisb&eacute;n dentro de las categor&iacute;as <strong>A, B o hasta C09</strong>. Un cambio importante respecto a Parceros es que <strong>en JcO la actividad principal de los j&oacute;venes no es un requisito excluyente</strong>: pueden estar estudiando o trabajando y aun as&iacute; ser beneficiarios, siempre que cumplan los criterios de vulnerabilidad econ&oacute;mica.</p>
 
                     <h3 class="card-subtitle">Financiaci&oacute;n de los programas</h3>
                     <p style="line-height:1.7;">Una caracter&iacute;stica clave de Parceros por Bogot&aacute; fue que se sustent&oacute;, en gran parte, gracias a la uni&oacute;n institucional con los <strong>Fondos de Desarrollo Local (FDL)</strong>. Esto permiti&oacute; una inversi&oacute;n territorializada, donde los alcaldes locales y ediles destinaban recursos para apoyar directamente a los j&oacute;venes de sus respectivas localidades. En J&oacute;venes con Oportunidades, los FDL tambi&eacute;n han venido aportando recursos: con un rol inicial <strong>desde 2025</strong> y una <strong>presencia muy fuerte en 2026</strong>. A estos aportes se suma la inversi&oacute;n distrital proyectada de <strong>$324.053 millones</strong>, que une los esfuerzos sectoriales de las Secretar&iacute;as de Integraci&oacute;n Social, Educaci&oacute;n, Desarrollo Econ&oacute;mico y la Agencia Atenea.</p>
-
-                    <h3 class="card-subtitle">El cambio de paradigma en la condicionalidad</h3>
-                    <p style="line-height:1.7;">En Parceros por Bogot&aacute;, la transferencia monetaria estaba condicionada a la participaci&oacute;n en actividades pedag&oacute;gicas y labores pr&aacute;cticas de servicio a la ciudad, tales como proyectos de embellecimiento, limpieza, huertas urbanas y &ldquo;Nuestras Zonas Seguras&rdquo;. Adem&aacute;s, los participantes se formaban y certificaban como Agentes Comunitarios de Prevenci&oacute;n en temas de salud mental, violencias y consumo de sustancias. Con J&oacute;venes con Oportunidades, la condicionalidad depende directamente del cumplimiento de actividades en tres componentes clave: el acompa&ntilde;amiento psicosocial transversal, el avance en la ruta de formaci&oacute;n elegida, y el proceso de intermediaci&oacute;n laboral.</p>
-
-                    <h3 class="card-subtitle">Intermediaci&oacute;n laboral y conexi&oacute;n con el empleo</h3>
-                    <p style="line-height:1.7;">En Parceros por Bogot&aacute; exist&iacute;a un componente de <strong>formaci&oacute;n educativa e inclusi&oacute;n laboral</strong> que se establec&iacute;a <strong>desde el inicio de la atenci&oacute;n</strong>, ofertando oportunidades a los participantes y permitiendo el cumplimiento de actividades condicionadas. En el nuevo modelo de J&oacute;venes con Oportunidades, la intermediaci&oacute;n se consolida como un <strong>tercer componente de la ruta</strong>, una etapa formal y estructural. El objetivo es garantizar la integralidad y que el joven &ldquo;salga por el &uacute;ltimo eslab&oacute;n&rdquo; con el resultado esperado. Por ello, al finalizar su formaci&oacute;n, la Secretar&iacute;a Distrital de Desarrollo Econ&oacute;mico asume el liderazgo directo de la intermediaci&oacute;n laboral, gestionando el registro en el Servicio P&uacute;blico de Empleo y en las plataformas de la estrategia &ldquo;Talento Capital&rdquo;.</p>
                 </div>
             </div>"""
 
@@ -184,32 +691,164 @@ SECCION_LINEA_TIEMPO = """\
             </div>"""
 
 # --- Equipo ---
+# Organigrama jerárquico horizontal replicando el formato que compartió el
+# equipo de JCO. Líder del servicio arriba, seis ramas con los colores de la
+# paleta extendida, y subniveles conectados con líneas en CSS puro. En móvil
+# colapsa a layout vertical con conectores punteados a la izquierda.
 SECCION_EQUIPO = """\
             <div class="content-section" id="equipo">
                 <div class="card">
                     <h2 class="card-title">Equipo y gesti&oacute;n de J&oacute;venes con Oportunidades</h2>
-                    <p style="line-height:1.7;">El servicio J&oacute;venes con Oportunidades es un esfuerzo articulado entre la <strong>Secretar&iacute;a Distrital de Integraci&oacute;n Social (SDIS)</strong>, la <strong>Secretar&iacute;a de Educaci&oacute;n</strong>, la <strong>Secretar&iacute;a de Desarrollo Econ&oacute;mico</strong> y la <strong>Agencia Atenea</strong>.</p>
-                    <p style="line-height:1.7;">La gesti&oacute;n operativa recae principalmente en la Subdirecci&oacute;n para la Juventud de la SDIS, cuyo equipo se organiza bajo roles espec&iacute;ficos para garantizar la atenci&oacute;n integral:</p>
+                    <p style="line-height:1.7;">El servicio J&oacute;venes con Oportunidades es un esfuerzo articulado entre la <strong>Secretar&iacute;a Distrital de Integraci&oacute;n Social (SDIS)</strong>, la <strong>Secretar&iacute;a de Educaci&oacute;n</strong>, la <strong>Secretar&iacute;a de Desarrollo Econ&oacute;mico</strong> y la <strong>Agencia Atenea</strong>. La gesti&oacute;n operativa recae principalmente en la Subdirecci&oacute;n para la Juventud de la SDIS, cuyo equipo se organiza seg&uacute;n el siguiente organigrama:</p>
 
-                    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; margin-bottom:32px;">
-                        <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #b8a9d4; color:#fff;">
-                            <h4 style="font-size:0.95rem; color:#d4c6f0; margin:0 0 12px; font-weight:700;">Equipo Psicosocial</h4>
-                            <p style="font-size:0.85rem; color:rgba(255,255,255,0.8); margin:0; line-height:1.6;">Acompa&ntilde;amiento directo a los j&oacute;venes y liderar la Formaci&oacute;n en Proyecto de Vida.</p>
-                        </div>
-                        <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #b8a9d4; color:#fff;">
-                            <h4 style="font-size:0.95rem; color:#d4c6f0; margin:0 0 12px; font-weight:700;">Equipo Territorial</h4>
-                            <p style="font-size:0.85rem; color:rgba(255,255,255,0.8); margin:0; line-height:1.6;">Apoya el contacto, la formalizaci&oacute;n de los ingresos y el seguimiento en las localidades.</p>
-                        </div>
-                        <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #b8a9d4; color:#fff;">
-                            <h4 style="font-size:0.95rem; color:#d4c6f0; margin:0 0 12px; font-weight:700;">Equipos Transversales</h4>
-                            <p style="font-size:0.85rem; color:rgba(255,255,255,0.8); margin:0; line-height:1.6;">Anal&iacute;tica, gesti&oacute;n documental, administrativo y financiero: validan requisitos de ingreso, administran bases de datos y consolidan el cumplimiento de actividades para gestionar las transferencias monetarias.</p>
-                        </div>
-                    </div>
+                    <div class="org-tree">
+                        <div class="org-tree-inner">
+                            <div class="org-nodo">
+                                <div class="org-card org-card-lider">
+                                    <span class="org-rol">L&iacute;der del servicio</span>
+                                    <span class="org-persona">Ana Catalina Su&aacute;rez</span>
+                                </div>
+                                <div class="org-hijos org-hijos-multi">
 
-                    <h3 class="card-subtitle">Organigrama del equipo</h3>
-                    <p style="line-height:1.7;">El equipo completo del servicio, con nombres y roles, se organiza seg&uacute;n el siguiente organigrama:</p>
-                    <div style="margin:18px 0 10px; text-align:center;">
-                        <img src="imagenes/Organigrama JcO.jpeg" alt="Organigrama del equipo de J&oacute;venes con Oportunidades" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+                                    <div class="org-nodo">
+                                        <div class="org-card org-card-1">
+                                            <span class="org-rol">Control pol&iacute;tico</span>
+                                            <span class="org-persona">Alejandro Osorio</span>
+                                        </div>
+                                        <div class="org-hijos">
+                                            <div class="org-nodo">
+                                                <div class="org-card org-card-sub">
+                                                    <span class="org-rol">Referente metodol&oacute;gico</span>
+                                                    <span class="org-persona">Ana Mar&iacute;a Altamar</span>
+                                                </div>
+                                                <div class="org-hijos org-hijos-multi">
+                                                    <div class="org-nodo">
+                                                        <div class="org-card org-card-leaf">
+                                                            <span class="org-persona">15 Psicosociales asignados</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="org-nodo">
+                                                        <div class="org-card org-card-leaf">
+                                                            <span class="org-persona">6 Psicosociales Gesti&oacute;n Documental</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="org-nodo">
+                                        <div class="org-card org-card-2">
+                                            <span class="org-rol">L&iacute;der administrativo</span>
+                                            <span class="org-persona">John Garz&oacute;n</span>
+                                        </div>
+                                        <div class="org-hijos org-hijos-multi">
+                                            <div class="org-nodo">
+                                                <div class="org-card org-card-sub">
+                                                    <span class="org-rol">Apoyo anal&iacute;tica</span>
+                                                    <span class="org-persona">Lida Alejandra Acosta</span>
+                                                </div>
+                                            </div>
+                                            <div class="org-nodo">
+                                                <div class="org-card org-card-sub">
+                                                    <span class="org-rol">L&iacute;der financiero</span>
+                                                    <span class="org-persona">David Quiceno</span>
+                                                </div>
+                                                <div class="org-hijos">
+                                                    <div class="org-nodo">
+                                                        <div class="org-card org-card-leaf">
+                                                            <span class="org-persona">Apoyo a l&iacute;der financiero</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="org-nodo">
+                                                <div class="org-card org-card-sub">
+                                                    <span class="org-rol">Gesti&oacute;n documental</span>
+                                                    <span class="org-persona">Andr&eacute;s Rodr&iacute;guez</span>
+                                                </div>
+                                                <div class="org-hijos">
+                                                    <div class="org-nodo">
+                                                        <div class="org-card org-card-leaf">
+                                                            <span class="org-persona">Apoyo a gesti&oacute;n documental</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="org-nodo">
+                                        <div class="org-card org-card-3">
+                                            <span class="org-rol">Referente inclusi&oacute;n productiva</span>
+                                            <span class="org-persona">Edgardo Montes</span>
+                                        </div>
+                                        <div class="org-hijos">
+                                            <div class="org-nodo">
+                                                <div class="org-card org-card-leaf">
+                                                    <span class="org-persona">15 Psicosociales cualificados en Inclusi&oacute;n</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="org-nodo">
+                                        <div class="org-card org-card-4">
+                                            <span class="org-rol">Referente psicosocial y de alertas</span>
+                                            <span class="org-persona">Diana Lozano</span>
+                                        </div>
+                                        <div class="org-hijos">
+                                            <div class="org-nodo">
+                                                <div class="org-card org-card-sub">
+                                                    <span class="org-rol">Equipo Alertas</span>
+                                                </div>
+                                                <div class="org-hijos">
+                                                    <div class="org-nodo">
+                                                        <div class="org-card org-card-leaf">
+                                                            <span class="org-persona">5 Psicosociales asignados a Alertas</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="org-nodo">
+                                        <div class="org-card org-card-5">
+                                            <span class="org-rol">Referente log&iacute;stica y de FDL</span>
+                                            <span class="org-persona">Pamela Bar&oacute;n</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="org-nodo">
+                                        <div class="org-card org-card-6">
+                                            <span class="org-rol">Referente proceso formativo</span>
+                                            <span class="org-persona">Alejandra Sosa Aponte</span>
+                                        </div>
+                                        <div class="org-hijos">
+                                            <div class="org-nodo">
+                                                <div class="org-card org-card-sub">
+                                                    <span class="org-rol">Enlaces territoriales</span>
+                                                </div>
+                                                <div class="org-hijos org-hijos-multi">
+                                                    <div class="org-nodo">
+                                                        <div class="org-card org-card-leaf">
+                                                            <span class="org-persona">Equipo psicosocial estrategia FDL</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="org-nodo">
+                                                        <div class="org-card org-card-leaf">
+                                                            <span class="org-persona">Equipo psicosocial de atenci&oacute;n a la recurrencia y nuevos cupos</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>"""
@@ -227,23 +866,23 @@ SECCION_PILARES = """\
                     <p style="line-height:1.7;">Los participantes eligen entre tres opciones:</p>
                     <div class="rutas-formacion-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:18px;">
                         <div style="display:flex; flex-direction:column;">
-                            <div style="background:#5f9ea0; color:#fff; padding:10px 16px 10px 14px; font-weight:800; font-size:0.8rem; letter-spacing:0.5px; text-transform:uppercase; clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);">Ruta 1</div>
+                            <div style="background:#f4676e; color:#fff; padding:10px 16px 10px 14px; font-weight:800; font-size:0.8rem; letter-spacing:0.5px; text-transform:uppercase; clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);">Ruta 1</div>
                             <div style="padding:14px 4px 0; border-top:1px dashed #ccc; margin-top:-1px;">
-                                <h4 style="color:#253C5C; font-size:0.98rem; font-weight:700; margin:0 0 8px 0;">Educaci&oacute;n flexible</h4>
+                                <h4 style="color:var(--accent); font-size:0.98rem; font-weight:700; margin:0 0 8px 0;">Educaci&oacute;n flexible</h4>
                                 <p style="font-size:0.85rem; line-height:1.55; color:#555; margin:0;">Para personas j&oacute;venes y adultas que buscan completar su educaci&oacute;n media.</p>
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column;">
-                            <div style="background:#e07850; color:#fff; padding:10px 16px 10px 14px; font-weight:800; font-size:0.8rem; letter-spacing:0.5px; text-transform:uppercase; clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);">Ruta 2</div>
+                            <div style="background:#1eaf76; color:#fff; padding:10px 16px 10px 14px; font-weight:800; font-size:0.8rem; letter-spacing:0.5px; text-transform:uppercase; clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);">Ruta 2</div>
                             <div style="padding:14px 4px 0; border-top:1px dashed #ccc; margin-top:-1px;">
-                                <h4 style="color:#253C5C; font-size:0.98rem; font-weight:700; margin:0 0 8px 0;">Cursos cortos certificados</h4>
+                                <h4 style="color:var(--accent); font-size:0.98rem; font-weight:700; margin:0 0 8px 0;">Cursos cortos certificados</h4>
                                 <p style="font-size:0.85rem; line-height:1.55; color:#555; margin:0;">Formaci&oacute;n de hasta 160 horas para adquirir competencias que aumenten las oportunidades de empleo.</p>
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column;">
-                            <div style="background:#7b6b99; color:#fff; padding:10px 16px 10px 14px; font-weight:800; font-size:0.8rem; letter-spacing:0.5px; text-transform:uppercase; clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);">Ruta 3</div>
+                            <div style="background:#663a93; color:#fff; padding:10px 16px 10px 14px; font-weight:800; font-size:0.8rem; letter-spacing:0.5px; text-transform:uppercase; clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);">Ruta 3</div>
                             <div style="padding:14px 4px 0; border-top:1px dashed #ccc; margin-top:-1px;">
-                                <h4 style="color:#253C5C; font-size:0.98rem; font-weight:700; margin:0 0 8px 0;">Educaci&oacute;n posmedia de ciclo largo</h4>
+                                <h4 style="color:var(--accent); font-size:0.98rem; font-weight:700; margin:0 0 8px 0;">Educaci&oacute;n posmedia de ciclo largo</h4>
                                 <p style="font-size:0.85rem; line-height:1.55; color:#555; margin:0;">Acceso a Educaci&oacute;n Superior y Educaci&oacute;n para el Trabajo y Desarrollo Humano, en articulaci&oacute;n con iniciativas como J&oacute;venes a la E.</p>
                             </div>
                         </div>
@@ -271,7 +910,7 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
 
                     <div class="modulo-acordeon">
                         <div class="modulo-header">
-                            <span class="modulo-header-num" style="background:#5f9ea0;">1</span>
+                            <span class="modulo-header-num" style="background:#1eaf76;">1</span>
                             <span class="modulo-header-titulo">Sentido de vida</span>
                         </div>
                         <div class="modulo-body">
@@ -281,7 +920,7 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
 
                     <div class="modulo-acordeon">
                         <div class="modulo-header">
-                            <span class="modulo-header-num" style="background:#e07850;">2</span>
+                            <span class="modulo-header-num" style="background:#1e7895;">2</span>
                             <span class="modulo-header-titulo">Coaching en finanzas</span>
                         </div>
                         <div class="modulo-body">
@@ -291,7 +930,7 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
 
                     <div class="modulo-acordeon">
                         <div class="modulo-header">
-                            <span class="modulo-header-num" style="background:#7b6b99;">3</span>
+                            <span class="modulo-header-num" style="background:#1e9da3;">3</span>
                             <span class="modulo-header-titulo">Manejo del estr&eacute;s y la ansiedad</span>
                         </div>
                         <div class="modulo-body">
@@ -301,7 +940,7 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
 
                     <div class="modulo-acordeon">
                         <div class="modulo-header">
-                            <span class="modulo-header-num" style="background:#d4a84b;">4</span>
+                            <span class="modulo-header-num" style="background:#f4676e;">4</span>
                             <span class="modulo-header-titulo">Acoso en el &aacute;mbito educativo, mobbing y resoluci&oacute;n de conflictos</span>
                         </div>
                         <div class="modulo-body">
@@ -311,7 +950,7 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
 
                     <div class="modulo-acordeon">
                         <div class="modulo-header">
-                            <span class="modulo-header-num" style="background:#6b8e7f;">5</span>
+                            <span class="modulo-header-num" style="background:#f58b53;">5</span>
                             <span class="modulo-header-titulo">Relaciones saludables y cuidadosas</span>
                         </div>
                         <div class="modulo-body">
@@ -321,7 +960,7 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
 
                     <div class="modulo-acordeon">
                         <div class="modulo-header">
-                            <span class="modulo-header-num" style="background:#c86464;">6</span>
+                            <span class="modulo-header-num" style="background:#663a93;">6</span>
                             <span class="modulo-header-titulo">Promoci&oacute;n de derechos y habilidades para la vida</span>
                         </div>
                         <div class="modulo-body">
@@ -331,7 +970,7 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
 
                     <div class="modulo-acordeon">
                         <div class="modulo-header">
-                            <span class="modulo-header-num" style="background:#4a7ba7;">7</span>
+                            <span class="modulo-header-num" style="background:#2fa4d4;">7</span>
                             <span class="modulo-header-titulo">Activa tu potencial</span>
                         </div>
                         <div class="modulo-body">
@@ -342,52 +981,59 @@ SECCION_MODULOS_PROYECTO_VIDA = """\
             </div>"""
 
 # --- Flujo de gestión de la información ---
+# Patrón compartido con Forjar y Casas: cada paso con círculo Lucide en accent
+# y conector vertical punteado. Sin riel con gradiente, sin badges de "actor".
+# El actor responsable se muestra como meta-línea bajo el título.
 SECCION_GESTION_DATOS = """\
             <div class="content-section" id="flujo_datos">
                 <div class="card">
                     <h2 class="card-title">Flujo de gesti&oacute;n de la informaci&oacute;n</h2>
                     <p style="color:#666; margin-bottom:20px;">La gesti&oacute;n de la informaci&oacute;n de JCO est&aacute; dise&ntilde;ada para operar con cohortes de <strong>m&aacute;s de 5.000 j&oacute;venes</strong> que el servicio administra internamente y luego carga en SIRBE, en lugar de registrar cada joven uno por uno.</p>
 
-                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:25px;">
-                        <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:var(--accent-bg); color:var(--accent); font-size:0.8rem; font-weight:600;">DADE</span>
-                        <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:#e8ecf1; color:#3A3A3A; font-size:0.8rem; font-weight:600;">Equipo psicosocial</span>
-                        <span style="display:inline-block; padding:4px 12px; border-radius:15px; background:var(--accent-border); color:var(--accent); font-size:0.8rem; font-weight:600;">Equipo de anal&iacute;tica</span>
-                    </div>
-
-                    <div style="position:relative; padding-left:30px;">
-                        <div style="position:absolute; left:12px; top:0; bottom:0; width:3px; background:linear-gradient(to bottom, var(--accent), #2F3E3C); border-radius:2px;"></div>
-
-                        <div style="position:relative; margin-bottom:25px;">
-                            <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:var(--accent); border-radius:50%; border:3px solid var(--accent-bg);"></div>
-                            <h3 style="font-size:1rem; color:var(--accent); margin:0 0 6px;">1. Ingreso masivo por cohortes</h3>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:var(--accent-bg); color:var(--accent); margin-bottom:6px; font-weight:600;">DADE</span>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">En JCO no se llena una ficha SIRBE individual como en Casas de Juventud o Forjar. El ingreso se realiza mediante el <strong>cargue masivo de una base de datos</strong>, porque el servicio opera con cohortes grandes de miles de j&oacute;venes focalizados previamente por la <strong>Direcci&oacute;n de An&aacute;lisis y Dise&ntilde;o Estrat&eacute;gico (DADE)</strong>.</p>
+                    <div class="flujo-pasos">
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="users"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 01</p>
+                                <h3 class="flujo-titulo">Ingreso masivo por cohortes</h3>
+                                <p class="flujo-responsable">DADE</p>
+                                <p class="flujo-texto">En JCO no se llena una ficha SIRBE individual como en Casas de Juventud o Forjar. El ingreso se realiza mediante el <strong>cargue masivo de una base de datos</strong>, porque el servicio opera con cohortes grandes de miles de j&oacute;venes focalizados previamente por la <strong>Direcci&oacute;n de An&aacute;lisis y Dise&ntilde;o Estrat&eacute;gico (DADE)</strong>.</p>
+                            </div>
                         </div>
 
-                        <div style="position:relative; margin-bottom:25px;">
-                            <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:var(--accent); border-radius:50%; border:3px solid var(--accent-bg);"></div>
-                            <h3 style="font-size:1rem; color:var(--accent); margin:0 0 6px;">2. Estructura en SIRBE: servicios sociales con modalidades</h3>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#e8ecf1; color:#3A3A3A; margin-bottom:6px; font-weight:600;">Equipo psicosocial</span>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">JCO est&aacute; parametrizado en SIRBE como <strong>&ldquo;servicio social&rdquo;</strong> (no como curso) y tiene configuradas <strong>modalidades que reflejan las rutas del servicio</strong>. Todos los j&oacute;venes inician su proceso por la modalidad de <strong>Proyecto de Vida</strong> y lo finalizan saliendo por <strong>Intermediaci&oacute;n laboral</strong>. La parametrizaci&oacute;n es estricta: no hay campos de texto abierto, los profesionales seleccionan siempre de listas preestablecidas.</p>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="layers"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 02</p>
+                                <h3 class="flujo-titulo">Estructura en SIRBE: servicios sociales con modalidades</h3>
+                                <p class="flujo-responsable">Equipo psicosocial</p>
+                                <p class="flujo-texto">JCO est&aacute; parametrizado en SIRBE como <strong>&ldquo;servicio social&rdquo;</strong> (no como curso) y tiene configuradas <strong>modalidades que reflejan las rutas del servicio</strong>. Todos los j&oacute;venes inician su proceso por la modalidad de <strong>Proyecto de Vida</strong> y lo finalizan saliendo por <strong>Intermediaci&oacute;n laboral</strong>. La parametrizaci&oacute;n es estricta: no hay campos de texto abierto, los profesionales seleccionan siempre de listas preestablecidas.</p>
+                            </div>
                         </div>
 
-                        <div style="position:relative; margin-bottom:25px;">
-                            <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:var(--accent); border-radius:50%; border:3px solid var(--accent-bg);"></div>
-                            <h3 style="font-size:1rem; color:var(--accent); margin:0 0 6px;">3. Tres tipos de actuaciones</h3>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:#e8ecf1; color:#3A3A3A; margin-bottom:6px; font-weight:600;">Equipo psicosocial</span>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0 0 6px;">El seguimiento a los j&oacute;venes se registra en SIRBE con tres tipos de actuaci&oacute;n:</p>
-                            <ul style="font-size:0.88rem; color:#555; line-height:1.7; margin:0 0 0 18px;">
-                                <li><strong>Estado:</strong> situaci&oacute;n actual del joven (en atenci&oacute;n, suspendido, transferido o retirado).</li>
-                                <li><strong>Intervenci&oacute;n:</strong> registra si el joven cumpli&oacute; o incumpli&oacute; las condiciones para autorizar el pago de la transferencia monetaria.</li>
-                                <li><strong>Seguimiento:</strong> registra el paso del joven entre modalidades dentro de su ruta.</li>
-                            </ul>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="clipboard-list"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 03</p>
+                                <h3 class="flujo-titulo">Tres tipos de actuaciones</h3>
+                                <p class="flujo-responsable">Equipo psicosocial</p>
+                                <p class="flujo-texto">El seguimiento a los j&oacute;venes se registra en SIRBE con tres tipos de actuaci&oacute;n:</p>
+                                <ul class="flujo-lista">
+                                    <li><strong>Estado:</strong> situaci&oacute;n actual del joven (en atenci&oacute;n, suspendido, transferido o retirado).</li>
+                                    <li><strong>Intervenci&oacute;n:</strong> registra si el joven cumpli&oacute; o incumpli&oacute; las condiciones para autorizar el pago de la transferencia monetaria.</li>
+                                    <li><strong>Seguimiento:</strong> registra el paso del joven entre modalidades dentro de su ruta.</li>
+                                </ul>
+                            </div>
                         </div>
 
-                        <div style="position:relative; margin-bottom:10px;">
-                            <div style="position:absolute; left:-24px; top:4px; width:14px; height:14px; background:var(--accent); border-radius:50%; border:3px solid var(--accent-bg);"></div>
-                            <h3 style="font-size:1rem; color:var(--accent); margin:0 0 6px;">4. Anal&iacute;tica propia del servicio</h3>
-                            <span style="display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7rem; background:var(--accent-border); color:var(--accent); margin-bottom:6px; font-weight:600;">Equipo de anal&iacute;tica</span>
-                            <p style="font-size:0.88rem; color:#555; line-height:1.6; margin:0;">La informaci&oacute;n oficial del servicio es gestionada directamente por el <strong>equipo de anal&iacute;tica</strong> de JCO mediante bases de datos propias.</p>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="bar-chart-3"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 04</p>
+                                <h3 class="flujo-titulo">Anal&iacute;tica propia del servicio</h3>
+                                <p class="flujo-responsable">Equipo de anal&iacute;tica</p>
+                                <p class="flujo-texto">La informaci&oacute;n oficial del servicio es gestionada directamente por el <strong>equipo de anal&iacute;tica</strong> de JCO mediante bases de datos propias.</p>
+                            </div>
                         </div>
                     </div>
 
@@ -396,6 +1042,25 @@ SECCION_GESTION_DATOS = """\
                     <img src="imagenes/diagrama_flujo_jco.png" alt="Diagrama de flujo del proceso del ciclo J&oacute;venes con Oportunidades" style="width:100%; border:1px solid #e0e0e0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
                 </div>
             </div>"""
+
+# --- Documentación ---
+# Lista cronológica y temática de la documentación oficial del servicio JCO y
+# su antecesor Parceros. Los 45 PDFs viven en `Documentación JCO/` agrupados
+# en 6 carpetas; este bloque los expone como cards linkeadas para que el equipo
+# (y la Contraloría) pueda navegarlos directo desde el gestor. Cada categoría
+# abre con su subtítulo de color y muestra sus documentos en grid.
+SECCION_DOCUMENTACION = """\
+            <div class="content-section" id="documentacion">
+                <div class="card">
+                    <h2 class="card-title">Documentaci&oacute;n</h2>
+                    <p style="line-height:1.7;">Documentos oficiales del servicio J&oacute;venes con Oportunidades y su antecesor Parceros por Bogot&aacute;: manuales del servicio, instructivos de pago, documentaci&oacute;n del Convenio 1285-2025, portafolios de servicios SDIS (cronolog&iacute;a completa) y marco normativo.</p>
+                    <p style="font-size:0.88rem; color:#666; margin-bottom:8px;">Tambi&eacute;n est&aacute;n cargados en <a href="https://notebooklm.google.com/notebook/ad84f1e5-b68c-433e-ad69-0f39124dd4c3" target="_blank" style="color:var(--accent); font-weight:600;">NotebookLM</a> para hacer preguntas sobre todo el corpus.</p>
+
+%%BLOQUES_DOCS%%
+                </div>
+            </div>"""
+
+SECCION_DOCUMENTACION = SECCION_DOCUMENTACION.replace("%%BLOQUES_DOCS%%", _generar_bloques_documentos())
 
 # --- Estadísticas ---
 SECCION_ESTADISTICAS = """\
@@ -441,6 +1106,7 @@ def generar_html():
         SECCION_EQUIPO,
         SECCION_PILARES,
         SECCION_MODULOS_PROYECTO_VIDA,
+        SECCION_DOCUMENTACION,
         SECCION_GESTION_DATOS,
         seccion_aliados_jco(),
         SECCION_ESTADISTICAS,

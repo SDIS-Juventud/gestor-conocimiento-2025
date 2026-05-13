@@ -142,14 +142,14 @@ COLORES = {
         "accent_border": "#d4eaeb",
     },
     "jco": {
-        "accent": "#8e6bbf",
-        "accent_bg": "#f3eef9",
-        "accent_border": "#e5ddf0",
+        "accent": "#663a93",
+        "accent_bg": "#f1ebf7",
+        "accent_border": "#ddd0ea",
     },
     "alertas": {
-        "accent": "#e67e22",
-        "accent_bg": "#fdf2e9",
-        "accent_border": "#f5d9b5",
+        "accent": "#f58b53",
+        "accent_bg": "#fdeee2",
+        "accent_border": "#f5cdb0",
     },
     "home": {
         "accent": "#663A93",

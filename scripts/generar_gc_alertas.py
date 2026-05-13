@@ -25,8 +25,159 @@ TITULO_HEADER = "Gestor de conocimiento - Parche seguro"
 SUBTITULO_HEADER = "Subdirecci&oacute;n para la Juventud | SDIS"
 
 # ─── CSS ─────────────────────────────────────────────────────────────────────
+#
+# EXTRAS_CSS_ALERTAS replica los componentes nuevos del rediseño 2026-05 ya
+# aplicados a Forjar y JCO: la infografía con manos halftone (.atc-*), el
+# flujo de pasos con íconos Lucide en círculo accent y conector punteado
+# (.flujo-*), y el override de subtítulos en Antonio Bold mayúsculas.
 
-CSS = css_para("alertas")
+EXTRAS_CSS_ALERTAS = """\
+/* Infograf&iacute;a con manos halftone del branding (mismo patr&oacute;n que Forjar).
+   Cards crema con t&iacute;tulo en Antonio Bold del color de la paleta extendida. */
+.atc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 18px;
+}
+.atc-card {
+    background: #f5efd2;
+    border-radius: 14px;
+    padding: 28px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.atc-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+.atc-mano {
+    margin: 0 0 16px;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.atc-mano img { height: 100%; object-fit: contain; display: block; }
+.atc-titulo {
+    font-family: 'Antonio', 'Anton', 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+.atc-titulo-1 { color: #f4676e; }
+.atc-titulo-2 { color: #1eaf76; }
+.atc-titulo-3 { color: #663a93; }
+.atc-titulo-4 { color: #f58b53; }
+.atc-titulo-5 { color: #1e9da3; }
+.atc-titulo-6 { color: #1e7895; }
+.atc-texto {
+    font-family: 'Figtree', 'Segoe UI', sans-serif;
+    font-weight: 500;
+    font-size: 0.83rem;
+    color: #3a3a3a;
+    line-height: 1.6;
+}
+.atc-texto strong { font-weight: 700; color: #2f3e3c; }
+@media (max-width: 900px) {
+    .atc-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 901px) and (max-width: 1100px) {
+    .atc-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Flujo de pasos con &iacute;cono Lucide en c&iacute;rculo accent + conector vertical
+   punteado. Mismo lenguaje que Forjar/JCO/Casas. */
+.flujo-pasos { display: flex; flex-direction: column; gap: 28px; margin: 22px 0 8px; }
+.flujo-paso {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 22px;
+    align-items: flex-start;
+    position: relative;
+}
+.flujo-paso:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 31px;
+    top: 64px;
+    bottom: -28px;
+    width: 0;
+    border-left: 2px dashed var(--accent-border);
+}
+.flujo-icono {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent-bg);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+}
+.flujo-icono svg { width: 26px; height: 26px; stroke-width: 1.8; }
+.flujo-orden {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: #888;
+    margin: 0 0 2px;
+}
+.flujo-titulo {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.15rem;
+    color: var(--accent);
+    margin: 0 0 4px;
+}
+.flujo-responsable {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 12px;
+    font-weight: 600;
+}
+.flujo-texto {
+    font-size: 0.9rem;
+    color: #3a3a3a;
+    line-height: 1.7;
+    margin: 0 0 8px;
+}
+.flujo-texto:last-child { margin-bottom: 0; }
+.flujo-texto strong { color: #2f3e3c; font-weight: 700; }
+@media (max-width: 720px) {
+    .flujo-paso { grid-template-columns: 48px 1fr; gap: 14px; }
+    .flujo-paso:not(:last-child)::before { left: 23px; top: 48px; }
+    .flujo-icono { width: 40px; height: 40px; }
+    .flujo-icono svg { width: 20px; height: 20px; }
+}
+
+/* Override Alertas: subt&iacute;tulos de tarjeta en Antonio Bold may&uacute;sculas. */
+.card-subtitle {
+    font-family: 'Antonio', 'Anton', 'Figtree', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 1.05rem;
+    opacity: 1;
+}
+"""
+
+CSS = css_para("alertas", extras=EXTRAS_CSS_ALERTAS)
 
 # ─── Header (barra superior) ────────────────────────────────────────────────
 
@@ -94,7 +245,7 @@ SECCION_WELCOME = """\
                     <div style="font-family:'Anton','Figtree',sans-serif; font-weight:400; font-size:1.9rem; line-height:1.05; letter-spacing:1px; text-transform:uppercase; background:#2d2a28; color:#f4f5de; padding:14px 24px 11px; margin:0 auto 28px; display:block; width:fit-content; max-width:100%; text-align:center;">Parche seguro</div>
                     <p>Sistema de identificaci&oacute;n y seguimiento de alertas tempranas para la protecci&oacute;n integral de la poblaci&oacute;n joven. A partir del triage psicosocial, el equipo identifica situaciones de riesgo y activa los protocolos de atenci&oacute;n correspondientes.</p>
                     <div style="margin:30px auto 0; max-width:450px;">
-                        <img src="imagenes/alertas.jpeg" alt="Parche seguro" style="width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+                        <img src="imagenes/alertas.jpeg" alt="Parche seguro" style="width:100%; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.06);">
                     </div>
                 </div>
             </div>"""
@@ -110,28 +261,28 @@ SECCION_DESCRIPCION = """\
                     <h3 class="card-subtitle">Objetivos espec&iacute;ficos</h3>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#5f9ea0; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">1</div>
+                        <div style="background:#f4676e; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">1</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.9rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
                             <strong>Prevenci&oacute;n y fortalecimiento de capacidades.</strong> Implementar acciones para la prevenci&oacute;n, formaci&oacute;n y atenciones colectivas que mejoren las condiciones de vida de los j&oacute;venes, en coordinaci&oacute;n con los equipos territoriales y de anal&iacute;tica.
                         </div>
                     </div>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#e07850; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">2</div>
+                        <div style="background:#1eaf76; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">2</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.9rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
                             <strong>Rutas de atenci&oacute;n.</strong> Establecer las rutas de atenci&oacute;n frente a las alertas que se generen en los servicios de la Subdirecci&oacute;n para la Juventud.
                         </div>
                     </div>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#7b6b99; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">3</div>
+                        <div style="background:#663a93; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">3</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.9rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
                             <strong>Articulaci&oacute;n interinstitucional.</strong> Articular con entidades p&uacute;blicas y privadas a nivel distrital que cuentan con oferta de servicios para la atenci&oacute;n de las alertas reportadas por los j&oacute;venes.
                         </div>
                     </div>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#d4a84b; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">4</div>
+                        <div style="background:#2fa4d4; color:#fff; min-width:72px; padding:14px 24px 14px 18px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.6rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">4</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.9rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">
                             <strong>Asesor&iacute;a t&eacute;cnica.</strong> Brindar asesor&iacute;a a los equipos territoriales de la Subdirecci&oacute;n para la identificaci&oacute;n, gesti&oacute;n y remisi&oacute;n de las alertas presentadas por los j&oacute;venes participantes.
                         </div>
@@ -148,36 +299,39 @@ SECCION_TRIAGE = """\
                     <h3 class="card-subtitle">&iquest;Para qu&eacute; sirve?</h3>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px; margin-top:15px;">
-                        <div style="background:#5f9ea0; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Identificar y clasificar alertas</div>
+                        <div style="background:#f4676e; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Identificar y clasificar alertas</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Detecta situaciones de vulneraci&oacute;n de derechos y las clasifica. Identifica alertas inmediatas con alto riesgo (como <strong>prevenci&oacute;n del suicidio</strong> y <strong>violencia intrafamiliar</strong>) y alertas mediatas (como <strong>salud mental</strong> o <strong>prevenci&oacute;n del consumo de sustancias psicoactivas</strong>).</div>
                     </div>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#e07850; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Definir el nivel de acompa&ntilde;amiento</div>
+                        <div style="background:#1eaf76; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Definir el nivel de acompa&ntilde;amiento</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Los resultados canalizan al joven hacia la atenci&oacute;n adecuada seg&uacute;n la urgencia: <strong>Salas de Escucha Especializadas</strong> (riesgos inmediatos), <strong>Salas de Escucha Psicosocial</strong> (riesgos mediatos) o ruta <strong>Te conectamos</strong> (situaciones que limitan el acceso a ofertas o el goce de derechos).</div>
                     </div>
 
                     <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#7b6b99; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Referenciaci&oacute;n institucional</div>
+                        <div style="background:#663a93; color:#fff; min-width:180px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.9rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">Referenciaci&oacute;n institucional</div>
                         <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Facilita la conexi&oacute;n y referenciaci&oacute;n del joven hacia otros servicios que brinda la Secretar&iacute;a Distrital de Integraci&oacute;n Social y el Distrito Capital.</div>
                     </div>
 
                     <h3 class="card-subtitle">Las tres categor&iacute;as de alertas</h3>
                     <p style="line-height:1.7;">Las alertas se clasifican en tres grupos seg&uacute;n la urgencia de atenci&oacute;n que demandan:</p>
 
-                    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin:20px 0;">
-                        <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #f5b8a8; color:#fff;">
-                            <h4 style="font-size:0.95rem; color:#fff; margin:0 0 10px; font-weight:700;">Alertas inmediatas</h4>
-                            <p style="font-size:0.82rem; color:rgba(255,255,255,0.85); margin:0; line-height:1.55;">Situaciones que ponen en riesgo inminente la vida o la integridad del o la joven y requieren atenci&oacute;n prioritaria. Los j&oacute;venes son canalizados a las Salas de Escucha Especializadas.</p>
-                        </div>
-                        <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #f2c89a; color:#fff;">
-                            <h4 style="font-size:0.95rem; color:#fff; margin:0 0 10px; font-weight:700;">Alertas mediatas</h4>
-                            <p style="font-size:0.82rem; color:rgba(255,255,255,0.85); margin:0; line-height:1.55;">Situaciones que desmejoran la calidad de vida y afectan el bienestar integral, sin implicar riesgo para la vida. Se canalizan a las Salas de Escucha Psicosocial.</p>
-                        </div>
-                        <div style="background:#2B2F3A; border-radius:12px; padding:20px; box-shadow:7px 7px 0 #9ed4ab; color:#fff;">
-                            <h4 style="font-size:0.95rem; color:#fff; margin:0 0 10px; font-weight:700;">Te conectamos</h4>
-                            <p style="font-size:0.82rem; color:rgba(255,255,255,0.85); margin:0; line-height:1.55;">Situaciones que impiden el goce de derechos fundamentales o limitan el acceso a ofertas. Habilitan la vinculaci&oacute;n del joven a programas y estrategias de otras entidades distritales.</p>
-                        </div>
+                    <div class="atc-grid">
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/3.png" alt="Mano se&ntilde;alando"></div>
+                            <h3 class="atc-titulo atc-titulo-1">Alertas inmediatas</h3>
+                            <p class="atc-texto">Situaciones que ponen en riesgo inminente la vida o la integridad del o la joven y requieren atenci&oacute;n prioritaria. Los j&oacute;venes son canalizados a las Salas de Escucha Especializadas.</p>
+                        </article>
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/5.png" alt="Mano apuntando"></div>
+                            <h3 class="atc-titulo atc-titulo-4">Alertas mediatas</h3>
+                            <p class="atc-texto">Situaciones que desmejoran la calidad de vida y afectan el bienestar integral, sin implicar riesgo para la vida. Se canalizan a las Salas de Escucha Psicosocial.</p>
+                        </article>
+                        <article class="atc-card">
+                            <div class="atc-mano"><img src="imagenes/manos/4.png" alt="Mano OK"></div>
+                            <h3 class="atc-titulo atc-titulo-2">Te conectamos</h3>
+                            <p class="atc-texto">Situaciones que impiden el goce de derechos fundamentales o limitan el acceso a ofertas. Habilitan la vinculaci&oacute;n del joven a programas y estrategias de otras entidades distritales.</p>
+                        </article>
                     </div>
                 </div>
             </div>"""
@@ -203,72 +357,72 @@ SECCION_PROTOCOLOS = """\
                             <tbody>
                                 <tr style="background:#fafafa; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Amenazas a la vida</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#d93a5c; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f4676e; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top; color:#666;">No aplica</td>
                                 </tr>
                                 <tr style="background:#fff; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Amenazas a l&iacute;deres y lideresas</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#d93a5c; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f4676e; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top; color:#666;">No aplica</td>
                                 </tr>
                                 <tr style="background:#fafafa; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Violencias</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#d93a5c; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f4676e; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">Violencia intrafamiliar &middot; Violencia basada en g&eacute;nero / LGBTIQ+ &middot; Bullying</td>
                                 </tr>
                                 <tr style="background:#fff; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Violencia sexual</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#d93a5c; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f4676e; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top; font-size:0.8rem;">Acceso carnal violento &middot; Acto sexual violento &middot; Acceso carnal o acto sexual en persona puesta en incapacidad de resistir &middot; Acceso carnal abusivo con menor de 14 a&ntilde;os &middot; Actos sexuales con menor de 14 a&ntilde;os &middot; Acceso carnal o acto sexual abusivos con incapaz de resistir &middot; Acoso sexual &middot; Inducci&oacute;n a la prostituci&oacute;n &middot; Proxenetismo con menor de edad &middot; Constre&ntilde;imiento a la prostituci&oacute;n &middot; Est&iacute;mulo a la prostituci&oacute;n de menores &middot; Pornograf&iacute;a con menores de 18 a&ntilde;os &middot; Turismo sexual &middot; Omisi&oacute;n de denuncia</td>
                                 </tr>
                                 <tr style="background:#fafafa; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Riesgo de habitabilidad en calle</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#d93a5c; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f4676e; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top; color:#666;">No aplica</td>
                                 </tr>
                                 <tr style="background:#fff; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Situaciones cr&iacute;ticas de salud</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#d93a5c; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f4676e; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">Enfermedades cr&oacute;nicas y situaciones de salud sin atenci&oacute;n &middot; Emergencias de salud en el marco de las actividades condicionadas</td>
                                 </tr>
                                 <tr style="background:#fafafa; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Conducta suicida</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#d93a5c; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f4676e; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Inmediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">Ideaci&oacute;n &middot; Amenaza &middot; Intento</td>
                                 </tr>
                                 <tr style="background:#fff; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Salud mental</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#e67e22; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Mediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f58b53; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Mediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">Riesgos psicosociales con barreras de acceso a salud &middot; Trastornos mentales diagnosticados con barreras de acceso a salud</td>
                                 </tr>
                                 <tr style="background:#fafafa; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Consumo de SPA</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#e67e22; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Mediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f58b53; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Mediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">Consumo problem&aacute;tico de sustancias psicoactivas</td>
                                 </tr>
                                 <tr style="background:#fff; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Personas sin aseguramiento en salud</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#e67e22; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Mediata</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#f58b53; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Mediata</span></td>
                                     <td style="padding:12px 14px; vertical-align:top; color:#666;">No aplica</td>
                                 </tr>
                                 <tr style="background:#fafafa; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Cuidadoras</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#3aa064; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Te conectamos</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#1eaf76; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Te conectamos</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">J&oacute;venes con alta carga de cuidado</td>
                                 </tr>
                                 <tr style="background:#fff; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Gestantes y lactantes</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#3aa064; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Te conectamos</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#1eaf76; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Te conectamos</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">Mujeres en estado de embarazo &middot; Lactantes hasta los 2 a&ntilde;os del ni&ntilde;o o ni&ntilde;a</td>
                                 </tr>
                                 <tr style="background:#fafafa; border-bottom:1px solid #e0e0e0;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Menores de 5 a&ntilde;os sin educaci&oacute;n inicial</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#3aa064; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Te conectamos</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#1eaf76; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Te conectamos</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">Ni&ntilde;os o ni&ntilde;as de 0 a 5 a&ntilde;os</td>
                                 </tr>
                                 <tr style="background:#fff;">
                                     <td style="padding:12px 14px; vertical-align:top;"><strong>Orientaci&oacute;n jur&iacute;dica</strong></td>
-                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#3aa064; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Te conectamos</span></td>
+                                    <td style="padding:12px 14px; vertical-align:top;"><span style="display:inline-block; padding:3px 10px; border-radius:10px; background:#1eaf76; color:#fff; font-size:0.72rem; font-weight:700; text-transform:uppercase;">Te conectamos</span></td>
                                     <td style="padding:12px 14px; vertical-align:top;">Definici&oacute;n de situaci&oacute;n militar &middot; Comparendos &middot; Alimentos, visitas y custodia &middot; Otros</td>
                                 </tr>
                             </tbody>
@@ -286,24 +440,46 @@ SECCION_PROTOCOLOS = """\
                     <h3 class="card-subtitle">Ruta de atenci&oacute;n en 4 pasos</h3>
                     <p style="line-height:1.7;">El flujo de atenci&oacute;n de cada alerta pasa por cuatro momentos:</p>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px; margin-top:15px;">
-                        <div style="background:#d93a5c; color:#fff; min-width:160px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.95rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">1. Recepci&oacute;n</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">El profesional psicosocial identifica la alerta en intervenciones, salas de escucha o reportes. Busca un espacio seguro para conversar y determina la urgencia: <strong>urgente</strong> (riesgo inminente → llamar al 123, informar al l&iacute;der de alertas y luego reportar), <strong>no urgente</strong> (deterioro progresivo → contactar l&iacute;der y registrar) o <strong>te conectamos</strong> (limita el acceso a ofertas → registro directo).</div>
-                    </div>
+                    <div class="flujo-pasos">
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="ear"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 01</p>
+                                <h3 class="flujo-titulo">Recepci&oacute;n</h3>
+                                <p class="flujo-responsable">Profesional psicosocial</p>
+                                <p class="flujo-texto">El profesional psicosocial identifica la alerta en intervenciones, salas de escucha o reportes. Busca un espacio seguro para conversar y determina la urgencia: <strong>urgente</strong> (riesgo inminente &rarr; llamar al 123, informar al l&iacute;der de alertas y luego reportar), <strong>no urgente</strong> (deterioro progresivo &rarr; contactar l&iacute;der y registrar) o <strong>te conectamos</strong> (limita el acceso a ofertas &rarr; registro directo).</p>
+                            </div>
+                        </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#3aa064; color:#fff; min-width:160px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.95rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">2. Reporte</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">El psicosocial diligencia el <strong>formulario de alertas</strong> con todos los datos requeridos. El l&iacute;der de alertas de cada servicio recibe semanalmente el consolidado generado por anal&iacute;tica para continuar con el enrutamiento.</div>
-                    </div>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="clipboard-list"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 02</p>
+                                <h3 class="flujo-titulo">Reporte</h3>
+                                <p class="flujo-responsable">Profesional psicosocial &middot; L&iacute;der de alertas</p>
+                                <p class="flujo-texto">El psicosocial diligencia el <strong>formulario de alertas</strong> con todos los datos requeridos. El l&iacute;der de alertas de cada servicio recibe semanalmente el consolidado generado por anal&iacute;tica para continuar con el enrutamiento.</p>
+                            </div>
+                        </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#4a7ba7; color:#fff; min-width:160px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.95rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">3. Enrutamiento</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">El equipo de alertas de cada servicio activa la ruta correspondiente. Las <strong>alertas urgentes</strong> se enrutan de forma inmediata apenas se diligencia el formulario. Las <strong>no urgentes</strong> se enrutan semanalmente con el consolidado que env&iacute;a anal&iacute;tica.</div>
-                    </div>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="route"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 03</p>
+                                <h3 class="flujo-titulo">Enrutamiento</h3>
+                                <p class="flujo-responsable">Equipo de alertas</p>
+                                <p class="flujo-texto">El equipo de alertas de cada servicio activa la ruta correspondiente. Las <strong>alertas urgentes</strong> se enrutan de forma inmediata apenas se diligencia el formulario. Las <strong>no urgentes</strong> se enrutan semanalmente con el consolidado que env&iacute;a anal&iacute;tica.</p>
+                            </div>
+                        </div>
 
-                    <div style="display:flex; align-items:stretch; margin-bottom:12px; border-radius:8px;">
-                        <div style="background:#e67e22; color:#fff; min-width:160px; padding:14px 24px 14px 18px; display:flex; align-items:center; font-weight:700; font-size:0.95rem; clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%); z-index:2;">4. Seguimiento</div>
-                        <div style="background:#2F3E3C; color:#F8F4E1; flex:1; padding:14px 20px 14px 28px; font-size:0.88rem; line-height:1.6; margin-left:-20px; border-radius:0 8px 8px 0;">Se verifica el estado del caso en <strong>SIVIGILA</strong> y se contrasta con la informaci&oacute;n del psicosocial. El <strong>primer seguimiento</strong> se hace a los 5 d&iacute;as de creada la alerta y los <strong>tres posteriores</strong> cada 2 meses. Tambi&eacute;n hay mesas de seguimiento con l&iacute;deres de alertas, coordinadores e instituciones.</div>
+                        <div class="flujo-paso">
+                            <div class="flujo-icono"><i data-lucide="repeat"></i></div>
+                            <div>
+                                <p class="flujo-orden">Paso 04</p>
+                                <h3 class="flujo-titulo">Seguimiento</h3>
+                                <p class="flujo-responsable">L&iacute;deres de alertas &middot; Coordinadores</p>
+                                <p class="flujo-texto">Se verifica el estado del caso en <strong>SIVIGILA</strong> y se contrasta con la informaci&oacute;n del psicosocial. El <strong>primer seguimiento</strong> se hace a los 5 d&iacute;as de creada la alerta y los <strong>tres posteriores</strong> cada 2 meses. Tambi&eacute;n hay mesas de seguimiento con l&iacute;deres de alertas, coordinadores e instituciones.</p>
+                            </div>
+                        </div>
                     </div>
 
                     <h3 class="card-subtitle">Estados de seguimiento</h3>
@@ -345,11 +521,14 @@ SECCION_ENLACES_PROTOCOLOS = """\
                     <p style="line-height:1.7;">Documentos de referencia con los protocolos de atenci&oacute;n y orientaci&oacute;n que utiliza el equipo de Parche seguro frente a las distintas tipolog&iacute;as de alertas.</p>
 
                     <style>
+                        /* Mismo patr&oacute;n que Actores clave de Forjar (.po-actor-card):
+                           fondo oscuro #2B2F3A, texto crema, sombra offset al accent_bg.
+                           Nombre en Antonio Bold may&uacute;sculas (consistente con rediseño 2026-05). */
                         .al-protocolos-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px 16px; padding:18px 0 10px; }
                         .al-protocolo-card { background:#2B2F3A; color:#F8F4E1; border:none; border-radius:12px; padding:22px 22px 24px; box-shadow:7px 7px 0 var(--accent-bg); display:flex; flex-direction:column; gap:14px; }
                         .al-protocolo-icon { width:30px; height:30px; color:#F8F4E1; }
                         .al-protocolo-icon svg { width:100%; height:100%; display:block; }
-                        .al-protocolo-name { font-family:'Anton','Figtree',sans-serif; font-weight:400; letter-spacing:0.3px; text-transform:uppercase; font-size:0.95rem; color:#F8F4E1; line-height:1.25; flex:1; }
+                        .al-protocolo-name { font-family:'Antonio','Anton','Figtree',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.95rem; color:#F8F4E1; line-height:1.25; flex:1; }
                         .al-protocolo-link { display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; font-weight:500; color:rgba(248,244,225,0.85); text-decoration:none; }
                         .al-protocolo-link:hover { color:#fff; text-decoration:underline; }
                         @media (max-width: 720px) { .al-protocolos-grid { grid-template-columns:1fr; } }
@@ -463,6 +642,8 @@ HTML_COMPLETO = f"""\
     <script>
 {JAVASCRIPT}
 </script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
 """
