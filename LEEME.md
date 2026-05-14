@@ -35,7 +35,7 @@ gestor-conocimiento-2025/
 | `gestion_conocimiento_jco_2025.html` | `scripts/generar_gc_jco.py` | (contenido hardcoded) |
 | `gestion_conocimiento_alertas_2025.html` | `scripts/generar_gc_alertas.py` | `enlaces/enlaces.xlsx` (filas con HTML="Alertas" y SECCION="Protocolos - ...") |
 | `mapa_casas_juventud.html` | `scripts/generar_juventud.py` (efecto colateral) | `datos/directorio_casas_juventud.xlsx`, `datos/localidades_bogota.geojson` |
-| `mapa_forjar.html` | `scripts/generar_home_servicios.py` (efecto colateral) | `datos/directorio_forjar.xlsx`, `datos/localidades_bogota.geojson` |
+| `mapa_forjar.html` | `scripts/generar_gc_forjar.py` (efecto colateral) | `datos/directorio_forjar.xlsx`, `datos/localidades_bogota.geojson` |
 
 ## Cómo hacer cambios comunes
 
@@ -52,7 +52,7 @@ gestor-conocimiento-2025/
 1. Editar `datos/directorio_casas_juventud.xlsx` o `datos/directorio_forjar.xlsx`.
 2. Regenerar:
    - Para casas: `python scripts/generar_juventud.py`
-   - Para forjar: `python scripts/generar_home_servicios.py`
+   - Para forjar: `python scripts/generar_gc_forjar.py` (regenera HTML + `mapa_forjar.html`)
 
 ### Cambiar contenido de texto de juventud / forjar / jco / alertas
 
@@ -109,9 +109,9 @@ Cuando hay cambios que afectan al home o al CSS compartido, conviene regenerar t
 
 ```bash
 cd gestor-conocimiento-2025
-python scripts/generar_home_servicios.py     # index.html + mapa_forjar.html
+python scripts/generar_home_servicios.py     # index.html
 python scripts/generar_juventud.py           # juventud + mapa_casas
-python scripts/generar_gc_forjar.py          # forjar
+python scripts/generar_gc_forjar.py          # forjar + mapa_forjar
 python scripts/generar_gc_jco.py             # jco
 python scripts/generar_gc_alertas.py         # alertas
 ```

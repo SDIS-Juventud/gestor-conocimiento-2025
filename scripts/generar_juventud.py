@@ -1262,18 +1262,16 @@ html = f"""<!DOCTYPE html>
                                     <table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:20px;">
                         <thead>
                             <tr>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:16%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Código Ruta de Oportunidades Juveniles</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:22%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:30%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:30%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td rowspan="5" style="padding:10px; border:1px solid #ddd; font-weight:600; vertical-align:middle; text-align:center; background:#fafafa;">BIENESTAR</td>
                                 <td rowspan="5" style="padding:10px; border:1px solid #ddd; vertical-align:middle; text-align:center; background:#fafafa;">PREVENCIÓN INTEGRAL</td>
-                                <td rowspan="5" style="padding:10px; border:1px solid #ddd; vertical-align:middle; text-align:center; font-size:1.2rem; font-weight:700; background:#fafafa;">12</td>
                                 <td style="padding:8px 10px; border:1px solid #ddd; text-align:center;">Derechos sexuales y derechos reproductivos</td>
                                 <td rowspan="2" style="padding:8px 10px; border:1px solid #ddd; vertical-align:middle;">7. Talleres informativos en prevención (1486 en SIRBE)</td>
                             </tr>
@@ -1298,18 +1296,16 @@ html = f"""<!DOCTYPE html>
                     <table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:20px;">
                         <thead>
                             <tr>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:16%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Código Ruta de Oportunidades Juveniles</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:22%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:30%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:30%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td rowspan="11" style="padding:10px; border:1px solid #ddd; font-weight:600; vertical-align:middle; text-align:center; background:#fafafa;">CULTURA</td>
                                 <td rowspan="11" style="padding:10px; border:1px solid #ddd; vertical-align:middle; text-align:center; background:#fafafa;">MANEJO ADECUADO DE TIEMPO LIBRE</td>
-                                <td rowspan="11" style="padding:10px; border:1px solid #ddd; vertical-align:middle; text-align:center; font-size:1.2rem; font-weight:700; background:#fafafa;">10</td>
                                 <td style="padding:6px 10px; border:1px solid #ddd; text-align:center;">Medio ambiente</td>
                                 <td rowspan="9" style="padding:8px 10px; border:1px solid #ddd; vertical-align:middle;">13. Formación artística focalizada (1489 en SIRBE)</td>
                             </tr>
@@ -1335,18 +1331,16 @@ html = f"""<!DOCTYPE html>
                     <table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:20px;">
                         <thead>
                             <tr>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:16%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Código Ruta de Oportunidades Juveniles</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:22%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:30%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:30%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td rowspan="8" style="padding:10px; border:1px solid #ddd; font-weight:600; vertical-align:middle; text-align:center; background:#fafafa;">INCLUSIÓN SOCIAL Y PRODUCTIVA</td>
                                 <td rowspan="8" style="padding:10px; border:1px solid #ddd; vertical-align:middle; text-align:center; background:#fafafa;">FORMACIÓN PARA EL PROYECTO DE VIDA</td>
-                                <td rowspan="8" style="padding:10px; border:1px solid #ddd; vertical-align:middle; text-align:center; font-size:1.2rem; font-weight:700; background:#fafafa;">8</td>
                                 <td style="padding:6px 10px; border:1px solid #ddd; text-align:center;">Habilidades informáticas / Oferta TIC</td>
                                 <td rowspan="3" style="padding:8px 10px; border:1px solid #ddd; vertical-align:middle;">16. Salas TIC para el fortalecimiento de habilidades y capacidades juveniles (1496 en SIRBE)</td>
                             </tr>
@@ -1369,18 +1363,16 @@ html = f"""<!DOCTYPE html>
                     <table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-bottom:20px;">
                         <thead>
                             <tr>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:14%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Código Ruta de Oportunidades Juveniles</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:26%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
-                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:28%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:18%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Oferta Casas de Juventud 2026</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:22%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Actuación en SIRBE misional</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:30%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Nombre de la actividad</th>
+                                <th style="background:#2F3E3C; color:#F8F4E1; padding:12px 14px; width:30%; text-align:left; font-weight:700; border:1px solid #2F3E3C;">Tipo de actividad (ficha física y SIRBE)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td rowspan="7" style="padding:10px; border:1px solid #ddd; font-weight:600; vertical-align:middle; text-align:center; background:#fafafa;">LIDERAZGO Y PARTICIPACIÓN</td>
                                 <td rowspan="3" style="padding:10px; border:1px solid #ddd; vertical-align:middle; text-align:center; background:#fafafa;">Asesoría jurídica y participación</td>
-                                <td rowspan="7" style="padding:10px; border:1px solid #ddd; vertical-align:middle; text-align:center; font-size:1.2rem; font-weight:700; background:#fafafa;">5</td>
                                 <td rowspan="3" style="padding:8px 10px; border:1px solid #ddd; vertical-align:middle; text-align:center;">Asesoría jurídica y participación</td>
                                 <td style="padding:6px 10px; border:1px solid #ddd;">22. Promoción y fortalecimiento de actividades de organización juvenil (1494 en SIRBE)</td>
                             </tr>

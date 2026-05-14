@@ -524,6 +524,50 @@ if os.path.exists(directorio_excel):
         filas_html += f'                        </tr>\n'
     SECCION_UBICACION = SECCION_UBICACION.replace("<!--FILAS_DIRECTORIO-->", filas_html.rstrip())
     print(f"Directorio Forjar generado desde Excel: {len(df_dir)} unidades")
+
+    # Generar mapa Folium con localidades + marcadores de unidades operativas
+    import folium
+    import json as _json
+    import unicodedata
+
+    def _normalizar_loc(texto):
+        texto = unicodedata.normalize('NFC', texto).upper().strip()
+        texto = texto.replace('Ñ', 'N').replace('ñ', 'n')
+        texto = ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
+        texto = re.sub(r'^(LA |LOS |EL )', '', texto)
+        return texto
+
+    geojson_path = os.path.join(DATOS, "localidades_bogota.geojson")
+    m = folium.Map(location=[4.624, -74.105], zoom_start=11, tiles="CartoDB positron", width="100%", height="100%")
+
+    if os.path.exists(geojson_path):
+        with open(geojson_path, encoding="utf-8") as f:
+            localidades_gj = _json.load(f)
+        locs_forjar = set(_normalizar_loc(l) for l in df_dir["Localidad"].unique())
+
+        def _style_loc(feature):
+            nombre = _normalizar_loc(feature["properties"]["nombre"])
+            if nombre in locs_forjar:
+                return {"fillColor": "#d5e8e8", "color": "#5f9ea0", "weight": 2, "fillOpacity": 0.4}
+            else:
+                return {"fillColor": "#f0f0f0", "color": "#999", "weight": 1.5, "fillOpacity": 0.2}
+
+        folium.GeoJson(localidades_gj, name="Localidades", style_function=_style_loc,
+            tooltip=folium.GeoJsonTooltip(fields=["nombre"], aliases=["Localidad:"])).add_to(m)
+
+    for _, row in df_dir.iterrows():
+        lat, lon = row.get("Latitud"), row.get("Longitud")
+        if pd.notna(lat) and pd.notna(lon):
+            popup_html = f'<div style="font-family:Arial; min-width:200px;"><strong style="color:#5f9ea0; font-size:14px;">{row["Nombre unidad operativa"]}</strong><br><span style="color:#666; font-size:12px;">{row["Localidad"]}</span><br><span style="font-size:11px;">{row["Dirección"]}</span></div>'
+            folium.CircleMarker(
+                location=[lat, lon], radius=8, color="#5f9ea0",
+                fill=True, fill_color="#5f9ea0", fill_opacity=0.9, weight=2,
+                popup=folium.Popup(popup_html, max_width=250),
+                tooltip=row["Nombre unidad operativa"]
+            ).add_to(m)
+
+    m.save(os.path.join(BASE, "mapa_forjar.html"))
+    print(f"Mapa Forjar generado: mapa_forjar.html")
 else:
     print("Excel de directorio Forjar no encontrado")
 
@@ -1028,13 +1072,19 @@ SECCION_DATOS_SIRBE = """\
                     <h3 class="card-subtitle">Seguimiento a largo plazo</h3>
                     <p style="line-height:1.7;">Debido a que los j&oacute;venes ingresan para cumplir una sanci&oacute;n, su permanencia en el servicio toma un tiempo prudente. Las modalidades y actuaciones est&aacute;n dise&ntilde;adas para que los j&oacute;venes sigan una ruta, de modo que SIRBE registra todo su historial de movimientos.</p>
 
-                    <h3 class="card-subtitle">Estados adaptados al sistema penal</h3>
-                    <p style="line-height:1.7;">A diferencia de otros servicios, Forjar no maneja actuaciones de &ldquo;intervenci&oacute;n&rdquo;. Maneja tres actuaciones de estado:</p>
-                    <ul style="margin:10px 0 15px 20px; line-height:2;">
-                        <li><span class="badge badge-primary">En atenci&oacute;n</span> El joven se encuentra cumpliendo su sanci&oacute;n o medida activamente</li>
-                        <li><span class="badge badge-primary">Egresado</span> El joven ha finalizado el cumplimiento de su sanci&oacute;n</li>
-                        <li><span class="badge badge-primary">En incumplimiento</span> Funciona en la pr&aacute;ctica como un estado &ldquo;suspendido&rdquo;, pero se cre&oacute; con este nombre espec&iacute;fico para no generar confusiones con la terminolog&iacute;a oficial del Sistema de Responsabilidad Penal para Adolescentes (SRPA)</li>
+                    <h3 class="card-subtitle">Actuaciones adaptadas al sistema penal</h3>
+                    <p style="line-height:1.7;">A diferencia de otros servicios, Forjar clasifica los movimientos de los j&oacute;venes en el sistema mediante tres tipos de actuaciones:</p>
+
+                    <p style="line-height:1.7; margin-top:14px;"><strong>Actuaciones de estado:</strong></p>
+                    <ul style="margin:6px 0 15px 20px; line-height:2;">
+                        <li><span class="badge badge-primary">En atenci&oacute;n</span> El joven se encuentra cumpliendo su sanci&oacute;n o medida activamente.</li>
+                        <li><span class="badge badge-primary">Egresado</span> El joven ha finalizado el cumplimiento de su sanci&oacute;n.</li>
+                        <li><span class="badge badge-primary">En incumplimiento</span> Funciona en la pr&aacute;ctica como un estado &ldquo;suspendido&rdquo;, pero se cre&oacute; con este nombre espec&iacute;fico para no generar confusiones con la terminolog&iacute;a oficial del Sistema de Responsabilidad Penal para Adolescentes (SRPA).</li>
                     </ul>
+
+                    <p style="line-height:1.7;"><strong>Actuaciones de seguimiento:</strong> Sirven para reportar los traslados que se hacen de los j&oacute;venes entre las diferentes unidades operativas o los cambios entre modalidades del servicio dentro de SIRBE.</p>
+
+                    <p style="line-height:1.7; margin-top:10px;"><strong>Actuaciones de intervenci&oacute;n:</strong> Actualmente se est&aacute;n parametrizando en SIRBE para poder registrar el soporte de los procesos de atenci&oacute;n detallados del joven.</p>
                 </div>
             </div>"""
 
