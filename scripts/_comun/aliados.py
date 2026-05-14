@@ -45,11 +45,25 @@ def _cargar_enlaces():
 
     Si el archivo no existe o no tiene filas validas, devuelve un dict vacio
     y los botones simplemente no se renderizan (los gestores siguen funcionando).
+
+    Busca la hoja cuyas columnas A/B/C sean HTML/SECCION/ENLACE (sin asumir
+    que sea la primera ni la activa, porque el Excel se editó y la hoja
+    activa quedó apuntando a otra cosa). De fallback usa 'Hoja1'.
     """
     if not _ENLACES_PATH.exists():
         return {}
     wb = openpyxl.load_workbook(_ENLACES_PATH, data_only=True)
-    ws = wb.active
+    ws = None
+    for nombre in wb.sheetnames:
+        prueba = wb[nombre]
+        h1 = str(prueba.cell(1, 1).value or "").strip().upper()
+        h2 = str(prueba.cell(1, 2).value or "").strip().upper()
+        h3 = str(prueba.cell(1, 3).value or "").strip().upper()
+        if h1 == "HTML" and h2 == "SECCION" and h3 == "ENLACE":
+            ws = prueba
+            break
+    if ws is None:
+        ws = wb["Hoja1"] if "Hoja1" in wb.sheetnames else wb.active
     enlaces = {}
     for r in range(2, ws.max_row + 1):
         seccion = ws.cell(r, 2).value
@@ -285,9 +299,9 @@ def _bloque_anio(titulo, cards, es_primero, link=None, color_acento="var(--accen
         boton = (
             '\n                    <div style="margin-top:14px;">\n'
             f'                        <a href="{link}" target="_blank" rel="noopener" '
-            f'style="display:inline-block; padding:7px 16px; border:1px solid {color_acento}; '
-            f'border-radius:6px; color:{color_acento}; text-decoration:none; font-size:0.85rem; '
-            'font-weight:600;">Ver matriz completa &rarr;</a>\n'
+            f'style="display:inline-block; padding:7px 16px; background:#ffffff; '
+            f'border:1px solid {color_acento}; border-radius:6px; color:{color_acento}; '
+            'text-decoration:none; font-size:0.85rem; font-weight:600;">Ver matriz completa &rarr;</a>\n'
             '                    </div>'
         )
     return (

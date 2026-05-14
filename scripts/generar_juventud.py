@@ -21,6 +21,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _comun.aliados import seccion_casas as seccion_aliados_casas
 # CSS de la línea de tiempo en chevrones (compartido con Forjar y JCO)
 from _comun.estilos import CSS_LINEA_TIEMPO_CHEVRON
+# Diagrama de flujo del proceso SIRBE para Casas de Juventud
+from _comun.diagramas_flujo import svg_diagrama_casas
 
 # Raíz del proyecto (un nivel arriba de scripts/)
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1484,7 +1486,7 @@ html = f"""<!DOCTYPE html>
 
                 <h3 class="card-subtitle" style="margin-top:30px;">Diagrama de flujo del proceso</h3>
                 <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Representación visual del ciclo de recolección y digitación en SIRBE para las Casas de Juventud.</p>
-                <img src="imagenes/diagrama_flujo_casas_juventud.png" alt="Diagrama de flujo del proceso del ciclo Casas de la Juventud" style="width:100%; border:1px solid #e0e0e0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                <div style="overflow-x:auto; margin-bottom:8px;">%%SVG_DIAGRAMA_CASAS%%</div>
             </div></div>
 
 {seccion_aliados_casas()}
@@ -1551,6 +1553,9 @@ html = f"""<!DOCTYPE html>
     <script>lucide.createIcons();</script>
 </body>
 </html>"""
+
+# Inyectar el SVG del diagrama de flujo de Casas de Juventud
+html = html.replace("%%SVG_DIAGRAMA_CASAS%%", svg_diagrama_casas())
 
 # Guardar
 salida = os.path.join(BASE, "gestion_conocimiento_juventud_2025.html")

@@ -17,6 +17,7 @@ DATOS = os.path.join(BASE, "datos")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _comun.estilos import css_para
 from _comun.aliados import seccion_forjar as seccion_aliados_forjar
+from _comun.diagramas_flujo import svg_diagrama_forjar
 
 # CSS extras del servicio. La l&iacute;nea de tiempo en chevrones encadenados
 # vive ahora en _comun/estilos.py porque la comparten Forjar, JCO y Casas de
@@ -1047,7 +1048,7 @@ SECCION_FLUJO_DATOS = """\
 
                     <h3 class="card-subtitle" style="margin-top:30px;">Diagrama de flujo del proceso</h3>
                     <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Representaci&oacute;n visual del ciclo de recolecci&oacute;n y digitaci&oacute;n en SIRBE para el servicio Forjar Restaurativo.</p>
-                    <img src="imagenes/diagrama_flujo_forjar.png" alt="Diagrama de flujo del proceso del ciclo Forjar Restaurativo" style="width:100%; border:1px solid #e0e0e0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                    <div style="overflow-x:auto; margin-bottom:8px;">%%SVG_DIAGRAMA_FORJAR%%</div>
                 </div>
             </div>"""
 
@@ -1148,6 +1149,10 @@ function filterDocs(stage, el) {
 def ensamblar_html():
     """Combina todas las partes y devuelve el HTML completo."""
     # Secciones de contenido en orden de aparición
+    seccion_flujo = SECCION_FLUJO_DATOS.replace(
+        "%%SVG_DIAGRAMA_FORJAR%%", svg_diagrama_forjar()
+    )
+
     secciones = "\n\n".join([
         SECCION_WELCOME,
         SECCION_LINEA_TIEMPO,
@@ -1156,7 +1161,7 @@ def ensamblar_html():
         SECCION_UBICACION,
         SECCION_MODALIDADES,
         SECCION_PROCESO_OPERATIVO,
-        SECCION_FLUJO_DATOS,
+        seccion_flujo,
         SECCION_DATOS_SIRBE,
         seccion_aliados_forjar(),
         SECCION_ESTADISTICAS,

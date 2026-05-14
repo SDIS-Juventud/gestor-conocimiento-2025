@@ -16,6 +16,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from _comun.estilos import css_para
 from _comun.aliados import seccion_jco as seccion_aliados_jco
+from _comun.diagramas_flujo import svg_diagrama_jco
 
 # ============================================================
 # Inventario de documentación oficial de JCO.
@@ -1038,7 +1039,7 @@ SECCION_GESTION_DATOS = """\
 
                     <h3 class="card-subtitle" style="margin-top:30px;">Diagrama de flujo del proceso</h3>
                     <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Representaci&oacute;n visual del ciclo de recolecci&oacute;n y digitaci&oacute;n en SIRBE para J&oacute;venes con Oportunidades.</p>
-                    <img src="imagenes/diagrama_flujo_jco.png" alt="Diagrama de flujo del proceso del ciclo J&oacute;venes con Oportunidades" style="width:100%; border:1px solid #e0e0e0; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+                    <div style="overflow-x:auto; margin-bottom:8px;">%%SVG_DIAGRAMA_JCO%%</div>
                 </div>
             </div>"""
 
@@ -1097,6 +1098,10 @@ def generar_html():
     """Arma el documento HTML completo a partir de las variables."""
 
     # Se unen todas las secciones de contenido en orden
+    seccion_gestion = SECCION_GESTION_DATOS.replace(
+        "%%SVG_DIAGRAMA_JCO%%", svg_diagrama_jco()
+    )
+
     secciones = "\n\n".join([
         SECCION_WELCOME,
         SECCION_LINEA_TIEMPO,
@@ -1105,7 +1110,7 @@ def generar_html():
         SECCION_PILARES,
         SECCION_MODULOS_PROYECTO_VIDA,
         SECCION_DOCUMENTACION,
-        SECCION_GESTION_DATOS,
+        seccion_gestion,
         seccion_aliados_jco(),
         SECCION_ESTADISTICAS,
     ])
