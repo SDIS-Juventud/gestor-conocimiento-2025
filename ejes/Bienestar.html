@@ -266,6 +266,87 @@
 #datos_sirbe table td, #datos_sirbe table th { word-break: break-word; overflow-wrap: break-word; }
 #datos_sirbe [id^="cursos_BIENESTAR_"] { overflow-x: auto; }
 /* === fin CSS chips === */
+
+/* ============================================================
+   RESPONSIVE GLOBAL — para tablet y móvil
+   Cubre: imágenes decorativas que se superponen, tablas Datos SIRBE,
+   tarjetas que pasan a una sola columna, paddings que se reducen.
+   ============================================================ */
+
+/* Tablet — hasta 900px */
+@media (max-width: 900px) {
+    /* Imágenes decorativas de esquina (la chica, la mano, el megáfono)
+       se reducen para no chocar con el texto. */
+    .content-section .card > img[src*="/elementos/"],
+    .content-section .card > img[src*="/manos/"] {
+        height: 160px !important;
+        opacity: 0.7 !important;
+    }
+    .main-content { padding: 24px 20px; max-width: 100%; }
+    .card { padding: 20px; }
+}
+
+/* Móvil — hasta 720px */
+@media (max-width: 720px) {
+    /* Las imágenes decorativas estorban en móvil: se ocultan para que el
+       texto tenga todo el ancho. */
+    .content-section .card > img[src*="/elementos/"],
+    .content-section .card > img[src*="/manos/"] {
+        display: none !important;
+    }
+
+    /* Headers y títulos compactos */
+    .header { padding: 14px 16px; }
+    .header h1 { font-size: 1.4rem; }
+    .card-title { font-size: 1.4rem; }
+    .main-content { padding: 16px 12px; }
+    .card { padding: 16px; }
+
+    /* Tipos de oferta: bandas chevron compactas */
+    .tipos-banda-flag { width: 44px; font-size: 1.2rem; }
+    .tipos-banda-titulo { font-size: 0.88rem; padding: 12px 16px 12px 22px; }
+
+    /* Tablas de Datos SIRBE 2025: scroll horizontal y fuente más pequeña */
+    #datos_sirbe table { font-size: 0.78rem !important; min-width: 480px; }
+    #datos_sirbe table th, #datos_sirbe table td { padding: 6px 8px !important; }
+    #datos_sirbe .card { padding: 14px; }
+
+    /* Las cards con árbol de cursos SIRBE: scroll horizontal interior */
+    #datos_sirbe [id^="cursos_BIENESTAR_"] { padding: 0 10px 8px !important; }
+
+    /* Tarjetas Ofertas (bn-card): grid a 1 columna, padding más bajo */
+    .bn-card { padding: 16px 18px; gap: 12px; }
+    .bn-titulo { font-size: 0.98rem; }
+    .bn-sirbe { padding-top: 12px; margin-top: 4px; border-top: 1px solid rgba(47,62,60,0.12); }
+
+    /* Tarjetas Reporte a políticas (rp-card): ya colapsan, pero ajusto padding */
+    .rp-card { padding: 16px 18px; gap: 14px; }
+    .rp-card-num { font-size: 2rem; }
+
+    /* Mini-ficha bn-meta: 1 columna, etiquetas con margen superior */
+    .bn-meta { grid-template-columns: 1fr !important; gap: 2px; }
+    .bn-meta dt { padding-top: 8px; }
+    .bn-meta dt:first-of-type { padding-top: 2px; }
+
+    /* Quick links / cards estadísticos del HTML original */
+    .stats-imagen-grid { grid-template-columns: 1fr !important; max-width: 100% !important; }
+}
+
+/* Móvil pequeño — hasta 480px */
+@media (max-width: 480px) {
+    .header { padding: 12px 12px; flex-wrap: wrap; gap: 10px; }
+    .header h1 { font-size: 1.2rem; }
+    .card-title { font-size: 1.2rem; line-height: 1.15; }
+    .main-content { padding: 12px 10px; }
+    .card { padding: 14px; border-radius: 8px; }
+
+    /* Códigos SIRBE: se reducen porque ocupan 2rem */
+    .bn-sirbe-codigo { font-size: 1.3rem !important; }
+    .rp-card-num { font-size: 1.6rem; }
+
+    /* Tabla Datos SIRBE aún más compacta */
+    #datos_sirbe table { font-size: 0.74rem !important; }
+}
 </style>
 </head>
 <body>
